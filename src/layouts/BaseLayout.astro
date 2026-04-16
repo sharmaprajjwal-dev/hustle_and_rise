@@ -205,35 +205,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? "https://hustlean
         });
       });
 
-      // Copy link functionality
-      const copyLinkBtn = document.getElementById('copy-link-btn');
-      copyLinkBtn?.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          const originalText = copyLinkBtn.innerHTML;
-          copyLinkBtn.innerHTML = '✓ Copied!';
-          setTimeout(() => {
-            copyLinkBtn.innerHTML = originalText;
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to copy:', err);
-        }
-      });
-
-      const copyLinkBtnMobile = document.getElementById('copy-link-btn-mobile');
-      copyLinkBtnMobile?.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          const originalText = copyLinkBtnMobile.innerHTML;
-          copyLinkBtnMobile.innerHTML = '✓ Copied!';
-          setTimeout(() => {
-            copyLinkBtnMobile.innerHTML = originalText;
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to copy:', err);
-        }
-      });
-    </script>
+          </script>
 <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script is:inline>
   if (window.netlifyIdentity) {
