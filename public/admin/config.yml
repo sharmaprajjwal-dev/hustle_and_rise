@@ -2,18 +2,12 @@ backend:
   name: git-gateway
   branch: main
 
-# Netlify Identity
-local_backend: true
-
-# Media / Images
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
-# Site URL (update to your deployed URL)
-site_url: https://your-site.netlify.app
-display_url: https://your-site.netlify.app
+site_url: https://hustleandrise.netlify.app
+display_url: https://hustleandrise.netlify.app
 
-# Publishing
 publish_mode: editorial_workflow
 
 collections:
@@ -81,24 +75,12 @@ collections:
         default: "Hustle & Rise Team"
         required: true
 
-      - label: "Author Name (Optional)"
-        name: "authorName"
-        widget: "string"
-        required: false
-        hint: "Author display name for author bio section."
-
       - label: "Read Time"
         name: "readTime"
         widget: "string"
         default: "5 min read"
         hint: "E.g. '7 min read'"
         required: false
-
-      - label: "Meta Description (Optional)"
-        name: "metaDescription"
-        widget: "text"
-        required: false
-        hint: "Custom meta description for SEO. If empty, uses the description field."
 
       - label: "Tags"
         name: "tags"
@@ -122,7 +104,7 @@ collections:
         name: "body"
         widget: "markdown"
         required: true
-        hint: "Write your full article here using Markdown. Supports headings, bold, images, links, and more."
+        hint: "Write your full article here using Markdown."
 
   # ─────────────────────────────────────────
   # SITE SETTINGS
