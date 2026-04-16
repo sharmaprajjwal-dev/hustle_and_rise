@@ -234,8 +234,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? "https://hustlean
         }
       });
     </script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
+<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script is:inline>
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
       if (!user) {
@@ -243,6 +243,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? "https://hustlean
           document.location.href = "/admin/";
         });
       }
+    });
+    
+    // Handle password recovery and invites
+    window.netlifyIdentity.on("signup", () => {
+      window.netlifyIdentity.close();
+      document.location.href = "/admin/";
     });
   }
 </script>
