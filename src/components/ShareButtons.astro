@@ -51,10 +51,12 @@ const socialLinks = [
 
   <!-- Copy Link -->
   <button
-    id="copy-link-btn"
-    aria-label="Copy link"
-    class="share-btn group w-11 h-11 rounded-none flex items-center justify-center border border-white/20 bg-transparent text-white hover:text-electric transition-all duration-300 hover:border-electric hover:bg-electric hover:bg-opacity-10"
-  >
+  id="copy-link-btn"
+  type="button"
+  data-copy-url={url}
+  aria-label="Copy link"
+  class="share-btn group w-11 h-11 rounded-none flex items-center justify-center border border-white/20 bg-transparent text-white hover:text-electric transition-all duration-300 hover:border-electric hover:bg-electric hover:bg-opacity-10"
+>
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
@@ -82,10 +84,12 @@ const socialLinks = [
       ))}
       <!-- Copy Link Button -->
       <button
-        id="copy-link-btn-mobile"
-        aria-label="Copy link"
-        class="flex items-center justify-center w-9 h-9 rounded-none border border-white/20 text-white hover:text-electric hover:border-electric transition-all"
-      >
+  id="copy-link-btn-mobile"
+  type="button"
+  data-copy-url={url}
+  aria-label="Copy link"
+  class="flex items-center justify-center w-9 h-9 rounded-none border border-white/20 text-white hover:text-electric hover:border-electric transition-all"
+>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
@@ -95,30 +99,56 @@ const socialLinks = [
   </div>
 </div>
 
-<script>
-  // Desktop copy button
-  const copyBtn = document.getElementById('copy-link-btn');
-  copyBtn?.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      const original = copyBtn.innerHTML;
-      copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-      setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
-    } catch {
-      console.error('Copy failed');
+<script is:inline>
+  async function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
     }
-  });
 
-  // Mobile copy button
-  const copyBtnMobile = document.getElementById('copy-link-btn-mobile');
-  copyBtnMobile?.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      const original = copyBtnMobile.innerHTML;
-      copyBtnMobile.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-      setTimeout(() => { copyBtnMobile.innerHTML = original; }, 2000);
-    } catch {
-      console.error('Copy failed');
-    }
-  });
+    // Fallback for browsers where clipboard API is unavailable
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand("copy");
+    textArea.remove();
+  }
+
+  function attachCopyHandler(buttonId, successIcon) {
+    const button = document.getElementById(buttonId);
+    if (!button) return;
+
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const copyUrl = button.getAttribute("data-copy-url") || window.location.href;
+      const original = button.innerHTML;
+
+      try {
+        await copyText(copyUrl);
+        button.innerHTML = successIcon;
+
+        setTimeout(() => {
+          button.innerHTML = original;
+        }, 2000);
+      } catch (err) {
+        console.error("Copy failed:", err);
+      }
+    });
+  }
+
+  attachCopyHandler(
+    "copy-link-btn",
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+  );
+
+  attachCopyHandler(
+    "copy-link-btn-mobile",
+    `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+  );
 </script>
