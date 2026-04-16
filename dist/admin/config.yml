@@ -1,0 +1,160 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Netlify Identity
+local_backend: true
+
+# Media / Images
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Site URL (update to your deployed URL)
+site_url: https://your-site.netlify.app
+display_url: https://your-site.netlify.app
+
+# Publishing
+publish_mode: editorial_workflow
+
+collections:
+  # ─────────────────────────────────────────
+  # BLOG POSTS COLLECTION
+  # ─────────────────────────────────────────
+  - name: "blog"
+    label: "Blog Posts"
+    label_singular: "Blog Post"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "blog/{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The main headline of the post. Keep it compelling and under 70 characters for SEO."
+        required: true
+
+      - label: "SEO Description"
+        name: "description"
+        widget: "text"
+        hint: "A concise summary for SEO meta tags and article cards. Aim for 120-160 characters."
+        required: true
+
+      - label: "Publish Date"
+        name: "pubDate"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        required: true
+
+      - label: "Updated Date"
+        name: "updatedDate"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        required: false
+        hint: "Optional. Set this if you significantly update the post after publication."
+
+      - label: "Featured Image"
+        name: "heroImage"
+        widget: "image"
+        required: false
+        hint: "Recommended size: 1200x630px. Used as the hero and Open Graph image."
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Digital Income", value: "Digital Income" }
+          - { label: "Hustler Finance", value: "Hustler Finance" }
+          - { label: "Mindset", value: "Mindset" }
+        default: "Digital Income"
+        required: true
+
+      - label: "Author"
+        name: "author"
+        widget: "string"
+        default: "Hustle & Rise Team"
+        required: true
+
+      - label: "Author Name (Optional)"
+        name: "authorName"
+        widget: "string"
+        required: false
+        hint: "Author display name for author bio section."
+
+      - label: "Read Time"
+        name: "readTime"
+        widget: "string"
+        default: "5 min read"
+        hint: "E.g. '7 min read'"
+        required: false
+
+      - label: "Meta Description (Optional)"
+        name: "metaDescription"
+        widget: "text"
+        required: false
+        hint: "Custom meta description for SEO. If empty, uses the description field."
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        hint: "Comma-separated tags. E.g. investing, ETFs, beginner"
+        required: false
+
+      - label: "Featured Post?"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Toggle ON to pin this post as the featured article on the homepage."
+
+      - label: "Draft?"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        hint: "Toggle ON to hide this post from the public site."
+
+      - label: "Body Content"
+        name: "body"
+        widget: "markdown"
+        required: true
+        hint: "Write your full article here using Markdown. Supports headings, bold, images, links, and more."
+
+  # ─────────────────────────────────────────
+  # SITE SETTINGS
+  # ─────────────────────────────────────────
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "src/content/settings/general.json"
+        fields:
+          - label: "Site Title"
+            name: "siteTitle"
+            widget: "string"
+            default: "Hustle & Rise"
+
+          - label: "Site Tagline"
+            name: "tagline"
+            widget: "string"
+            default: "Build the Mindset. Master the Mechanics."
+
+          - label: "Site Description"
+            name: "siteDescription"
+            widget: "text"
+            default: "Learn digital income skills to scale your global income and master the financial tactics to fund your freedom."
+
+          - label: "Twitter Handle"
+            name: "twitter"
+            widget: "string"
+            required: false
+
+          - label: "LinkedIn URL"
+            name: "linkedin"
+            widget: "string"
+            required: false

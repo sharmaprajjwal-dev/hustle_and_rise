@@ -1,0 +1,368 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+// Fetch and sort posts by pubDate (newest first)
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Featured post is the latest post (fallback if empty)
+const featuredPostData = sortedPosts.length > 0 ? sortedPosts[0] : null;
+
+if (!featuredPostData) {
+  throw new Error("No blog posts found. Please ensure you have at least one blog post in src/content/blog/");
+}
+
+const featuredPost = {
+  slug: featuredPostData.slug,
+  title: featuredPostData.data.title,
+  description: featuredPostData.data.description,
+  pubDate: featuredPostData.data.pubDate.toISOString(),
+  category: featuredPostData.data.category || "Digital Income",
+  heroImage: featuredPostData.data.heroImage,
+  readTime: featuredPostData.data.readTime,
+  author: featuredPostData.data.author,
+};
+
+// Remaining posts (excluding featured)
+const posts = sortedPosts.slice(1, 6).map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  category: post.data.category || "Digital Income",
+  heroImage: post.data.heroImage,
+  readTime: post.data.readTime,
+  author: post.data.author,
+}));
+
+// Categorized posts for the 3 pillar sections
+const digitalIncomePostsRaw = sortedPosts.filter(p => (p.data.category || "Digital Income").includes("Digital"));
+const hustlerFinancePostsRaw = sortedPosts.filter(p => (p.data.category || "Digital Income").includes("Finance") || (p.data.category || "Digital Income").includes("Hustler"));
+const mindsetPostsRaw = sortedPosts.filter(p => (p.data.category || "Digital Income").includes("Mindset"));
+
+const digitalIncomePosts = digitalIncomePostsRaw.slice(0, 3).map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  heroImage: post.data.heroImage,
+  readTime: post.data.readTime,
+  author: post.data.author,
+}));
+
+const hustlerFinancePosts = hustlerFinancePostsRaw.slice(0, 3).map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  heroImage: post.data.heroImage,
+  readTime: post.data.readTime,
+  author: post.data.author,
+}));
+
+const mindsetPosts = mindsetPostsRaw.slice(0, 3).map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  heroImage: post.data.heroImage,
+  readTime: post.data.readTime,
+  author: post.data.author,
+}));
+
+const pillars = [
+  {
+    title: "Digital Income Generation",
+    subtitle: "Software, SEO, Online Business",
+    icon: "💻",
+    color: "#00d9ff",
+    posts: digitalIncomePosts,
+  },
+  {
+    title: "The Hustler's Finance",
+    subtitle: "Bootstrapping, Managing Money",
+    icon: "💰",
+    color: "#00d9ff",
+    posts: hustlerFinancePosts,
+  },
+  {
+    title: "High-Performance Mindset",
+    subtitle: "Motivation, Routines, Outworking",
+    icon: "🔥",
+    color: "#00d9ff",
+    posts: mindsetPosts,
+  },
+];
+---
+
+<BaseLayout title="Hustle & Rise — Digital Entrepreneur Skills & Success Platform">
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="relative min-h-screen flex items-center overflow-hidden dark-gradient">
+
+    <!-- Animated grid background with electric blue -->
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(#00d9ff 1px, transparent 1px), linear-gradient(90deg, #00d9ff 1px, transparent 1px); background-size: 60px 60px;"></div>
+
+    <!-- Glowing orb effects (electric blue) -->
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, #00d9ff, transparent);"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full opacity-8 blur-3xl" style="background: radial-gradient(circle, #0ff7ff, transparent);"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:py-0">
+      <div class="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center min-h-screen">
+
+        <!-- Left: Hero Text -->
+        <div class="py-12 lg:py-20">
+          <!-- Eyebrow -->
+          <div class="flex items-center gap-3 mb-6">
+            <div class="h-px w-12 electric-gradient"></div>
+            <span class="text-xs tracking-[0.25em] uppercase font-semibold text-electric">The Hustle Collective</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6">
+            Build the Mindset.
+            <span class="block electric-text">
+              Master the Mechanics.
+            </span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-white/75 text-lg sm:text-xl leading-relaxed max-w-xl mb-10">
+            Learn the digital skills to scale your global income and the financial tactics to fund your freedom.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+            <a href="/blog" class="btn-electric">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+              </svg>
+              Explore Content
+            </a>
+            <a href="#pillars" class="btn-outline-electric">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Get the Blueprint
+            </a>
+          </div>
+
+          <!-- Social proof / stats -->
+          <div class="flex flex-wrap items-center gap-8">
+            {[
+              { value: "5000+", label: "Hustlers in Community" },
+              { value: "150+", label: "Courses & Resources" },
+              { value: "4.9★", label: "Community Rating" },
+            ].map(stat => (
+              <div>
+                <p class="font-serif text-2xl font-bold text-electric">{stat.value}</p>
+                <p class="text-white/40 text-xs tracking-wide uppercase">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: Featured card preview -->
+        <div class="hidden lg:block relative py-20">
+          <!-- Floating card 1 - main -->
+          <a href={`/blog/${featuredPost.slug}`} class="group block relative z-10 rounded-sm overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300" style="box-shadow: 0 0 40px rgba(0, 217, 255, 0.2);">
+            <img src={featuredPost.heroImage} alt="Featured" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+            <div class="p-6" style="background: rgba(15, 23, 42, 0.98); border: 1px solid rgba(0, 217, 255, 0.3);">
+              <span class="category-badge">{featuredPost.category}</span>
+              <h3 class="font-serif text-white text-xl font-bold mt-3 mb-2 leading-snug line-clamp-2 group-hover:text-electric transition-colors">{featuredPost.title}</h3>
+              <p class="text-white/50 text-sm line-clamp-2 leading-relaxed">{featuredPost.description}</p>
+              <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+                <span class="text-white/40 text-xs">{featuredPost.author}</span>
+                <span class="text-xs font-semibold text-electric">{featuredPost.readTime}</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Decorative circles -->
+          <div class="absolute -top-4 -right-4 w-32 h-32 rounded-full opacity-20" style="border: 1px solid #00d9ff;"></div>
+          <div class="absolute -top-8 -right-8 w-48 h-48 rounded-full opacity-10" style="border: 1px solid #00d9ff;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-white/30 text-xs tracking-[0.2em] uppercase">Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(0, 217, 255, 0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== DIGITAL INCOME METRICS ===== -->
+  <div class="overflow-hidden py-12 border-b border-white/10 dark-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div class="text-center">
+          <p class="font-brand text-3xl font-black text-electric mb-2">$5-50K/mo</p>
+          <p class="text-white/60 text-sm">Income Generated Monthly</p>
+        </div>
+        <div class="text-center">
+          <p class="font-brand text-3xl font-black text-electric mb-2">30 Days</p>
+          <p class="text-white/60 text-sm">To Your First Income</p>
+        </div>
+        <div class="text-center">
+          <p class="font-brand text-3xl font-black text-electric mb-2">100%</p>
+          <p class="text-white/60 text-sm">Actionable & Battle-Tested</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3 PILLAR SECTIONS ===== -->
+  <section id="pillars" class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 dark-gradient">
+      <!-- Section header -->
+      <div class="text-center mb-16 lg:mb-20">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="h-px w-8 electric-gradient"></div>
+          <span class="text-xs tracking-[0.2em] uppercase font-semibold text-electric">The Three Pillars</span>
+          <div class="h-px w-8 electric-gradient"></div>
+        </div>
+        <h2 class="font-serif text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">Your Roadmap to Freedom</h2>
+        <p class="text-white/60 text-lg max-w-2xl mx-auto">Master the three pillars of the digital hustle economy: make money, manage it, and strengthen your mind.</p>
+      </div>
+
+      <!-- Three Pillars Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
+        {pillars.map(pillar => (
+          <div class="flex flex-col h-full">
+            <!-- Pillar Header -->
+            <div class="mb-8">
+              <div class="text-4xl mb-4">{pillar.icon}</div>
+              <h3 class="font-brand text-xl font-bold text-white uppercase tracking-wide mb-2">{pillar.title}</h3>
+              <p class="text-white/60 text-sm">{pillar.subtitle}</p>
+            </div>
+
+            <!-- Posts Grid -->
+            <div class="space-y-5 flex-1">
+              {pillar.posts && pillar.posts.length > 0 ? (
+                pillar.posts.map((post, idx) => (
+                  <a href={`/blog/${post.slug}`} class="group block card-hover p-4 rounded-sm overflow-hidden">
+                    {post.heroImage && (
+                      <div class="overflow-hidden mb-3 h-40 rounded-sm">
+                        <img
+                          src={post.heroImage}
+                          alt={post.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <h4 class="font-serif font-bold text-white text-base group-hover:text-electric transition-colors line-clamp-2 mb-2">
+                      {post.title}
+                    </h4>
+                    <div class="flex items-center gap-2 text-xs text-white/50">
+                      <span>{post.author}</span>
+                      <span>·</span>
+                      <span>{post.readTime}</span>
+                    </div>
+                  </a>
+                ))
+              ) : (
+                <p class="text-white/40 text-sm">No posts yet in this category</p>
+              )}
+            </div>
+
+            <!-- View All Link -->
+            <div class="pt-4 mt-6 border-t border-white/10">
+              <a href="/blog" class="text-electric text-sm font-brand font-bold uppercase tracking-wide hover:text-electric-light transition-colors">
+                View All →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ULTIMATE UNIVERSITY CTA ===== -->
+  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 dark-gradient">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Decorative element -->
+      <div class="flex items-center justify-center gap-4 mb-8">
+        <div class="h-px flex-1 max-w-[80px] electric-gradient"></div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6l-8 8m0 0l-8-8m8 8v8"/>
+        </svg>
+        <div class="h-px flex-1 max-w-[80px] electric-gradient"></div>
+      </div>
+
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+        Ready to Stop Reading
+        <span class="electric-text"> and Start Building?</span>
+      </h2>
+      <p class="text-white/60 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+        Join hundreds of digital entrepreneurs inside The Ultimate University Discord community. Get free access to our resource library, strategy blueprints, and daily wins from real hustlers scaling their income.
+      </p>
+
+      <!-- CTA Button -->
+      <a href="#" class="btn-electric inline-flex mb-6">
+        Join The Ultimate University
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <!-- Trust signals -->
+      <div class="flex flex-wrap items-center justify-center gap-6 text-white/35 text-xs">
+        {["5,000+ Members", "Discord Community", "Resource Library", "24/7 Support"].map(item => (
+          <div class="flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hover\:text-gold:hover {
+    color: #c9a84c;
+  }
+  .hover\:border-gold:hover {
+    border-color: #c9a84c;
+  }
+</style>
+
+<script>
+  // Newsletter form
+  const form = document.getElementById('newsletter-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    if (btn) {
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Subscribed!`;
+      btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+    }
+  });
+</script>

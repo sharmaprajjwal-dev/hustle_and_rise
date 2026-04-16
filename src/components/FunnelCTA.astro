@@ -1,0 +1,27 @@
+---
+// FunnelCTA Component
+// Bottom-of-post call-to-action banner for The Ultimate University
+
+interface Props {
+  class?: string;
+}
+
+const { class: additionalClass = "" } = Astro.props;
+---
+
+<section class={`py-12 px-6 sm:px-8 mt-12 border-t border-white/10 ${additionalClass}`}>
+  <div class="max-w-3xl mx-auto text-center">
+    <h3 class="font-brand text-lg sm:text-xl font-bold uppercase tracking-wide text-electric mb-4">
+      Ready to Stop Reading and Start Building?
+    </h3>
+    <p class="text-white/75 text-base sm:text-lg leading-relaxed mb-6">
+      Join hundreds of digital entrepreneurs inside <strong>The Ultimate University</strong> Discord community. Click here to get free access to our resource library, strategy blueprints, and daily wins from real hustlers scaling their income.
+    </p>
+    <a href="#" class="btn-electric inline-flex">
+      Get Free Discord Access
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+</section>

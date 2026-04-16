@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+---
+
+<BaseLayout
+  title="All Articles — Hustle & Rise Blog"
+  description="Browse our complete library of articles on digital income generation, hustler finance, and high-performance mindset."
+>
+  <!-- Page Header -->
+  <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 dark-gradient">
+    <div class="max-w-7xl mx-auto text-center pt-8">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="h-px w-12" style="background: linear-gradient(to right, transparent, #00d9ff);"></div>
+        <span class="text-xs tracking-[0.25em] uppercase font-semibold" style="color: #00d9ff;">Article Library</span>
+        <div class="h-px w-12" style="background: linear-gradient(to left, transparent, #00d9ff);"></div>
+      </div>
+      <h1 class="font-brand text-4xl sm:text-5xl font-bold text-white mb-4 tracking-wide">All Articles</h1>
+      <p class="text-white/70 text-lg max-w-xl mx-auto leading-relaxed">
+        {sortedPosts.length} actionable guides on building digital income, scaling hustles, and developing an entrepreneurial mindset.
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8" style="background: #0f172a;">
+    <div class="max-w-7xl mx-auto">
+      {sortedPosts.length === 0 ? (
+        <div class="text-center py-20">
+          <p class="text-white/50 text-lg">No articles published yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {sortedPosts.map((post) => (
+            <article class="group rounded-lg overflow-hidden border border-white/10 hover:border-[#00d9ff] transition-all duration-500 flex flex-col" style="background: rgba(255, 255, 255, 0.02);">
+              {post.data.heroImage && (
+                <a href={`/blog/${post.slug}`} class="block overflow-hidden h-52">
+                  <img
+                    src={post.data.heroImage}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-70 group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="p-5 sm:p-6 flex flex-col flex-1">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs font-bold tracking-[0.12em] uppercase px-2.5 py-1 border border-[#00d9ff] text-[#00d9ff]" style="background: rgba(0, 217, 255, 0.1);">
+                    {post.data.category}
+                  </span>
+                  <span class="text-xs text-white/50">{post.data.readTime}</span>
+                </div>
+                <h2 class="font-brand text-lg sm:text-xl font-bold leading-snug mb-3 flex-1 hover:text-[#00d9ff] transition-colors text-white">
+                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                </h2>
+                <p class="text-white/60 text-sm leading-relaxed line-clamp-3 mb-5">{post.data.description}</p>
+                <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                  <div>
+                    <span class="text-xs font-medium text-white/70 block">{post.data.author}</span>
+                    <time datetime={post.data.pubDate.toISOString()} class="text-xs text-white/50">
+                      {new Date(post.data.pubDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </time>
+                  </div>
+                  <a href={`/blog/${post.slug}`} class="flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] uppercase transition-all group/btn text-[#00d9ff]">
+                    Read
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover/btn:translate-x-1 transition-transform">
+                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

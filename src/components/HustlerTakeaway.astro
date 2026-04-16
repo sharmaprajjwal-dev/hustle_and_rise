@@ -1,0 +1,19 @@
+---
+// HustlerTakeaway Component
+// Highlighted box with actionable advice for blog posts
+
+interface Props {
+  content?: string;
+  class?: string;
+}
+
+const { content, class: additionalClass = "" } = Astro.props;
+---
+
+<div class={`hustler-takeaway ${additionalClass}`}>
+  {content ? (
+    <div set:html={content} />
+  ) : (
+    <slot />
+  )}
+</div>

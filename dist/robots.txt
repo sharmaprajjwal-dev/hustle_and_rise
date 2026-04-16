@@ -1,0 +1,34 @@
+# Hustle & Rise - Robots.txt
+# Allow Google and all search engines to crawl the entire site
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /.astro/
+Disallow: /node_modules/
+
+# Sitemap location
+Sitemap: https://hustleandrise.com/sitemap.xml
+
+# Crawl delay (courtesy)
+Crawl-delay: 1
+
+# Google-specific
+User-agent: Googlebot
+Allow: /
+
+# Bing-specific
+User-agent: Bingbot
+Allow: /
+Sitemap: https://wealthwise.com/sitemap-index.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

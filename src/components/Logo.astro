@@ -1,0 +1,87 @@
+---
+// Hustle & Rise Premium Logo - Geometric Growth Symbol
+interface Props {
+  size?: string;
+  class?: string;
+  hideText?: boolean;
+}
+
+const { size = "w-9 h-9", class: additionalClass = "", hideText = false } = Astro.props;
+---
+
+<svg
+  class={`${size} ${additionalClass}`}
+  viewBox="0 0 120 120"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Modern Geometric Logo: Ascending R with Electric Blue Gradient -->
+  
+  <defs>
+    <!-- Electric Blue Gradient -->
+    <linearGradient id="hustleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Circle Ring (Modern Design Element) -->
+  <circle
+    cx="60"
+    cy="60"
+    r="54"
+    stroke="url(#hustleGradient)"
+    stroke-width="2"
+    opacity="0.4"
+  />
+  
+  <!-- Main "R" with Modern Geometry -->
+  <!-- Vertical Bar (Bold) -->
+  <path
+    d="M 38 90 L 38 30 Q 38 22 46 22 L 70 22 Q 82 22 82 34 Q 82 46 70 46 L 46 46"
+    stroke="url(#hustleGradient)"
+    stroke-width="11"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  
+  <!-- Curved Leg of R -->
+  <path
+    d="M 70 46 Q 80 48 90 65 L 54 90"
+    stroke="url(#hustleGradient)"
+    stroke-width="10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  
+  <!-- Ascending Arrow Element (Integrated Growth Symbol) -->
+  <g>
+    <!-- Arrow Shaft - Diagonal ascending line -->
+    <line
+      x1="75"
+      y1="65"
+      x2="92"
+      y2="35"
+      stroke="url(#hustleGradient)"
+      stroke-width="8"
+      stroke-linecap="round"
+    />
+    
+    <!-- Arrow Head - Modern triangular point -->
+    <path
+      d="M 92 35 L 82 48 L 100 42 Z"
+      fill="url(#hustleGradient)"
+    />
+  </g>
+  
+  <!-- Accent dot for brand detail -->
+  <circle
+    cx="45"
+    cy="25"
+    r="2.5"
+    fill="url(#hustleGradient)"
+    opacity="0.8"
+  />
+</svg>

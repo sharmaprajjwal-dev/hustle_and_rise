@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout 
+  title="About Hustle & Rise — Digital Entrepreneurship Resource Hub" 
+  description="Learn about Hustle & Rise's mission to teach digital income generation, profitable side hustles, and the mindset of successful entrepreneurs scaling their impact globally."
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 dark-gradient overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, #00d9ff 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px w-12" style="background: linear-gradient(to right, #00d9ff, transparent);"></div>
+        <span class="text-xs tracking-[0.25em] uppercase font-semibold" style="color: #00d9ff;">Our Movement</span>
+      </div>
+      <h1 class="font-brand text-5xl sm:text-6xl lg:text-7xl font-900 text-white leading-[1.1] mb-6 tracking-tight">
+        Build Your
+        <span class="block" style="background: linear-gradient(135deg, #00d9ff 0%, #0ff7ff 50%, #00a8cc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          Escape Velocity
+        </span>
+      </h1>
+      <p class="text-white/70 text-lg sm:text-xl leading-relaxed max-w-2xl">
+        Hustle & Rise is a movement for digital entrepreneurs, remote hustlers, and lifestyle architects. We teach the tactical skills and strategic mindset needed to generate income on your own terms, scale globally, and build the financial independence you deserve.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8" style="background: #0f172a;">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+        <!-- Mission -->
+        <div>
+          <h2 class="font-brand text-3xl font-bold mb-6 text-white tracking-wide">Our Mission</h2>
+          <p class="text-white/70 text-lg leading-relaxed mb-4">
+            To empower digital entrepreneurs and remote workers with the tactical knowledge, strategic frameworks, and unshakeable mindset required to build multiple income streams, scale their impact globally, and achieve location-independent wealth.
+          </p>
+          <p class="text-white/70 text-lg leading-relaxed">
+            We believe financial independence isn't about luck—it's about learning high-leverage skills, executing with discipline, and building in public.
+          </p>
+        </div>
+
+        <!-- Values -->
+        <div>
+          <h2 class="font-brand text-3xl font-bold mb-6 text-white tracking-wide">Our Philosophy</h2>
+          <ul class="space-y-4">
+            {[
+              { title: "Action Over Theory", desc: "30-day launches, real metrics, proven playbooks" },
+              { title: "Build in Public", desc: "Radical transparency about what works and what doesn't" },
+              { title: "Profitable Fast", desc: "First $100 in 30 days, not years of unpaid learning" },
+              { title: "Systems > Grind", desc: "Leverage, automation, and passive income funnels" },
+            ].map(value => (
+              <li class="flex gap-4">
+                <div class="flex-shrink-0 w-2 h-2 rounded-full mt-2" style="background: #00d9ff;"></div>
+                <div>
+                  <p class="font-bold text-white">{value.title}</p>
+                  <p class="text-white/60 text-sm">{value.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8" style="background: #0a111a;">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-12 text-center">
+        <h2 class="font-brand text-4xl font-bold mb-4 text-white tracking-wide">Who's Behind This</h2>
+        <p class="text-white/70 text-lg">A team of bootstrapped founders, product builders, and income-generating entrepreneurs.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { name: "The Collective", role: "Core Team", bio: "Experienced remote hustlers who've built 6-7 figure income streams across SaaS, digital products, services, and e-commerce." },
+          { name: "100K+ Followers", role: "Community", bio: "A global network of builders, marketers, and entrepreneurs actively shipping projects and scaling their impact." },
+          { name: "Real Results", role: "Accountability", bio: "Every strategy is battle-tested in the real world. We document our income reports, failures, and pivots publicly." },
+        ].map(member => (
+          <div class="border border-white/10 rounded-lg p-6 text-center hover:bg-white/5 transition-colors" style="background: rgba(0, 217, 255, 0.02);">
+            <div class="w-24 h-24 rounded-full mx-auto mb-4" style="background: linear-gradient(135deg, #00d9ff, #0ff7ff); opacity: 0.15;"></div>
+            <h3 class="font-bold text-lg mb-1 text-white">{member.name}</h3>
+            <p class="text-xs tracking-[0.1em] uppercase mb-3" style="color: #00d9ff;">{member.role}</p>
+            <p class="text-white/60 text-sm leading-relaxed">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 dark-gradient">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        {[
+          { value: "100K+", label: "Community Members" },
+          { value: "500+", label: "Case Studies" },
+          { value: "$5-50K", label: "Monthly Income Range" },
+          { value: "30 Days", label: "To First Sale" },
+        ].map(stat => (
+          <div>
+            <p class="font-brand text-4xl font-bold mb-2" style="color: #00d9ff;">{stat.value}</p>
+            <p class="text-white/40 text-xs tracking-[0.1em] uppercase">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8" style="background: #0f172a;">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="font-brand text-4xl font-bold mb-4 text-white tracking-wide">Ready to Build Your Escape Velocity?</h2>
+      <p class="text-white/70 text-lg mb-8">Join 100K+ entrepreneurs in our Discord community. Get daily income strategies, accountability partners, and real-time feedback from builders making $5K-$50K+ monthly.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#" class="btn-electric">Join Our Discord Free</a>
+        <a href="/contact" class="btn-outline-electric">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
