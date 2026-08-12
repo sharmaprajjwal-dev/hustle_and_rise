@@ -1,0 +1,2 @@
+-- Intentionally empty. Production job paths must never be populated with fake listings.
+-- Checkpoint 3 may add isolated importer fixtures outside this database seed.

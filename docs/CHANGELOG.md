@@ -21,3 +21,11 @@
 - Migrated Markdown publishing from legacy content collections to the Content Layer glob loader.
 - Updated article routing, rendering, RSS, and sitemap generation to use Content Layer entry IDs.
 - Cleared the dependency audit findings before beginning the jobs data layer.
+
+## Checkpoint 2 — Supabase jobs data foundation
+
+- Added a versioned local Supabase project and initial jobs migration.
+- Added `job_sources`, `jobs`, and `job_import_runs` with validation, relationships, indexes, timestamps, and duplicate protection.
+- Enabled Row Level Security so public clients can read only active sources and current active jobs; imports remain trusted-server only.
+- Added typed public and privileged Supabase clients with optional configuration, current publishable/secret keys, and legacy key aliases.
+- Kept the Jobs page free of fabricated listings until an approved provider is implemented.

@@ -10,10 +10,11 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: Jobs, Interview Prep, Career, Training, Side Hustles, and Tools hub pages
 - ✅ Live: Markdown article publishing, article pages, RSS, sitemap, and legal pages
 - 🚧 Partially implemented: editorial library currently contains legacy digital-income articles
-- 📝 Planned: Supabase jobs database, validated job feeds, filters, job detail pages, structured data, and monetisation components
+- ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
+- 📝 Planned: validated job feeds, filters, job detail pages, structured data, and monetisation components
 - 📝 Planned for later: saved jobs, email newsletter, accounts, alerts, and interactive calculators
 
-The Jobs hub currently explains what is coming; it does not display fake listings. No database or external job API is connected yet.
+The Jobs hub currently explains what is coming; it does not display fake listings. The database foundation is versioned in the repository, but no remote Supabase project or external job API is connected yet.
 
 ## How it works
 
@@ -34,9 +35,11 @@ public/                 Public files such as the favicon and robots.txt
 src/components/        Reusable page sections and small UI components
 src/config/            Owner-editable site navigation and product configuration
 src/content/blog/      Markdown articles
+src/lib/supabase/      Typed public and trusted-server Supabase clients
 src/layouts/           Shared page and article layouts
 src/pages/             Website routes
 src/styles/            Global design tokens and component styles
+supabase/              Local configuration and versioned database migrations
 docs/                  Architecture notes and development history
 ```
 
@@ -86,19 +89,33 @@ Edit the `@theme` block near the top of `src/styles/global.css`. Changing a toke
 
 ### Add a job category or provider
 
-The jobs data layer is not implemented yet. Do not add production listings directly to page files. Checkpoint 2 will add the database model; Checkpoint 3 will document the provider interface and import process.
+The jobs database model is implemented, but no provider is connected. Do not add production listings directly to page files. Checkpoint 3 will add the provider interface, validation, normalisation, and import process.
 
 ## Environment variables
 
-No environment variables are required today. Never commit a real `.env` file or put secret keys in variables beginning with `PUBLIC_`.
+No environment variables are required to build the current placeholder site. Copy `.env.example` to `.env` when connecting a Supabase project. Never commit a real `.env` file or put secret keys in variables beginning with `PUBLIC_`.
 
-Planned Supabase configuration will use:
+Preferred Supabase configuration uses:
 
 ```text
-PUBLIC_SUPABASE_URL              Browser-safe project URL
-PUBLIC_SUPABASE_ANON_KEY         Browser-safe anonymous key
-SUPABASE_SERVICE_ROLE_KEY        Server/import-only secret
+PUBLIC_SUPABASE_URL                 Browser-safe project URL
+PUBLIC_SUPABASE_PUBLISHABLE_KEY     Browser-safe publishable key
+SUPABASE_SECRET_KEY                 Server/import-only secret
 ```
+
+Legacy anon and service-role aliases are supported during migration. See `docs/database.md` for setup and security rules.
+
+## Local database
+
+Docker Desktop is required for Supabase's local stack.
+
+```bash
+npm run db:start
+npm run db:reset
+npm run db:lint
+```
+
+`db:reset` recreates only the local development database and reapplies every migration. It does not populate fake job listings.
 
 ## Deployment
 
@@ -112,7 +129,7 @@ The repository currently has no confirmed deployment adapter or platform configu
 
 ## Development checkpoints
 
-See `docs/CHANGELOG.md` for completed work and `docs/architecture.md` for the current technical shape. Documentation must describe what actually works; planned functionality is always labelled as planned.
+See `docs/CHANGELOG.md` for completed work, `docs/architecture.md` for the current technical shape, and `docs/database.md` for Supabase setup. Documentation must describe what actually works; planned functionality is always labelled as planned.
 
 ## Framework baseline
 
