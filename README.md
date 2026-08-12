@@ -7,6 +7,7 @@ Core promise: **Find Work. Build Skills. Earn More.**
 ## Current status
 
 - ✅ Live: responsive Astro website and shared Hustle & Rise design system
+- ✅ Live: modern warm-light UI, responsive motion, and original career-focused hero artwork
 - ✅ Live: Jobs, Interview Prep, Career, Training, Side Hustles, and Tools hub pages
 - ✅ Live: Markdown article publishing, article pages, RSS, sitemap, and legal pages
 - 🚧 Partially implemented: editorial library currently contains legacy digital-income articles

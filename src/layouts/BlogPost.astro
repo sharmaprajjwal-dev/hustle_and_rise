@@ -16,242 +16,66 @@ export interface Props {
   tags?: string[];
 }
 
-const {
-  title,
-  description,
-  pubDate,
-  updatedDate,
-  heroImage,
-  category = "Digital Income",
-  author = "Hustle & Rise Team",
-  readTime = "5 min read",
-  tags = [],
-} = Astro.props;
-
-const formattedDate = new Date(pubDate).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-const formattedUpdated = updatedDate
-  ? new Date(updatedDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
-  : null;
+const { title, description, pubDate, updatedDate, heroImage, category = "Digital Income", author = "Hustle & Rise Team", readTime = "5 min read", tags = [] } = Astro.props;
+const formattedDate = new Date(pubDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" });
+const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" }) : null;
 ---
 
 <BaseLayout title={`${title} | Hustle & Rise`} description={description} image={heroImage}>
-
-  <!-- Article Hero -->
-  <section class="relative pt-16">
-    {heroImage ? (
-      <div class="relative h-[55vh] min-h-[400px] overflow-hidden">
-        <img
-          src={heroImage}
-          alt={title}
-          class="w-full h-full object-cover"
-          loading="eager"
-        />
-        <!-- Dark overlay gradient with electric blue tint -->
-        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.95) 100%);"></div>
-        <!-- Hero content overlay -->
-        <div class="absolute bottom-0 left-0 right-0 px-4 sm:px-6 lg:px-8 pb-12 pt-8">
-          <div class="max-w-4xl mx-auto">
-            <!-- Category badge -->
-            <span class="category-badge">
-              {category}
-            </span>
-            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 mt-4">
-              {title}
-            </h1>
-            <p class="text-white/75 text-lg leading-relaxed max-w-2xl mb-6">{description}</p>
-            <!-- Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm text-white/60">
-              <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-zinc-950 electric-gradient">
-                  {author.charAt(0)}
-                </div>
-                <span class="font-medium text-white/80">{author}</span>
-              </div>
-              <span class="text-white/30">·</span>
-              <time datetime={pubDate} class="text-white/60">{formattedDate}</time>
-              {formattedUpdated && (
-                <>
-                  <span class="text-white/30">·</span>
-                  <span class="text-white/50 text-xs italic">Updated {formattedUpdated}</span>
-                </>
-              )}
-              <span class="text-white/30">·</span>
-              <div class="flex items-center gap-1.5 text-white/60">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                {readTime}
-              </div>
-            </div>
-          </div>
-        </div>
+  <section class="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
+    <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-5xl text-center" data-reveal>
+      <span class="category-badge">{category}</span>
+      <h1 class="mx-auto mt-6 max-w-5xl font-brand text-4xl font-extrabold leading-[1.06] tracking-[-0.06em] sm:text-5xl lg:text-6xl">{title}</h1>
+      <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#687081]">{description}</p>
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3 text-sm text-[#7a8292]">
+        <span class="grid h-9 w-9 place-items-center rounded-full bg-[#eeeeff] font-bold text-[#5b5ce2]">{author.charAt(0)}</span>
+        <strong class="text-[#3f485b]">{author}</strong><span>•</span><time datetime={pubDate}>{formattedDate}</time>{formattedUpdated && <><span>•</span><span>Updated {formattedUpdated}</span></>}<span>•</span><span>{readTime}</span>
       </div>
-    ) : (
-      <div class="pt-16 pb-12 px-4 sm:px-6 lg:px-8 dark-gradient">
-        <div class="max-w-4xl mx-auto text-center">
-          <span class="category-badge mb-6 inline-block">
-            {category}
-          </span>
-          <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-            {title}
-          </h1>
-          <p class="text-white/70 text-lg max-w-2xl mx-auto leading-relaxed mb-8">{description}</p>
-          <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-white/60">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-zinc-950 electric-gradient">
-                {author.charAt(0)}
-              </div>
-              <span class="font-medium text-white/80">{author}</span>
-            </div>
-            <span class="text-white/30">·</span>
-            <time datetime={pubDate}>{formattedDate}</time>
-            <span class="text-white/30">·</span>
-            <span>{readTime}</span>
-          </div>
-        </div>
-      </div>
-    )}
+    </div>
   </section>
 
-  <!-- Article Body + Sidebar Layout -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-    <div class="lg:grid lg:grid-cols-[1fr_300px] lg:gap-12 xl:gap-16">
+  {heroImage && <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8" data-reveal><img src={heroImage} alt={title} class="max-h-[36rem] w-full rounded-[2rem] object-cover shadow-[0_28px_80px_rgba(31,37,54,0.13)]" loading="eager" /></div>}
 
-      <!-- Main Content -->
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-14 xl:gap-20">
       <article class="min-w-0">
-        <!-- Share Buttons -->
         <ShareButtons title={title} />
-        
-        <!-- Article Content -->
-        <div class="prose prose-invert prose-lg max-w-none
-          prose-headings:font-serif prose-headings:text-white prose-headings:font-bold
-          prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:leading-snug
-          prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-white/75 prose-p:leading-relaxed prose-p:text-base prose-p:md:text-[1.05rem]
-          prose-a:text-electric prose-a:no-underline hover:prose-a:underline
-          prose-strong:text-white prose-strong:font-semibold
-          prose-blockquote:border-l-4 prose-blockquote:border-electric prose-blockquote:bg-white/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-sm prose-blockquote:not-italic prose-blockquote:text-white/80 prose-blockquote:font-serif
-          prose-img:rounded-lg prose-img:shadow-xl
-          prose-code:text-electric prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-          prose-pre:bg-white/5 prose-pre:text-white/75 prose-pre:border prose-pre:border-white/10
-          prose-ul:text-white/70 prose-ol:text-white/70
-          prose-li:marker:text-electric
-          prose-hr:border-white/10
-          "
-        >
+        <div class="prose prose-lg max-w-none
+          prose-headings:font-brand prose-headings:font-extrabold prose-headings:tracking-[-0.04em] prose-headings:text-[#172033]
+          prose-h2:mt-12 prose-h2:text-3xl prose-h3:mt-9 prose-h3:text-2xl
+          prose-p:text-[#566071] prose-p:leading-8
+          prose-a:text-[#5b5ce2] prose-a:font-semibold prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-[#252f43]
+          prose-blockquote:rounded-r-2xl prose-blockquote:border-[#ff6b35] prose-blockquote:bg-[#fff1e9] prose-blockquote:px-6 prose-blockquote:py-2 prose-blockquote:not-italic prose-blockquote:text-[#4d5669]
+          prose-code:rounded prose-code:bg-[#eeeeff] prose-code:px-1.5 prose-code:py-0.5 prose-code:text-[#4b4cc8]
+          prose-pre:border prose-pre:border-black/10 prose-pre:bg-[#172033]
+          prose-li:marker:text-[#ff6b35] prose-li:text-[#566071]
+          prose-hr:border-black/10">
           <slot />
         </div>
 
-        <!-- Tags -->
-        {tags.length > 0 && (
-          <div class="mt-10 pt-8 border-t border-white/10">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="text-xs tracking-[0.15em] uppercase font-semibold text-white/50 mr-1">Tags:</span>
-              {tags.map(tag => (
-                <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                   class="px-3 py-1 text-xs font-medium border border-white/20 rounded-none text-white/70 hover:border-electric hover:text-electric transition-colors">
-                  {tag}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        {tags.length > 0 && <div class="mt-12 flex flex-wrap items-center gap-2 border-t border-black/[0.07] pt-7"><span class="mr-1 text-xs font-bold uppercase tracking-[0.12em] text-[#8a91a0]">Tags</span>{tags.map((tag) => <span class="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-[#687081]">{tag}</span>)}</div>}
 
-        <!-- Author Bio -->
-        <div class="mt-10 p-6 sm:p-8 rounded-none border border-white/10" style="background: rgba(255, 255, 255, 0.03);">
-          <div class="flex items-start gap-4">
-            <div class="w-14 h-14 rounded-none flex-shrink-0 flex items-center justify-center text-lg font-bold text-zinc-950 electric-gradient">
-              {author.charAt(0)}
-            </div>
-            <div>
-              <p class="text-xs tracking-[0.15em] uppercase font-semibold text-electric mb-1">Written by</p>
-              <h4 class="font-serif text-lg font-bold text-white mb-2">{author}</h4>
-              <p class="text-white/60 text-sm leading-relaxed">
-                Strategic advisor and creator at Hustle & Rise. Passionate about teaching digital entrepreneurs how to build scalable income streams and master the mechanics of the modern economy.
-              </p>
-            </div>
-          </div>
+        <div class="mt-10 flex gap-4 rounded-[1.5rem] border border-black/[0.06] bg-white p-6 shadow-sm sm:p-8">
+          <div class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#5b5ce2] text-lg font-bold text-white">{author.charAt(0)}</div>
+          <div><p class="text-xs font-bold uppercase tracking-[0.12em] text-[#ff6b35]">Written by</p><h2 class="mt-1 font-brand text-xl font-extrabold">{author}</h2><p class="mt-2 text-sm leading-6 text-[#687081]">The Hustle & Rise team creates practical resources for students, job seekers, and early-career people.</p></div>
         </div>
 
-        <!-- Hustler's Takeaway Box -->
-        <HustlerTakeaway class="mt-10">
-          <p><strong>Remember:</strong> The best strategies are the ones you actually implement. Start small, measure what works, and scale what wins.</p>
-        </HustlerTakeaway>
+        <HustlerTakeaway class="mt-10"><p><strong>Remember:</strong> Start small, test what works, and keep building from evidence—not hype.</p></HustlerTakeaway>
       </article>
 
-      <!-- Sidebar -->
       <aside class="mt-12 lg:mt-0">
-        <!-- Quick Links -->
-        <div class="sticky top-24 bg-white/5 border border-white/10 rounded-none p-6">
-          <h3 class="font-brand text-base font-bold text-white mb-4 pb-4 border-b border-white/10 flex items-center gap-2 uppercase tracking-wide">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H3v-2a6 6 0 0 1 6-6h0a6 6 0 0 1 6 6v2h-6z"/><circle cx="16" cy="5" r="3"/>
-            </svg>
-            More Content
-          </h3>
-          <p class="text-white/60 text-xs leading-relaxed mb-4">Explore resources and strategies from the Hustle & Rise community.</p>
-          <a href="/blog" class="btn-outline-electric w-full text-center text-xs py-2.5">
-            Explore All Articles
-          </a>
+        <div class="sticky top-28 rounded-[1.5rem] border border-black/[0.06] bg-white p-6 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-[#ff6b35]">Keep moving</p>
+          <h2 class="mt-3 font-brand text-xl font-extrabold">More practical guidance</h2>
+          <p class="mt-3 text-sm leading-6 text-[#687081]">Explore career, interview, skills, and earning resources from one connected library.</p>
+          <a href="/blog" class="btn-outline-electric mt-6 w-full text-center">All guides</a>
         </div>
       </aside>
     </div>
   </div>
 
-  <!-- Funnel CTA Banner -->
   <FunnelCTA />
-
-  <!-- Next / Prev navigation -->
-  <div class="border-t border-white/10">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-        <a href="/blog" class="flex items-center gap-2 text-sm font-semibold text-electric hover:text-electric-light transition-colors group">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
-            <line x1="19" y1="12" x2="5" y2="12"/>
-            <polyline points="12 19 5 12 12 5"/>
-          </svg>
-          Back to All Articles
-        </a>
-        <a href="/" class="flex items-center gap-2 text-sm font-semibold text-electric hover:text-electric-light transition-colors group">
-          Home
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
+  <div class="border-t border-black/[0.06] px-4 py-8 sm:px-6"><div class="mx-auto flex max-w-4xl flex-col justify-between gap-4 sm:flex-row"><a href="/blog" class="text-sm font-bold text-[#5b5ce2]">← Back to all guides</a><a href="/" class="text-sm font-bold text-[#5b5ce2]">Home →</a></div></div>
 </BaseLayout>
-
-<script>
-  // Auto-generate Table of Contents from article headings
-  const tocNav = document.getElementById('toc-nav');
-  const article = document.querySelector('article .prose');
-  if (tocNav && article) {
-    const headings = article.querySelectorAll('h2, h3');
-    if (headings.length > 0) {
-      tocNav.innerHTML = '';
-      headings.forEach((heading, i) => {
-        const id = `heading-${i}`;
-        heading.id = id;
-        const level = heading.tagName === 'H2' ? '' : 'pl-3';
-        const link = document.createElement('a');
-        link.href = `#${id}`;
-        link.className = `block ${level} py-1 text-xs leading-snug text-slate-500 hover:text-gold transition-colors border-l-2 border-transparent hover:border-gold pl-3`;
-        link.style.cssText = '--color-gold: #c9a84c;';
-        link.textContent = heading.textContent ?? '';
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-        tocNav.appendChild(link);
-      });
-    }
-  }
-</script>

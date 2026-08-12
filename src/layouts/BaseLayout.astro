@@ -10,13 +10,7 @@ export interface Props {
   noindex?: boolean;
 }
 
-const {
-  title,
-  description = site.description,
-  image,
-  noindex = false,
-} = Astro.props;
-
+const { title, description = site.description, image, noindex = false } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? site.domain);
 const socialImage = image ? new URL(image, Astro.site ?? site.domain) : null;
 const currentPath = Astro.url.pathname;
@@ -27,20 +21,19 @@ const currentPath = Astro.url.pathname;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {socialImage && <meta property="og:image" content={socialImage} />}
-
     <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -49,112 +42,124 @@ const currentPath = Astro.url.pathname;
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur" id="main-header">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between lg:h-20">
-          <a href="/" class="flex items-center gap-3 text-white" aria-label="Hustle & Rise home">
-            <Logo size="w-11 h-11 lg:w-12 lg:h-12" />
-            <span class="hidden font-brand text-sm font-bold tracking-[0.12em] sm:inline">HUSTLE & RISE</span>
-          </a>
+    <div class="site-shell">
+      <header class="site-header" id="main-header">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex h-[4.5rem] items-center justify-between lg:h-20">
+            <a href="/" class="flex items-center gap-2.5" aria-label="Hustle & Rise home">
+              <Logo size="h-10 w-10 lg:h-11 lg:w-11" />
+              <span class="brand-wordmark">Hustle <span>&</span> Rise</span>
+            </a>
 
-          <nav class="hidden items-center gap-5 lg:flex" aria-label="Primary navigation">
-            {navigation.map((item) => (
-              <a
-                href={item.href}
-                class:list={["nav-link", currentPath.startsWith(item.href) && "is-active"]}
-                aria-current={currentPath.startsWith(item.href) ? "page" : undefined}
+            <nav class="hidden items-center gap-5 xl:gap-7 lg:flex" aria-label="Primary navigation">
+              {navigation.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={["nav-link", currentPath.startsWith(item.href) && "is-active"]}
+                  aria-current={currentPath.startsWith(item.href) ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <div class="flex items-center gap-2.5">
+              <a href="/jobs" class="btn-electric compact hidden sm:inline-flex">Explore opportunities <span aria-hidden="true">↗</span></a>
+              <button
+                id="mobile-menu-btn"
+                class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#172033] lg:hidden"
+                type="button"
+                aria-label="Open menu"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
               >
+                <span class="text-xl leading-none" aria-hidden="true">☰</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden border-t border-black/5 bg-white lg:hidden">
+          <nav class="mx-auto grid max-w-7xl px-4 py-4 sm:px-6" aria-label="Mobile navigation">
+            {navigation.map((item) => (
+              <a href={item.href} class="mobile-nav-link" aria-current={currentPath.startsWith(item.href) ? "page" : undefined}>
                 {item.label}
               </a>
             ))}
+            <a href="/about" class="mobile-nav-link">About Hustle & Rise</a>
           </nav>
-
-          <div class="flex items-center gap-3">
-            <a href="/jobs" class="hidden btn-electric compact sm:inline-flex">Find jobs</a>
-            <button
-              id="mobile-menu-btn"
-              class="inline-flex items-center justify-center p-2 text-white lg:hidden"
-              type="button"
-              aria-label="Open menu"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
         </div>
-      </div>
+      </header>
 
-      <div id="mobile-menu" class="hidden border-t border-white/10 bg-slate-950 lg:hidden">
-        <nav class="grid max-w-7xl gap-1 px-4 py-4 sm:px-6" aria-label="Mobile navigation">
-          {navigation.map((item) => (
-            <a href={item.href} class="mobile-nav-link" aria-current={currentPath.startsWith(item.href) ? "page" : undefined}>
-              {item.label}
-            </a>
-          ))}
-          <a href="/about" class="mobile-nav-link">About Hustle & Rise</a>
-        </nav>
-      </div>
-    </header>
+      <main id="main-content">
+        <slot />
+      </main>
 
-    <main id="main-content">
-      <slot />
-    </main>
-
-    <footer class="border-t border-white/10 bg-slate-950 pb-8 pt-14 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.4fr_2fr]">
-          <div>
-            <a href="/" class="mb-4 inline-flex items-center gap-3 text-white">
-              <Logo size="w-11 h-11" />
-              <span class="font-brand font-bold tracking-[0.12em]">HUSTLE & RISE</span>
-            </a>
-            <p class="max-w-md text-sm leading-relaxed text-white/60">{site.description}</p>
-            <p class="mt-4 font-brand text-xs font-bold uppercase tracking-[0.16em] text-electric">{site.tagline}</p>
+      <footer class="relative overflow-hidden bg-[#172033] pb-8 pt-16 text-white sm:pt-20">
+        <div class="absolute -right-24 -top-32 h-80 w-80 rounded-full border-[70px] border-white/[0.035]" aria-hidden="true"></div>
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mb-14 grid gap-8 rounded-[2rem] bg-[#ff6b35] p-7 sm:grid-cols-[1fr_auto] sm:items-center sm:p-10">
+            <div>
+              <p class="font-brand text-xs font-bold uppercase tracking-[0.14em] text-white/75">Your next move starts here</p>
+              <h2 class="mt-2 max-w-2xl font-brand text-2xl font-bold tracking-[-0.04em] text-white sm:text-3xl">Find clearer pathways to work, skills, and income.</h2>
+            </div>
+            <a href="/career" class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 font-brand text-sm font-bold text-[#172033] transition-transform hover:-translate-y-1">Explore your pathway <span class="ml-2" aria-hidden="true">→</span></a>
           </div>
 
-          <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div class="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.25fr_2fr]">
             <div>
-              <h2 class="footer-heading">Explore</h2>
-              <ul class="footer-links">
-                {navigation.slice(0, 3).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-              </ul>
+              <a href="/" class="mb-5 inline-flex items-center gap-3 text-white">
+                <Logo size="h-12 w-12" />
+                <span class="font-brand font-extrabold tracking-[-0.03em]">Hustle & Rise</span>
+              </a>
+              <p class="max-w-md text-sm leading-relaxed text-white/58">{site.description}</p>
+              <p class="mt-5 text-sm font-semibold text-[#ff9a73]">{site.tagline}</p>
             </div>
-            <div>
-              <h2 class="footer-heading">Build & earn</h2>
-              <ul class="footer-links">
-                {navigation.slice(3).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-              </ul>
-            </div>
-            <div>
-              <h2 class="footer-heading">Company</h2>
-              <ul class="footer-links">
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/privacy">Privacy</a></li>
-                <li><a href="/terms">Terms</a></li>
-              </ul>
+
+            <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+              <div>
+                <h2 class="footer-heading">Find work</h2>
+                <ul class="footer-links">
+                  {navigation.slice(0, 3).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+                </ul>
+              </div>
+              <div>
+                <h2 class="footer-heading">Build & earn</h2>
+                <ul class="footer-links">
+                  {navigation.slice(3).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+                </ul>
+              </div>
+              <div>
+                <h2 class="footer-heading">Hustle & Rise</h2>
+                <ul class="footer-links">
+                  <li><a href="/about">About</a></li>
+                  <li><a href="/contact">Contact</a></li>
+                  <li><a href="/privacy">Privacy</a></li>
+                  <li><a href="/terms">Terms</a></li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flex flex-col gap-3 pt-7 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} Hustle & Rise. All rights reserved.</p>
-          <p>Career and earning information is general guidance, not financial or legal advice.</p>
+          <div class="flex flex-col gap-3 pt-7 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+            <p>&copy; {new Date().getFullYear()} Hustle & Rise. All rights reserved.</p>
+            <p>General career and earning guidance—not financial or legal advice.</p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
 
     <script>
       const menuButton = document.getElementById("mobile-menu-btn");
       const mobileMenu = document.getElementById("mobile-menu");
+      const header = document.getElementById("main-header");
 
       const closeMenu = () => {
         mobileMenu?.classList.add("hidden");
         menuButton?.setAttribute("aria-expanded", "false");
         menuButton?.setAttribute("aria-label", "Open menu");
+        const icon = menuButton?.querySelector("span");
+        if (icon) icon.textContent = "☰";
       };
 
       menuButton?.addEventListener("click", () => {
@@ -162,9 +167,30 @@ const currentPath = Astro.url.pathname;
         mobileMenu?.classList.toggle("hidden");
         menuButton.setAttribute("aria-expanded", String(willOpen));
         menuButton.setAttribute("aria-label", willOpen ? "Close menu" : "Open menu");
+        const icon = menuButton.querySelector("span");
+        if (icon) icon.textContent = willOpen ? "×" : "☰";
       });
 
       mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+
+      const updateHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 12);
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+
+      const revealItems = document.querySelectorAll<HTMLElement>("[data-reveal]");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealItems.forEach((item) => observer.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
     </script>
   </body>
 </html>

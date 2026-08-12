@@ -7,131 +7,213 @@ const articles = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 3);
 
-const jobCategories = ["Student jobs", "Part-time", "Internships", "Graduate", "Remote", "Weekend work"];
+const jobCategories = [
+  ["ST", "Student jobs", "Flexible work around study"],
+  ["PT", "Part-time", "Roles with fewer weekly hours"],
+  ["IN", "Internships", "Build practical experience"],
+  ["GR", "Graduate", "Start your professional path"],
+  ["RE", "Remote", "Work beyond one location"],
+  ["WE", "Weekend work", "Earn around your week"],
+];
+
+const journey = [
+  ["01", "Discover", "Find a suitable role or a realistic earning opportunity."],
+  ["02", "Prepare", "Build a stronger application and practise for the interview."],
+  ["03", "Grow", "Learn practical skills that widen your options over time."],
+];
 ---
 
-<BaseLayout
-  title="Hustle & Rise | Find Work. Build Skills. Earn More."
-  description={site.description}
->
-  <section class="relative min-h-[88vh] overflow-hidden dark-gradient pt-28 sm:pt-32">
-    <div class="absolute inset-0 subtle-grid" aria-hidden="true"></div>
-    <div class="absolute -right-24 top-20 h-80 w-80 rounded-full bg-electric/10 blur-3xl" aria-hidden="true"></div>
+<BaseLayout title="Hustle & Rise | Find Work. Build Skills. Earn More." description={site.description} image="/hustle-rise-hero.png">
+  <section class="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-16 lg:pb-32 lg:pt-20">
+    <div class="noise-layer" aria-hidden="true"></div>
+    <div class="absolute -left-28 top-24 h-64 w-64 rounded-full bg-[#ff6b35]/10 blur-3xl" aria-hidden="true"></div>
+    <div class="absolute -right-24 bottom-16 h-80 w-80 rounded-full bg-[#5b5ce2]/10 blur-3xl" aria-hidden="true"></div>
 
-    <div class="relative max-w-7xl mx-auto grid min-h-[calc(88vh-7rem)] items-center gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
-      <div class="max-w-3xl">
-        <p class="section-eyebrow">New Zealand + remote opportunities</p>
-        <h1 class="font-serif text-5xl font-bold leading-[1.04] sm:text-6xl lg:text-7xl">
-          Find Work.<br />
-          <span class="electric-text">Build Skills.</span><br />
-          Earn More.
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+      <div data-reveal>
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#23b9b3]/20 bg-[#eafaf8] px-3.5 py-2 text-xs font-bold text-[#137d79]">
+          <span class="pulse-dot h-2 w-2 rounded-full bg-[#23b9b3]"></span>
+          Built for New Zealand + remote opportunities
+        </div>
+
+        <h1 class="max-w-3xl font-brand text-[clamp(3.4rem,7vw,6.7rem)] font-extrabold leading-[0.96] tracking-[-0.075em] text-[#172033]">
+          Find work.<br />
+          <span class="relative inline-block text-[#5b5ce2]">Build skills.<span class="absolute -bottom-1 left-1 right-0 -z-10 h-3 rounded-full bg-[#ffb24a]/35" aria-hidden="true"></span></span><br />
+          Earn more.
         </h1>
-        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
-          Practical jobs, interview preparation, career guidance, training, and realistic earning ideas for students and early-career people.
+
+        <p class="mt-7 max-w-xl text-lg leading-8 text-[#5d6575] sm:text-xl">
+          One practical place to discover opportunities, prepare with confidence, and build a career that keeps moving forward.
         </p>
+
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href="/jobs" class="btn-electric">Explore jobs</a>
-          <a href="/career" class="btn-outline-electric">Build your career</a>
+          <a href="/jobs" class="btn-electric">Explore opportunities <span aria-hidden="true">→</span></a>
+          <a href="/interview" class="btn-outline-electric">Prepare for interviews</a>
+        </div>
+
+        <div class="mt-9 flex flex-wrap gap-x-7 gap-y-3 border-t border-black/[0.07] pt-6 text-sm text-[#6d7585]">
+          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> Honest guidance</span>
+          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> Student-friendly</span>
+          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> No get-rich-quick hype</span>
         </div>
       </div>
 
-      <aside class="border border-white/10 bg-white/[0.035] p-6 sm:p-8" aria-label="Hustle & Rise pathway">
-        <p class="font-brand text-xs font-bold uppercase tracking-[0.18em] text-electric">One connected journey</p>
-        <ol class="mt-6 space-y-6">
-          {[
-            ["01", "Discover", "Find a suitable role or earning opportunity."],
-            ["02", "Prepare", "Use focused interview and application guidance."],
-            ["03", "Grow", "Build practical skills that widen your options."],
-          ].map(([number, title, description]) => (
-            <li class="grid grid-cols-[2.5rem_1fr] gap-4 border-t border-white/10 pt-5 first:border-0 first:pt-0">
-              <span class="font-brand text-sm font-bold text-electric">{number}</span>
-              <div>
-                <h2 class="font-serif text-xl font-bold">{title}</h2>
-                <p class="mt-1 text-sm leading-relaxed text-white/55">{description}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </aside>
+      <div class="relative mx-auto w-full max-w-[680px]" data-reveal="delay-1">
+        <div class="relative overflow-hidden rounded-[2.5rem] border border-white bg-white p-2 shadow-[0_35px_90px_rgba(35,39,58,0.16)]">
+          <img
+            src="/hustle-rise-hero.png"
+            alt="Two young people working together on their career plans"
+            class="aspect-[4/3] w-full rounded-[2rem] object-cover"
+            width="1448"
+            height="1086"
+            fetchpriority="high"
+          />
+        </div>
+
+        <div class="float-slow absolute -left-3 top-[14%] hidden w-44 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-xl backdrop-blur sm:block">
+          <div class="flex items-center gap-3">
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#eeeeff] text-sm font-extrabold text-[#5b5ce2]">CV</span>
+            <div><p class="text-xs font-bold text-[#172033]">Application ready</p><p class="mt-1 text-[0.68rem] text-[#828998]">Checklist in progress</p></div>
+          </div>
+          <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-[#ececf1]"><div class="h-full w-3/4 rounded-full bg-[#5b5ce2]"></div></div>
+        </div>
+
+        <div class="float-reverse absolute -right-3 bottom-[15%] hidden w-48 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-xl backdrop-blur sm:block">
+          <p class="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#ff6b35]">Next step</p>
+          <p class="mt-1.5 text-sm font-bold text-[#172033]">Interview preparation</p>
+          <p class="mt-1 text-xs text-[#7a8292]">Practise → improve → repeat</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="border-y border-white/10 bg-slate-950 px-4 py-12 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+  <section class="overflow-hidden border-y border-black/[0.06] bg-white py-4" aria-label="Platform focus">
+    <div class="marquee-track flex w-max items-center gap-10 whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em] text-[#737b8c]">
+      {[...Array(2)].flatMap(() => ["Student jobs", "Interview prep", "Career toolkit", "Practical training", "Real side hustles", "Useful tools"]).map((item) => (
+        <><span>{item}</span><span class="text-[#ff6b35]">✦</span></>
+      ))}
+    </div>
+  </section>
+
+  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+        <div data-reveal>
+          <p class="section-eyebrow">A clearer path forward</p>
+          <h2 class="max-w-xl font-brand text-4xl font-extrabold leading-[1.05] tracking-[-0.055em] sm:text-5xl">Three practical moves. One connected journey.</h2>
+        </div>
+        <p class="max-w-2xl text-lg leading-8 text-[#687081] lg:justify-self-end" data-reveal="delay-1">Job searching becomes less overwhelming when discovery, preparation, and skill-building live in the same place.</p>
+      </div>
+
+      <ol class="mt-12 grid gap-5 md:grid-cols-3">
+        {journey.map(([number, title, description], index) => (
+          <li class="group relative overflow-hidden rounded-[1.75rem] border border-black/[0.07] bg-white p-7 shadow-[0_12px_35px_rgba(31,37,54,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_26px_60px_rgba(31,37,54,0.12)]" data-reveal={`delay-${index + 1}`}>
+            <span class:list={["grid h-12 w-12 place-items-center rounded-2xl font-brand text-sm font-extrabold", index === 0 ? "bg-[#fff0e8] text-[#ff6b35]" : index === 1 ? "bg-[#eeeeff] text-[#5b5ce2]" : "bg-[#eafaf8] text-[#168985]"]}>{number}</span>
+            <h3 class="mt-10 font-brand text-2xl font-extrabold">{title}</h3>
+            <p class="mt-3 leading-7 text-[#687081]">{description}</p>
+            <span class="absolute -bottom-10 -right-8 text-[8rem] font-extrabold leading-none text-[#172033]/[0.025] transition-transform group-hover:-translate-x-2">{number}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden bg-[#fff1e9] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <div class="absolute right-0 top-0 h-72 w-72 translate-x-1/3 -translate-y-1/3 rounded-full border-[60px] border-[#ff6b35]/[0.06]" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl">
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
         <div>
           <p class="section-eyebrow">Start with work</p>
-          <h2 class="font-serif text-3xl font-bold sm:text-4xl">Explore the jobs people need now.</h2>
+          <h2 class="max-w-2xl font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] sm:text-5xl">Explore opportunities that fit real life.</h2>
         </div>
-        <a href="/jobs" class="text-sm font-semibold text-electric">Jobs hub →</a>
+        <a href="/jobs" class="font-brand text-sm font-bold text-[#e95420]">Visit the jobs hub <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="mt-8 flex flex-wrap gap-3">
-        {jobCategories.map((category) => (
-          <span class="border border-white/15 px-4 py-2 text-sm text-white/65">{category}</span>
+
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {jobCategories.map(([code, title, description], index) => (
+          <article class="group flex items-center gap-4 rounded-2xl border border-[#ff6b35]/10 bg-white p-5 shadow-[0_10px_30px_rgba(154,77,40,0.07)] transition-all hover:-translate-y-1 hover:border-[#ff6b35]/30" data-reveal={index < 3 ? `delay-${index + 1}` : undefined}>
+            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#fff0e8] font-brand text-xs font-extrabold text-[#ff6b35] transition-colors group-hover:bg-[#ff6b35] group-hover:text-white">{code}</span>
+            <div><h3 class="font-brand text-base font-extrabold">{title}</h3><p class="mt-1 text-sm text-[#7a8292]">{description}</p></div>
+          </article>
         ))}
       </div>
-      <p class="mt-6 max-w-3xl text-sm leading-relaxed text-white/45">
-        Automated listings are not live yet. The next stage adds validated feeds, source attribution, deduplication, and expiry handling before any job appears here.
-      </p>
+
+      <div class="mt-8 flex items-start gap-3 rounded-2xl border border-[#ff6b35]/10 bg-white/55 p-4 text-sm leading-6 text-[#6a7282]" data-reveal>
+        <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#23b9b3] text-xs font-bold text-white">i</span>
+        <p>Live listings will appear only after approved job feeds pass source, attribution, duplicate, and expiry checks. We do not publish fabricated vacancies.</p>
+      </div>
     </div>
   </section>
 
-  <section class="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="max-w-7xl mx-auto">
-      <div class="max-w-3xl">
+  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="mx-auto max-w-3xl text-center" data-reveal>
         <p class="section-eyebrow">More than a job board</p>
-        <h2 class="font-serif text-4xl font-bold leading-tight sm:text-5xl">Everything connects to your next step.</h2>
-        <p class="mt-5 text-lg leading-relaxed text-white/60">Move from finding an opportunity to preparing, learning, and earning—without jumping between unrelated sites.</p>
+        <h2 class="font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] sm:text-5xl">Everything you need for the next move.</h2>
+        <p class="mt-5 text-lg leading-8 text-[#687081]">Explore focused resources without jumping between six unrelated websites.</p>
       </div>
 
-      <div class="mt-12 grid gap-px border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {productSections.map((section, index) => (
-          <a href={section.href} class="group bg-slate-950 p-7 text-white transition-colors hover:bg-white/[0.04] sm:p-8">
+          <a href={section.href} class="card-hover group relative overflow-hidden p-7 sm:p-8" data-reveal={index < 3 ? `delay-${index + 1}` : undefined}>
             <div class="flex items-center justify-between">
-              <span class="font-brand text-xs font-bold uppercase tracking-[0.16em] text-electric">{section.eyebrow}</span>
-              <span class="text-xs text-white/30">{String(index + 1).padStart(2, "0")}</span>
+              <span class:list={["grid h-11 min-w-11 place-items-center rounded-xl px-2 font-brand text-xs font-extrabold", index % 3 === 0 ? "bg-[#fff0e8] text-[#ff6b35]" : index % 3 === 1 ? "bg-[#eeeeff] text-[#5b5ce2]" : "bg-[#eafaf8] text-[#168985]"]}>{String(index + 1).padStart(2, "0")}</span>
+              <span class="text-lg text-[#a0a6b2] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[#ff6b35]" aria-hidden="true">↗</span>
             </div>
-            <h3 class="mt-8 font-serif text-2xl font-bold group-hover:text-electric">{section.title}</h3>
-            <p class="mt-3 leading-relaxed text-white/55">{section.description}</p>
-            <span class="mt-7 inline-block text-sm font-semibold text-electric">Explore {section.shortTitle} →</span>
+            <p class="mt-8 text-xs font-bold uppercase tracking-[0.12em] text-[#ff6b35]">{section.eyebrow}</p>
+            <h3 class="mt-2 font-brand text-2xl font-extrabold leading-tight">{section.title}</h3>
+            <p class="mt-3 leading-7 text-[#687081]">{section.description}</p>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="border-y border-white/10 bg-white/[0.025] px-4 py-20 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <section class="bg-[#f1f3f8] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
         <div>
-          <p class="section-eyebrow">From the library</p>
-          <h2 class="font-serif text-3xl font-bold sm:text-4xl">Current practical guides</h2>
+          <p class="section-eyebrow">The practical library</p>
+          <h2 class="font-brand text-4xl font-extrabold tracking-[-0.055em] sm:text-5xl">Guides worth acting on.</h2>
         </div>
-        <a href="/blog" class="text-sm font-semibold text-electric">View all articles →</a>
+        <a href="/blog" class="font-brand text-sm font-bold text-[#5b5ce2]">Read all guides <span aria-hidden="true">→</span></a>
       </div>
 
-      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <article class="border border-white/10 bg-slate-950">
-            <div class="p-6">
-              <p class="font-brand text-xs font-bold uppercase tracking-[0.14em] text-electric">{article.data.category}</p>
-              <h3 class="mt-3 font-serif text-xl font-bold leading-snug">
-                <a href={`/blog/${article.id}`} class="text-white hover:text-electric">{article.data.title}</a>
-              </h3>
-              <p class="mt-3 text-sm leading-relaxed text-white/55 line-clamp-3">{article.data.description}</p>
+      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article, index) => (
+          <article class="group flex min-h-72 flex-col rounded-[1.5rem] border border-black/[0.06] bg-white p-7 shadow-[0_12px_35px_rgba(31,37,54,0.06)] transition-all hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(31,37,54,0.12)]" data-reveal={`delay-${index + 1}`}>
+            <div class="flex items-center justify-between">
+              <span class="category-badge">{article.data.category}</span>
+              <span class="text-xs text-[#8b91a0]">{article.data.readTime}</span>
             </div>
+            <h3 class="mt-7 font-brand text-xl font-extrabold leading-snug"><a href={`/blog/${article.id}`} class="transition-colors group-hover:text-[#5b5ce2]">{article.data.title}</a></h3>
+            <p class="mt-3 line-clamp-3 text-sm leading-6 text-[#727a8a]">{article.data.description}</p>
+            <a href={`/blog/${article.id}`} class="mt-auto pt-7 text-sm font-bold text-[#5b5ce2]">Read guide <span aria-hidden="true">↗</span></a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-    <div class="max-w-5xl mx-auto border border-electric/30 bg-electric/[0.055] p-8 text-center sm:p-12">
-      <p class="section-eyebrow justify-center">Build skills</p>
-      <h2 class="font-serif text-3xl font-bold sm:text-4xl">Practical training is coming first.</h2>
-      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-white/65">The initial catalogue will focus on hands-on classes such as the 20-Day Photoshop Class, followed by job-readiness and digital-skills workshops.</p>
-      <a href="/training" class="btn-electric mt-8">Explore training</a>
+  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <div class="mx-auto grid max-w-7xl overflow-hidden rounded-[2.25rem] bg-[#5b5ce2] text-white shadow-[0_30px_75px_rgba(91,92,226,0.24)] lg:grid-cols-[1.1fr_0.9fr]" data-reveal>
+      <div class="p-8 sm:p-12 lg:p-16">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-white/65">Build skills that travel with you</p>
+        <h2 class="mt-4 max-w-xl font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] text-white sm:text-5xl">Practical learning. Tangible outcomes.</h2>
+        <p class="mt-5 max-w-xl text-lg leading-8 text-white/72">Training will begin with hands-on classes such as the 20-Day Photoshop Class, followed by job-readiness and digital-skills workshops.</p>
+        <a href="/training" class="mt-8 inline-flex min-h-12 items-center rounded-full bg-white px-6 font-brand text-sm font-bold text-[#4445c4] transition-transform hover:-translate-y-1">Explore training <span class="ml-2" aria-hidden="true">→</span></a>
+      </div>
+      <div class="relative min-h-72 overflow-hidden bg-[#4d4ed1] p-8 sm:p-12">
+        <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full border-[55px] border-white/[0.07]" aria-hidden="true"></div>
+        <div class="relative grid h-full content-center gap-4">
+          {["Learn a practical workflow", "Create portfolio-ready work", "Connect skills to opportunities"].map((item, index) => (
+            <div class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <span class="grid h-9 w-9 place-items-center rounded-full bg-[#ffb24a] text-sm font-extrabold text-[#172033]">{index + 1}</span>
+              <span class="font-semibold text-white">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

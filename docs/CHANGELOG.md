@@ -29,3 +29,10 @@
 - Enabled Row Level Security so public clients can read only active sources and current active jobs; imports remain trusted-server only.
 - Added typed public and privileged Supabase clients with optional configuration, current publishable/secret keys, and legacy key aliases.
 - Kept the Jobs page free of fabricated listings until an approved provider is implemented.
+
+## Visual redesign — Modern career platform experience
+
+- Reworked the site from a dark editorial theme into a warm, modern career-platform design with tangerine, cobalt, aqua, and ivory accents.
+- Added an original Hustle & Rise hero illustration, floating career cards, responsive content modules, and purposeful scroll motion.
+- Redesigned the shared navigation, footer, homepage, product hubs, article library, article pages, About, Contact, and legal surfaces.
+- Preserved all routes, content, Supabase architecture, accessibility behavior, and the rule against fabricated job listings.
