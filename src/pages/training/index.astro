@@ -1,0 +1,20 @@
+---
+import SectionHub from "../../components/SectionHub.astro";
+
+const items = [
+  { title: "Photoshop and design", description: "Hands-on creative training built around useful outputs such as posters, social graphics, and portfolio work." },
+  { title: "Job readiness", description: "Short workshops covering CVs, interviews, workplace communication, and practical job-search skills." },
+  { title: "Digital and AI tools", description: "Learn modern tools through realistic workflows instead of feature lists and hype." },
+  { title: "Freelancing skills", description: "Develop skills that can become a credible service, from finding a problem to delivering good work." },
+];
+---
+
+<SectionHub
+  eyebrow="Training & classes"
+  title="Build skills you can actually use."
+  description="A growing catalogue of practical classes and short workshops for employability, creative work, and independent earning."
+  items={items}
+  note="The first detailed class page will be the 20-Day Photoshop Class. Enrolment and course-management features will remain simple during the MVP."
+  ctaLabel="Explore realistic side hustles"
+  ctaHref="/side-hustles"
+/>

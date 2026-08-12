@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+interface Item {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  items: Item[];
+  note?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { eyebrow, title, description, items, note, ctaLabel, ctaHref } = Astro.props;
+---
+
+<BaseLayout title={`${title} | Hustle & Rise`} description={description}>
+  <section class="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24 dark-gradient">
+    <div class="absolute inset-0 subtle-grid" aria-hidden="true"></div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="section-eyebrow">{eyebrow}</p>
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">{title}</h1>
+      <p class="text-white/70 text-lg sm:text-xl leading-relaxed max-w-3xl">{description}</p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-slate-950">
+    <div class="max-w-5xl mx-auto">
+      {note && (
+        <div class="mb-10 border-l-4 border-electric bg-electric/5 px-5 py-4 text-white/70 leading-relaxed">
+          {note}
+        </div>
+      )}
+      <div class="grid gap-px sm:grid-cols-2 border border-white/10 bg-white/10">
+        {items.map((item, index) => (
+          <article class="bg-slate-950 p-6 sm:p-8">
+            <span class="font-brand text-xs tracking-[0.18em] text-electric">{String(index + 1).padStart(2, "0")}</span>
+            <h2 class="font-serif text-2xl font-bold mt-4 mb-3">{item.title}</h2>
+            <p class="text-white/60 leading-relaxed">{item.description}</p>
+          </article>
+        ))}
+      </div>
+      {ctaLabel && ctaHref && (
+        <div class="mt-10">
+          <a href={ctaHref} class="btn-electric">{ctaLabel}</a>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

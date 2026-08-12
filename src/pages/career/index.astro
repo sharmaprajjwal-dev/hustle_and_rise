@@ -1,0 +1,19 @@
+---
+import SectionHub from "../../components/SectionHub.astro";
+
+const items = [
+  { title: "CV and cover letters", description: "Create focused applications that communicate your experience, skills, and potential clearly." },
+  { title: "Job-search strategy", description: "Organise applications, find suitable opportunities, and spend time on actions that improve your odds." },
+  { title: "Workplace skills", description: "Build confidence in communication, productivity, first days, feedback, and professional expectations." },
+  { title: "Career planning", description: "Make practical next-step decisions without needing your entire career mapped out in advance." },
+];
+---
+
+<SectionHub
+  eyebrow="Career toolkit"
+  title="Practical help for your next move."
+  description="Straightforward guidance and templates for getting hired, doing better work, and building an early career with intention."
+  items={items}
+  ctaLabel="Build a practical skill"
+  ctaHref="/training"
+/>

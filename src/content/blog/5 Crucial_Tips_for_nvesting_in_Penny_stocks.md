@@ -275,6 +275,6 @@ Penny stocks can be profitable—but only with discipline, patience, and a robus
 
 **Ready to master risk management across all your investments?** Our premium weekly newsletter breaks down real market opportunities, identifies risk, and shows you how the pros think about entry and exit. Join 50,000+ readers who use our insights to make smarter investment decisions.
 
-[**Subscribe to WealthWise Premium** — Get weekly analysis, trading alerts, and penny stock deep dives](https://wealthwise.com/newsletter)
+[Explore the Hustle & Rise Career Toolkit](/career/) for practical help with applications, workplace skills, and your next move.
 
 **Questions about penny stock investing?** Drop your question in the comments below, and our team will respond within 24 hours.

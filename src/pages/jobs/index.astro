@@ -1,0 +1,20 @@
+---
+import SectionHub from "../../components/SectionHub.astro";
+
+const items = [
+  { title: "Student jobs", description: "Flexible opportunities intended to fit around study and changing schedules." },
+  { title: "Part-time and casual", description: "Roles with fewer or variable hours across hospitality, retail, administration, and more." },
+  { title: "Internships and graduate roles", description: "Early-career opportunities that help turn learning into practical experience." },
+  { title: "Remote work", description: "Location-flexible opportunities from legitimate sources, with remote expectations clearly labelled." },
+];
+---
+
+<SectionHub
+  eyebrow="Find work"
+  title="Jobs that fit where you are now."
+  description="Hustle & Rise is building a focused jobs experience for students, job seekers, and early-career people—starting with New Zealand and remote opportunities."
+  items={items}
+  note="Live job feeds are being added in the next implementation stage. We will not publish fabricated listings or scrape restricted platforms."
+  ctaLabel="Prepare for an interview"
+  ctaHref="/interview"
+/>

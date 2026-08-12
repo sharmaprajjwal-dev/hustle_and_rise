@@ -1,0 +1,19 @@
+---
+import SectionHub from "../../components/SectionHub.astro";
+
+const items = [
+  { title: "Student-friendly ideas", description: "Options that can fit around classes, exams, part-time work, and limited starting resources." },
+  { title: "Freelancing", description: "Turn a useful skill into a small, well-defined service and learn how to find the first client." },
+  { title: "Weekend and local income", description: "Practical opportunities that do not depend on building an online audience or promising passive income." },
+  { title: "Digital products", description: "Understand when templates and resources make sense—and the work required to sell them responsibly." },
+];
+---
+
+<SectionHub
+  eyebrow="Side hustles"
+  title="Earn more without the get-rich-quick pitch."
+  description="Realistic ways for students and early-career people to earn around existing commitments, built on useful skills and honest expectations."
+  items={items}
+  ctaLabel="Find useful tools"
+  ctaHref="/tools"
+/>

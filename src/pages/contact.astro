@@ -1,129 +1,40 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config/site";
 ---
 
-<BaseLayout 
-  title="Contact Hustle & Rise — Get in Touch" 
-  description="Have questions or partnership opportunities? Reach out to our team. We respond to all inquiries within 24 hours."
+<BaseLayout
+  title="Contact Hustle & Rise"
+  description="Contact Hustle & Rise about corrections, partnerships, training, or general questions."
 >
-  <!-- Hero Section -->
-  <section class="relative min-h-[50vh] flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 dark-gradient">
-    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, #00d9ff 1px, transparent 1px); background-size: 40px 40px;"></div>
-
-    <div class="relative z-10 max-w-3xl mx-auto">
-      <h1 class="font-brand text-5xl sm:text-6xl font-900 text-white mb-4 tracking-tight">Let's Connect</h1>
-      <p class="text-white/70 text-lg">Have a question, partnership idea, or just want to chat about hustle? We'd love to hear from you. Average response time: 24 hours.</p>
+  <section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28 dark-gradient">
+    <div class="absolute inset-0 subtle-grid" aria-hidden="true"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="section-eyebrow">Contact</p>
+      <h1 class="font-serif text-4xl font-bold sm:text-6xl">Let’s talk about something useful.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+        Send us corrections, partnership ideas, training enquiries, or questions about Hustle & Rise.
+      </p>
     </div>
   </section>
 
-  <!-- Contact Form Section -->
-  <section class="py-16 lg:py-24 px-4 sm:px-6 lg:px-8" style="background: #0f172a;">
-    <div class="max-w-3xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <!-- Contact Info -->
-        <div>
-          <h2 class="font-brand text-2xl font-bold mb-8 text-white tracking-wide">Contact Information</h2>
-          <div class="space-y-6">
-            {[
-              { icon: "✉️", title: "Email", desc: "hello@hustleandrise.com", link: "mailto:hello@hustleandrise.com" },
-              { icon: "💬", title: "Discord", desc: "Join our community server", link: "https://discord.gg/hustleandrise" },
-              { icon: "🕐", title: "Response Time", desc: "Typically within 24 hours", link: null },
-              { icon: "🌍", title: "Serving", desc: "Digital entrepreneurs globally", link: null },
-            ].map(item => (
-              <div>
-                <div class="flex items-start gap-3">
-                  <span class="text-xl">{item.icon}</span>
-                  <div>
-                    <h3 class="font-bold mb-1 text-white">{item.title}</h3>
-                    {item.link ? (
-                      <a href={item.link} class="text-white/60 hover:text-[#00d9ff] transition-colors">
-                        {item.desc}
-                      </a>
-                    ) : (
-                      <p class="text-white/60">{item.desc}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div>
-          <h2 class="font-brand text-2xl font-bold mb-8 text-white tracking-wide">Send a Message</h2>
-          <form id="contact-form" class="space-y-4">
-            <div>
-              <label for="name" class="block text-sm font-bold mb-2 text-white">Your Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                required 
-                class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#00d9ff] transition-all" 
-                placeholder="Your name"
-              />
-            </div>
-            <div>
-              <label for="email" class="block text-sm font-bold mb-2 text-white">Email Address</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required 
-                class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#00d9ff] transition-all" 
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
-              <label for="subject" class="block text-sm font-bold mb-2 text-white">Subject</label>
-              <input 
-                type="text" 
-                id="subject" 
-                name="subject" 
-                required 
-                class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#00d9ff] transition-all" 
-                placeholder="What's this about?"
-              />
-            </div>
-            <div>
-              <label for="message" class="block text-sm font-bold mb-2 text-white">Message</label>
-              <textarea 
-                id="message" 
-                name="message" 
-                required 
-                rows="5"
-                class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#00d9ff] transition-all resize-none" 
-                placeholder="Your message..."
-              ></textarea>
-            </div>
-            <button type="submit" class="btn-electric w-full justify-center">Send Message</button>
-          </form>
-          <p class="text-xs text-white/40 mt-4 text-center">We'll respond as soon as possible. No spam, just genuine connection.</p>
-        </div>
+  <section class="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <div class="max-w-4xl mx-auto grid gap-px border border-white/10 bg-white/10 md:grid-cols-2">
+      <div class="bg-slate-950 p-7 sm:p-10">
+        <p class="font-brand text-xs font-bold uppercase tracking-[0.16em] text-electric">Email</p>
+        <h2 class="mt-4 font-serif text-2xl font-bold">Start a conversation</h2>
+        <p class="mt-3 leading-relaxed text-white/60">Email is the reliable contact channel while a validated website form is being prepared.</p>
+        <a href={`mailto:${site.email}`} class="btn-electric mt-7">{site.email}</a>
+      </div>
+      <div class="bg-slate-950 p-7 sm:p-10">
+        <p class="font-brand text-xs font-bold uppercase tracking-[0.16em] text-electric">Helpful details</p>
+        <h2 class="mt-4 font-serif text-2xl font-bold">What to include</h2>
+        <ul class="mt-5 grid gap-3 text-white/60">
+          <li>• The page or opportunity you are referring to</li>
+          <li>• The correction, question, or proposal</li>
+          <li>• The best way to follow up with you</li>
+        </ul>
       </div>
     </div>
   </section>
-
-  <script>
-    // Simple form handler - in production, integrate with FormSubmit or similar service
-    const form = document.getElementById('contact-form');
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-      if (btn) {
-        btn.innerHTML = "✓ Message received! We'll be in touch.";
-        btn.disabled = true;
-        btn.style.background = 'linear-gradient(135deg, #00d9ff, #0ff7ff)';
-        btn.style.color = '#0f172a';
-        setTimeout(() => {
-          form.reset();
-          btn.innerHTML = "Send Message";
-          btn.disabled = false;
-          btn.style.background = '';
-          btn.style.color = '';
-        }, 3000);
-      }
-    });
-  </script>
 </BaseLayout>

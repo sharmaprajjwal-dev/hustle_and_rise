@@ -10,6 +10,12 @@ export async function GET() {
   const staticPages = [
     { url: '', lastmod: new Date().toISOString().split('T')[0], priority: '1.0' },
     { url: 'blog', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
+    { url: 'jobs', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
+    { url: 'interview', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
+    { url: 'career', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
+    { url: 'training', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
+    { url: 'side-hustles', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
+    { url: 'tools', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
     { url: 'about', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
     { url: 'contact', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
     { url: 'privacy', lastmod: new Date().toISOString().split('T')[0], priority: '0.5' },
