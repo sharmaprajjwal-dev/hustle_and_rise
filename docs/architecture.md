@@ -6,7 +6,7 @@ Hustle & Rise is a static Astro 7 website. Astro's Content Layer validates Markd
 
 The site deliberately has no client framework. JavaScript is limited to interactions that require it.
 
-The Supabase schema and typed clients are now versioned, but the site is not linked to a remote Supabase project. The public Jobs route remains an honest placeholder until an approved provider and deployment schedule are configured.
+The Supabase schema, typed clients, and Remotive importer are versioned, but the site is not linked to a remote Supabase project. The public Jobs route remains an honest placeholder until the jobs frontend and deployment schedule are configured.
 
 ## Source of truth
 
@@ -20,7 +20,7 @@ The Supabase schema and typed clients are now versioned, but the site is not lin
 - `src/layouts/BaseLayout.astro`: shared document structure
 - `supabase/migrations/`: reproducible PostgreSQL schema and security policies
 
-## Planned jobs architecture
+## Jobs data architecture
 
 ```text
 Permitted job API or feed
@@ -35,7 +35,7 @@ Provider adapter ─▶ validation ─▶ normalisation
                          Astro jobs pages and feeds
 ```
 
-The database enforces uniqueness on `(source, external_job_id)`, records import outcomes, and exposes only active, unexpired jobs to public clients. Provider failures must not delete existing jobs; Checkpoint 3 will implement deliberate stale-listing deactivation.
+The database enforces uniqueness on `(source, external_job_id)`, records import outcomes, and exposes only active, unexpired jobs to public clients. Provider failures and partial or empty responses cannot deactivate missing listings. Complete imports use a grace period before marking missing jobs inactive.
 
 ## Rendering decision
 

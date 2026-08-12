@@ -36,3 +36,10 @@
 - Added an original Hustle & Rise hero illustration, floating career cards, responsive content modules, and purposeful scroll motion.
 - Redesigned the shared navigation, footer, homepage, product hubs, article library, article pages, About, Contact, and legal surfaces.
 - Preserved all routes, content, Supabase architecture, accessibility behavior, and the rule against fabricated job listings.
+
+## Checkpoint 3 — Job import engine
+
+- Added a provider contract, runtime validation, normalization, deterministic slugs, deduplication, and batched Supabase upserts.
+- Added the permitted Remotive public API with required source attribution and plain-text descriptions.
+- Added audited import runs, expired/stale deactivation safeguards, and same-source concurrency protection.
+- Added a read-only live dry run, automated failure-path tests, and owner documentation; scheduling remains deferred until hosting is chosen.

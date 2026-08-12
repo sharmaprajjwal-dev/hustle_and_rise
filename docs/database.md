@@ -1,6 +1,6 @@
 # Supabase jobs database
 
-Checkpoint 2 provides a reproducible database foundation. It does not link a remote project, import jobs, schedule tasks, or publish demo records.
+The project provides a reproducible database foundation and server-side importer. It does not link a remote project, schedule tasks, or publish demo records.
 
 ## Tables
 
@@ -70,4 +70,4 @@ Do not run `db reset --linked` against production. Apply remote changes through 
 npx supabase gen types typescript --local > src/lib/supabase/database.types.ts
 ```
 
-The provider importer added in Checkpoint 3 must use the trusted server client, validate every external response, upsert by `(source, external_job_id)`, record an import run, and deactivate stale jobs only after a source-specific grace period.
+The importer uses the trusted server client, validates every external response, upserts by `(source, external_job_id)`, records each import run, and deactivates stale jobs only after a complete response and source-specific grace period. See `docs/job-imports.md`.

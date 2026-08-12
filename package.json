@@ -15,13 +15,17 @@
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
-    "db:lint": "supabase db lint --local"
+    "db:lint": "supabase db lint --local",
+    "jobs:import": "tsx scripts/import-jobs.ts",
+    "jobs:import:dry": "tsx scripts/import-jobs.ts --dry-run",
+    "test": "tsx --test tests/**/*.test.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@supabase/supabase-js": "^2.112.3",
-    "astro": "^7.2.1"
+    "astro": "^7.2.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
@@ -29,6 +33,7 @@
     "@tailwindcss/vite": "^4.0.0",
     "supabase": "^2.113.0",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.23.12",
     "typescript": "^6.0.3"
   }
 }
