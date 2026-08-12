@@ -2,7 +2,7 @@
 
 ## Today
 
-Hustle & Rise is a static Astro 4 website. Astro Content Collections validate Markdown article metadata and generate article routes during the build. The shared layout owns metadata, navigation, footer content, and the small mobile-menu script.
+Hustle & Rise is a static Astro 7 website. Astro's Content Layer validates Markdown article metadata and generates article routes during the build. The shared layout owns metadata, navigation, footer content, and the small mobile-menu script.
 
 The site deliberately has no client framework. JavaScript is limited to interactions that require it.
 
@@ -10,7 +10,7 @@ The site deliberately has no client framework. JavaScript is limited to interact
 
 - `src/config/site.ts`: brand details, primary navigation, and product modules
 - `src/styles/global.css`: colours, fonts, and reusable visual rules
-- `src/content/config.ts`: current Markdown article schema
+- `src/content.config.ts`: Markdown loader and article schema
 - `src/content/blog/`: current article content
 - `src/layouts/BaseLayout.astro`: shared document structure
 

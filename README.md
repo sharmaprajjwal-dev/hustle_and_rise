@@ -42,7 +42,7 @@ docs/                  Architecture notes and development history
 
 ## Run the site locally
 
-You need a current Node.js LTS release and npm.
+You need Node.js 22.12 or newer and npm. If you use `nvm`, run `nvm use` to select the version recorded in `.nvmrc`.
 
 ```bash
 npm install
@@ -52,6 +52,7 @@ npm run dev
 Open the local address Astro prints in the terminal. Before committing a change, run:
 
 ```bash
+npm run check
 npm run build
 ```
 
@@ -73,7 +74,7 @@ Edit `src/pages/index.astro`. Reusable brand styles are in `src/styles/global.cs
 4. Write the article below the frontmatter using Markdown.
 5. Run `npm run build` to validate it.
 
-The allowed article categories are currently defined in `src/content/config.ts`. The content model will be expanded during the editorial checkpoint.
+The allowed article categories are currently defined in `src/content.config.ts`. The content model will be expanded during the editorial checkpoint.
 
 ### Add a homepage section
 
@@ -113,6 +114,6 @@ The repository currently has no confirmed deployment adapter or platform configu
 
 See `docs/CHANGELOG.md` for completed work and `docs/architecture.md` for the current technical shape. Documentation must describe what actually works; planned functionality is always labelled as planned.
 
-## Known maintenance item
+## Framework baseline
 
-The project remains on Astro 4 to keep this checkpoint incremental. Compatible dependency patches have been applied, but npm still reports advisories whose supported fix is Astro 7. Upgrade Astro in a dedicated checkpoint so its breaking changes can be tested properly before any dynamic jobs infrastructure is introduced.
+The project runs on Astro 7 and its Content Layer API. Keep Node.js at 22.12 or newer, run `npm audit` after dependency updates, and test generated article URLs whenever the collection loader changes.

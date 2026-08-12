@@ -39,7 +39,7 @@ const sortedPosts = allPosts.sort(
           {sortedPosts.map((post) => (
             <article class="group rounded-lg overflow-hidden border border-white/10 hover:border-[#00d9ff] transition-all duration-500 flex flex-col" style="background: rgba(255, 255, 255, 0.02);">
               {post.data.heroImage && (
-                <a href={`/blog/${post.slug}`} class="block overflow-hidden h-52">
+                <a href={`/blog/${post.id}`} class="block overflow-hidden h-52">
                   <img
                     src={post.data.heroImage}
                     alt={post.data.title}
@@ -56,7 +56,7 @@ const sortedPosts = allPosts.sort(
                   <span class="text-xs text-white/50">{post.data.readTime}</span>
                 </div>
                 <h2 class="font-brand text-lg sm:text-xl font-bold leading-snug mb-3 flex-1 hover:text-[#00d9ff] transition-colors text-white">
-                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
                 </h2>
                 <p class="text-white/60 text-sm leading-relaxed line-clamp-3 mb-5">{post.data.description}</p>
                 <div class="flex items-center justify-between pt-4 border-t border-white/10">
@@ -66,7 +66,7 @@ const sortedPosts = allPosts.sort(
                       {new Date(post.data.pubDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </time>
                   </div>
-                  <a href={`/blog/${post.slug}`} class="flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] uppercase transition-all group/btn text-[#00d9ff]">
+                  <a href={`/blog/${post.id}`} class="flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] uppercase transition-all group/btn text-[#00d9ff]">
                     Read
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover/btn:translate-x-1 transition-transform">
                       <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>

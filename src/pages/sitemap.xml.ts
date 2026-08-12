@@ -26,7 +26,7 @@ export async function GET() {
   const blogUrls = blogPosts
     .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
     .map((post) => ({
-      url: `blog/${post.slug}`,
+      url: `blog/${post.id}`,
       lastmod: post.data.updatedDate 
         ? new Date(post.data.updatedDate).toISOString().split('T')[0]
         : new Date(post.data.pubDate).toISOString().split('T')[0],

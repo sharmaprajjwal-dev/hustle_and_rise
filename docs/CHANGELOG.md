@@ -14,3 +14,10 @@
 - Removed placeholder community CTAs and obsolete Netlify Identity code.
 - Added owner documentation and repository hygiene rules.
 - Applied compatible dependency security patches; the remaining audit findings require a dedicated Astro 7 migration.
+
+## Maintenance checkpoint — Astro 7 migration
+
+- Upgraded Astro from version 4 to version 7 and raised the Node.js baseline to 22.12.
+- Migrated Markdown publishing from legacy content collections to the Content Layer glob loader.
+- Updated article routing, rendering, RSS, and sitemap generation to use Content Layer entry IDs.
+- Cleared the dependency audit findings before beginning the jobs data layer.

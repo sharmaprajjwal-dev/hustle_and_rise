@@ -3,10 +3,9 @@
 interface Props {
   size?: string;
   class?: string;
-  hideText?: boolean;
 }
 
-const { size = "w-9 h-9", class: additionalClass = "", hideText = false } = Astro.props;
+const { size = "w-9 h-9", class: additionalClass = "" } = Astro.props;
 ---
 
 <svg
