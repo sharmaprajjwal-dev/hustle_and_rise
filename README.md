@@ -16,10 +16,12 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support
 - ✅ Phase 2: device-local saved jobs plus advanced job sorting, salary, remote, and saved-only discovery controls
 - ✅ Phase 2 ready: inactive-by-default Sender.net job-email form, private audit migration, and secure Supabase Edge Function
-- 📝 Planned: production hosting, scheduled imports, real ad/product account configuration, and an analytics provider
+- ✅ Production data: dedicated hosted Supabase project with all migrations and the email Edge Function deployed
+- ✅ Automation ready: twice-daily approved job imports with an optional Vercel rebuild hook
+- 📝 Planned: finish Vercel hosting, real ad/product account configuration, and an analytics provider
 - 📝 Planned for later: Sender.net newsletter, accounts, alerts, and interactive calculators
 
-Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
+Local development and the scheduled GitHub workflow can import approved Remotive listings into Supabase. The production Supabase project is connected; Vercel hosting and repository secrets still need final configuration.
 
 ## How it works
 
@@ -144,7 +146,7 @@ npm run db:lint
 
 ## Deployment
 
-The repository currently has no confirmed deployment adapter or platform configuration. Confirm the production host before adding scheduled job imports. The site is currently emitted as static files in `dist/` when `npm run build` runs.
+Vercel is the selected production host. Astro emits the static site to `dist/` without a platform adapter. Pushes to `main` trigger deployments, while the scheduled job workflow imports new listings twice daily and calls a protected Vercel deploy hook when configured.
 
 ## Safe editing guide
 

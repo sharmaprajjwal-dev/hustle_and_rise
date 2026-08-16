@@ -1,6 +1,6 @@
 # Supabase jobs database
 
-The project provides a reproducible database foundation and server-side importer. It does not link a remote project, schedule tasks, or publish demo records.
+The project provides a reproducible database foundation and server-side importer. A dedicated hosted project is linked, all checked-in migrations are applied, and scheduled imports are ready through GitHub Actions. No demo records are published.
 
 ## Tables
 
@@ -54,7 +54,7 @@ npm run db:stop
 
 ## Connecting a remote project
 
-Do this only after choosing the production hosting target and creating separate development and production Supabase projects.
+The production project is linked locally through ignored Supabase metadata. Use the following flow only when reconnecting a new computer or replacing the project.
 
 ```bash
 npx supabase login

@@ -103,3 +103,9 @@
 - Added a Supabase Edge Function that validates requests, retrieves current jobs, applies email/network request limits, and sends one-time messages through Sender.net.
 - Added a private RLS-protected audit table using keyed hashes instead of stored plain email or network addresses, with 30-day opportunistic cleanup.
 - Kept newsletter consent separate and unimplemented; a one-time job request never creates a marketing subscription.
+
+## Production data and refresh automation
+
+- Created and linked a dedicated hosted Supabase project in Sydney with explicit table exposure and automatic RLS safeguards.
+- Applied all checked-in migrations and deployed the inactive-by-default `email-job` Edge Function.
+- Selected Vercel for static Astro hosting and added a concurrency-safe twice-daily GitHub Actions job import with an optional protected rebuild hook.

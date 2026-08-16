@@ -6,7 +6,7 @@ Hustle & Rise is a static Astro 7 website. Astro's Content Layer validates Markd
 
 The site deliberately has no client framework. JavaScript is limited to interactions that require it.
 
-The Supabase schema, typed clients, Remotive importer, and jobs frontend are versioned, but the site is not linked to a remote Supabase project. Production environment values and the deployment schedule still need to be configured once hosting is chosen.
+The Supabase schema, typed clients, Remotive importer, and jobs frontend are versioned and linked to a dedicated hosted Supabase project. All current migrations and the inactive Sender.net email Edge Function are deployed. Vercel is the selected static host; its project and environment values still need final configuration.
 
 ## Source of truth
 
@@ -48,9 +48,9 @@ Provider adapter ─▶ validation ─▶ normalisation
 
 The database enforces uniqueness on `(source, external_job_id)`, records import outcomes, and exposes only active, unexpired jobs to public clients. Provider failures and partial or empty responses cannot deactivate missing listings. Complete imports use a grace period before marking missing jobs inactive.
 
-## Rendering decision
+## Rendering and refresh decision
 
-Editorial pages and stable hubs remain static. The jobs rendering approach will be selected after the production hosting target and update-frequency requirements are confirmed.
+Editorial pages, stable hubs, and job routes remain statically generated on Vercel. GitHub Actions imports approved jobs twice daily. A successful import calls a protected Vercel deploy hook so the generated job pages and sitemap refresh from Supabase without committing generated data.
 
 ## Monetisation boundary
 
