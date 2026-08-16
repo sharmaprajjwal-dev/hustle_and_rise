@@ -4,9 +4,12 @@ description: "Most side hustles fail in 90 days. Here are 5 brutal mistakes you'
 pubDate: "2026-04-09"
 heroImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80"
 category: "Digital Income"
+section: "side-hustles"
 author: "Hustle & Rise Team"
 readTime: "6 min read"
 featured: false
+draft: true
+relatedJobCategories: []
 tags: ["side hustle", "mistakes", "entrepreneurship", "productivity", "systems"]
 ---
 

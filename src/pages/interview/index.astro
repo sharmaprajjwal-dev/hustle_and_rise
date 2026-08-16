@@ -1,19 +1,10 @@
 ---
-import SectionHub from "../../components/SectionHub.astro";
-
-const items = [
-  { title: "Role-specific questions", description: "Prepare for the questions commonly asked in retail, hospitality, office, graduate, and other early-career interviews." },
-  { title: "Stronger answer structures", description: "Learn how to use clear examples and the STAR method without sounding rehearsed." },
-  { title: "First-job preparation", description: "Build useful answers even when you have limited formal work experience." },
-  { title: "Interview follow-up", description: "Handle questions for the employer, salary conversations, thank-you messages, and next steps." },
+import EditorialHub from "../../components/EditorialHub.astro";
+const topics = [
+  { title: "Role-specific questions", description: "Prepare for common questions in retail, hospitality, office, graduate, and early-career interviews." },
+  { title: "Stronger answer structures", description: "Use clear examples and the STAR method without sounding rehearsed." },
+  { title: "First-job preparation", description: "Build useful answers from study, volunteering, projects, and everyday responsibilities." },
+  { title: "Interview follow-up", description: "Prepare your questions, thank-you messages, and practical next steps." },
 ];
 ---
-
-<SectionHub
-  eyebrow="Interview prep"
-  title="Turn preparation into confidence."
-  description="Practical interview guidance for real roles, with clear examples you can adapt to your own experience."
-  items={items}
-  ctaLabel="Explore career guidance"
-  ctaHref="/career"
-/>
+<EditorialHub section="interview" eyebrow="Interview prep" title="Turn preparation into confidence." description="Practical interview guidance for real roles, with clear examples you can adapt to your own experience." topics={topics} ctaLabel="Explore career guidance" ctaHref="/career" />

@@ -3,6 +3,8 @@ import BaseLayout from "./BaseLayout.astro";
 import ShareButtons from "../components/ShareButtons.astro";
 import HustlerTakeaway from "../components/HustlerTakeaway.astro";
 import FunnelCTA from "../components/FunnelCTA.astro";
+import EditorialCard from "../components/EditorialCard.astro";
+import { editorialSections, type EditorialPost, type EditorialSection } from "../lib/content/editorial";
 
 export interface Props {
   title: string;
@@ -14,17 +16,23 @@ export interface Props {
   author?: string;
   readTime?: string;
   tags?: string[];
+  section: EditorialSection;
+  seoTitle?: string;
+  seoDescription?: string;
+  relatedPosts?: EditorialPost[];
 }
 
-const { title, description, pubDate, updatedDate, heroImage, category = "Digital Income", author = "Hustle & Rise Team", readTime = "5 min read", tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category = "Guide", author = "Hustle & Rise Team", readTime = "5 min read", tags = [], section, seoTitle, seoDescription, relatedPosts = [] } = Astro.props;
+const sectionMeta = editorialSections[section];
 const formattedDate = new Date(pubDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" });
 const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" }) : null;
 ---
 
-<BaseLayout title={`${title} | Hustle & Rise`} description={description} image={heroImage}>
+<BaseLayout title={seoTitle ?? `${title} | Hustle & Rise`} description={seoDescription ?? description} image={heroImage}>
   <section class="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
     <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-5xl text-center" data-reveal>
+      <nav class="mb-5 flex items-center justify-center gap-2 text-xs text-[#7a8292]" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href={sectionMeta.href}>{sectionMeta.label}</a><span>/</span><span aria-current="page">{category}</span></nav>
       <span class="category-badge">{category}</span>
       <h1 class="mx-auto mt-6 max-w-5xl font-brand text-4xl font-extrabold leading-[1.06] tracking-[-0.06em] sm:text-5xl lg:text-6xl">{title}</h1>
       <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#687081]">{description}</p>
@@ -77,5 +85,6 @@ const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString(
   </div>
 
   <FunnelCTA />
+  {relatedPosts.length > 0 && <section class="bg-[#f1f0ec] px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><div class="mx-auto max-w-7xl"><div class="mb-6 flex items-end justify-between gap-4"><div><p class="section-eyebrow">Continue learning</p><h2 class="m-0 font-brand text-3xl font-extrabold">Related practical guides</h2></div><a href={sectionMeta.href} class="text-sm font-bold text-[#5b5ce2]">More in {sectionMeta.label} →</a></div><div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{relatedPosts.map((post) => <EditorialCard post={post} />)}</div></div></section>}
   <div class="border-t border-black/[0.06] px-4 py-8 sm:px-6"><div class="mx-auto flex max-w-4xl flex-col justify-between gap-4 sm:flex-row"><a href="/blog" class="text-sm font-bold text-[#5b5ce2]">← Back to all guides</a><a href="/" class="text-sm font-bold text-[#5b5ce2]">Home →</a></div></div>
 </BaseLayout>

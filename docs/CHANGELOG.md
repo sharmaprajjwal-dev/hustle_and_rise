@@ -50,3 +50,11 @@
 - Added accessible result counts, URL-backed filters, a deliberate show-more pattern, and honest empty states.
 - Added static job detail pages with safe external applications, source attribution, structured job metadata, related resources, and similar roles.
 - Added graceful closed-job pages while keeping inactive records unavailable from the public database API.
+
+## Checkpoint 5 — Editorial content system
+
+- Expanded Astro Content Collections with five editorial sections, SEO fields, explicit article relationships, and job-category relationships.
+- Rebuilt the Interview, Career, Side Hustles, and Tools hubs around reusable topic and published-guide components.
+- Added a filterable editorial library, breadcrumbs, related guides, and four focused launch articles.
+- Moved unsupported legacy income articles to draft status instead of publishing unverified claims.
+- Added an owner-editable training collection, catalogue, class template, and clearly labelled planned 20-Day Photoshop Class.

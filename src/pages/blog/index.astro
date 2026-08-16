@@ -1,44 +1,40 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import EditorialCard from "../../components/EditorialCard.astro";
+import { editorialSections, getPublishedPosts } from "../../lib/content/editorial";
 
-const sortedPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = await getPublishedPosts();
 ---
 
-<BaseLayout title="Practical Guides | Hustle & Rise" description="Practical career, interview, skills, and earning guides from Hustle & Rise.">
-  <section class="relative overflow-hidden px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8 lg:pt-24">
-    <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
-    <div class="relative mx-auto max-w-6xl text-center" data-reveal>
-      <p class="section-eyebrow">Practical library</p>
-      <h1 class="mx-auto max-w-4xl font-brand text-5xl font-extrabold leading-[1.02] tracking-[-0.065em] sm:text-6xl lg:text-7xl">Useful ideas for your next move.</h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#687081]">{sortedPosts.length} honest, actionable guides—written to help you make progress, not chase hype.</p>
+<BaseLayout title="Practical Guides | Hustle & Rise" description="Practical career, interview, skills, tools, and earning guides from Hustle & Rise.">
+  <section class="library-hero"><div class="subtle-grid absolute inset-0" aria-hidden="true"></div><div class="relative mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8 lg:py-24" data-reveal><p class="section-eyebrow">Practical library</p><h1>Useful ideas for your <span>next move.</span></h1><p>{posts.length} honest, actionable guides—written to help you make progress, not chase hype.</p></div></section>
+  <section class="library-body"><div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="section-browser" aria-label="Editorial sections">
+      <button class="is-active" type="button" data-section-filter="">All guides</button>
+      {Object.entries(editorialSections).map(([key, section]) => <button type="button" data-section-filter={key}><i style={`--dot:${section.accent}`} aria-hidden="true"></i>{section.label}</button>)}
     </div>
-  </section>
-
-  <section class="bg-[#f1f3f8] px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-      {sortedPosts.length === 0 ? (
-        <div class="rounded-[2rem] bg-white py-20 text-center shadow-sm"><p class="text-lg text-[#687081]">No guides published yet. Check back soon.</p></div>
-      ) : (
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {sortedPosts.map((post, index) => (
-            <article class="group flex min-h-[22rem] flex-col overflow-hidden rounded-[1.75rem] border border-black/[0.06] bg-white shadow-[0_12px_35px_rgba(31,37,54,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(31,37,54,0.12)]" data-reveal={index < 3 ? `delay-${index + 1}` : undefined}>
-              {post.data.heroImage && <a href={`/blog/${post.id}`} class="block h-52 overflow-hidden"><img src={post.data.heroImage} alt={post.data.title} class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" /></a>}
-              <div class="flex flex-1 flex-col p-7">
-                <div class="flex items-center justify-between gap-3"><span class="category-badge">{post.data.category}</span><span class="text-xs text-[#8b91a0]">{post.data.readTime}</span></div>
-                <h2 class="mt-6 font-brand text-xl font-extrabold leading-snug"><a href={`/blog/${post.id}`} class="transition-colors group-hover:text-[#5b5ce2]">{post.data.title}</a></h2>
-                <p class="mt-3 line-clamp-3 text-sm leading-6 text-[#727a8a]">{post.data.description}</p>
-                <div class="mt-auto flex items-end justify-between border-t border-black/[0.06] pt-6">
-                  <div><span class="block text-xs font-bold text-[#4d5669]">{post.data.author}</span><time datetime={post.data.pubDate.toISOString()} class="mt-1 block text-xs text-[#9399a6]">{post.data.pubDate.toLocaleDateString("en-NZ", { month: "short", day: "numeric", year: "numeric" })}</time></div>
-                  <a href={`/blog/${post.id}`} class="text-sm font-bold text-[#5b5ce2]">Read ↗</a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+    {posts.length ? <><div class="library-heading"><h2>Latest guidance</h2><p id="article-count" role="status" aria-live="polite">{posts.length} guides</p></div><div class="library-grid">{posts.map((post) => <div data-editorial-card data-section={post.data.section}><EditorialCard post={post} /></div>)}</div><div class="library-empty" id="library-empty" hidden><h2>No guides in this section yet.</h2><p>We publish useful work carefully rather than filling empty categories.</p></div></> : <div class="library-empty"><h2>No guides published yet.</h2><p>Check back soon for practical career and earning guidance.</p></div>}
+  </div></section>
+  <script>
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-section-filter]")];
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-editorial-card]")];
+    const count = document.querySelector<HTMLElement>("#article-count");
+    const empty = document.querySelector<HTMLElement>("#library-empty");
+    const showSection = (section: string) => {
+      let shown = 0;
+      cards.forEach((card) => { card.hidden = Boolean(section && card.dataset.section !== section); if (!card.hidden) shown += 1; });
+      buttons.forEach((button) => button.classList.toggle("is-active", button.dataset.sectionFilter === section));
+      if (count) count.textContent = `${shown} ${shown === 1 ? "guide" : "guides"}`;
+      empty?.toggleAttribute("hidden", shown !== 0);
+      const url = section ? `${location.pathname}?section=${encodeURIComponent(section)}` : location.pathname;
+      history.replaceState(null,"",url);
+    };
+    buttons.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.sectionFilter ?? "")));
+    const requested = new URLSearchParams(location.search).get("section") ?? "";
+    showSection(buttons.some((button) => button.dataset.sectionFilter === requested) ? requested : "");
+  </script>
 </BaseLayout>
+
+<style>
+  .library-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fff7f1,#fbfaf7 55%,#eeeeff)}.library-hero h1{max-width:55rem;margin:0 auto;font-size:clamp(2.8rem,7vw,5.7rem);font-weight:800;line-height:1}.library-hero h1 span{color:var(--orange)}.library-hero div>p:not(.section-eyebrow){max-width:42rem;margin:1.5rem auto 0;color:var(--ink-soft);font-size:1.05rem;line-height:1.75}.library-body{background:#f1f0ec}.section-browser{display:flex;gap:.65rem;padding-bottom:.5rem;overflow-x:auto}.section-browser button{display:inline-flex;flex:none;align-items:center;gap:.45rem;padding:.7rem 1rem;border:1px solid #dcdad3;border-radius:999px;background:#fff;color:#667082;font:inherit;font-size:.75rem;font-weight:750;cursor:pointer}.section-browser button.is-active{border-color:var(--ink);background:var(--ink);color:#fff}.section-browser i{width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}.library-heading{display:flex;align-items:end;justify-content:space-between;margin:3rem 0 1.4rem}.library-heading h2{margin:0;font-size:clamp(2rem,4vw,3rem)}.library-heading p{margin:0;color:#7a8290;font-size:.8rem}.library-grid{display:grid;gap:1.2rem}.library-grid>[hidden]{display:none}.library-empty{padding:4rem 1rem;text-align:center}.library-empty[hidden]{display:none}.library-empty h2{margin:0}.library-empty p{color:var(--ink-soft)}@media(min-width:640px){.library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(min-width:1024px){.library-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>

@@ -1,0 +1,28 @@
+---
+import type { EditorialPost } from "../lib/content/editorial";
+import { editorialSections } from "../lib/content/editorial";
+
+interface Props { post: EditorialPost; }
+const { post } = Astro.props;
+const section = editorialSections[post.data.section];
+---
+
+<article class="editorial-card">
+  <div class="editorial-card-top"><span style={`--section-accent:${section.accent}`}>{section.label}</span><small>{post.data.readTime}</small></div>
+  <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+  <p>{post.data.description}</p>
+  <div class="editorial-card-bottom"><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString("en-NZ", { day:"numeric", month:"short", year:"numeric" })}</time><a href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>Read guide →</a></div>
+</article>
+
+<style>
+  .editorial-card { display:flex; min-height:20rem; flex-direction:column; padding:1.6rem; border:1px solid rgba(23,32,51,.08); border-radius:1.5rem; background:#fff; box-shadow:var(--shadow-sm); transition:transform .25s ease,box-shadow .25s ease; }
+  .editorial-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+  .editorial-card-top,.editorial-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .editorial-card-top span { color:var(--section-accent); font-size:.67rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+  .editorial-card-top small,.editorial-card-bottom time { color:#8a91a0; font-size:.7rem; }
+  h2 { margin:2rem 0 .8rem; font-size:1.28rem; line-height:1.35; }
+  h2 a:hover { color:var(--blue); }
+  p { margin:0; color:#687182; font-size:.86rem; line-height:1.7; }
+  .editorial-card-bottom { margin-top:auto; padding-top:1.3rem; border-top:1px solid var(--line); }
+  .editorial-card-bottom a { color:var(--blue); font-size:.75rem; font-weight:800; }
+</style>

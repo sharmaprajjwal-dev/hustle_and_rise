@@ -13,7 +13,9 @@ The Supabase schema, typed clients, Remotive importer, and jobs frontend are ver
 - `src/config/site.ts`: brand details, primary navigation, and product modules
 - `src/styles/global.css`: colours, fonts, and reusable visual rules
 - `src/content.config.ts`: Markdown loader and article schema
-- `src/content/blog/`: current article content
+- `src/content/blog/`: sectioned editorial content
+- `src/content/training/`: owner-editable class plans
+- `src/lib/content/editorial.ts`: editorial taxonomy and explicit relationship logic
 - `src/lib/supabase/public.ts`: optional browser-safe, RLS-limited client
 - `src/lib/supabase/admin.server.ts`: trusted import/admin client; never browser-safe
 - `src/lib/supabase/database.types.ts`: current checked-in database contract

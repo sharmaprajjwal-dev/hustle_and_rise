@@ -1,19 +1,10 @@
 ---
-import SectionHub from "../../components/SectionHub.astro";
-
-const items = [
-  { title: "Job-search tools", description: "Resources for finding roles, tracking applications, researching employers, and staying organised." },
-  { title: "CV and writing tools", description: "Useful tools for improving structure and clarity while keeping your application truthful and personal." },
-  { title: "Interview practice", description: "Prompts and practice resources that help you prepare examples and speak with more confidence." },
-  { title: "Study and productivity", description: "Simple tools for planning, research, focused work, and balancing competing commitments." },
+import EditorialHub from "../../components/EditorialHub.astro";
+const topics = [
+  { title: "Job-search tools", description: "Find roles, track applications, research employers, and stay organised." },
+  { title: "CV and writing tools", description: "Improve structure and clarity while keeping your application truthful and personal." },
+  { title: "Interview practice", description: "Use prompts and practice resources to prepare examples and speak confidently." },
+  { title: "Study and productivity", description: "Plan research and focused work while balancing competing commitments." },
 ];
 ---
-
-<SectionHub
-  eyebrow="Tools & resources"
-  title="Use technology with purpose."
-  description="A curated collection of career, productivity, research, and AI tools selected for practical value—not novelty."
-  items={items}
-  ctaLabel="Read current articles"
-  ctaHref="/blog"
-/>
+<EditorialHub section="tools" eyebrow="Tools & resources" title="Use technology with purpose." description="Career, productivity, research, and AI tools selected for practical value—not novelty." topics={topics} ctaLabel="Read current articles" ctaHref="/blog" />

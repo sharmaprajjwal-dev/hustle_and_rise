@@ -4,9 +4,12 @@ description: "A comprehensive, systems-based guide to scaling a digital business
 pubDate: "2025-01-15"
 heroImage: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=1200"
 category: "Digital Income"
+section: "side-hustles"
 author: "Hustle & Rise Team"
 readTime: "15 min read"
 featured: true
+draft: true
+relatedJobCategories: []
 tags: ["digital income", "systems", "bootstrap", "side hustle", "automation", "passive income"]
 ---
 

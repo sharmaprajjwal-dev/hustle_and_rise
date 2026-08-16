@@ -9,22 +9,22 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: responsive Astro website and shared Hustle & Rise design system
 - ✅ Live: modern warm-light UI, responsive motion, and original career-focused hero artwork
 - ✅ Live: Jobs, Interview Prep, Career, Training, Side Hustles, and Tools hub pages
-- ✅ Live: Markdown article publishing, article pages, RSS, sitemap, and legal pages
-- 🚧 Partially implemented: editorial library currently contains legacy digital-income articles
+- ✅ Live: sectioned editorial publishing, related guides, training classes, RSS, sitemap, and legal pages
+- ✅ Live: validated Remotive imports, job filters, detail pages, structured data, and source attribution
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
-- 📝 Planned: validated job feeds, filters, job detail pages, structured data, and monetisation components
+- 📝 Planned: production hosting, scheduled imports, SEO/accessibility review, and monetisation components
 - 📝 Planned for later: saved jobs, email newsletter, accounts, alerts, and interactive calculators
 
-The Jobs hub currently explains what is coming; it does not display fake listings. The database foundation is versioned in the repository, but no remote Supabase project or external job API is connected yet.
+Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
 
 ## How it works
 
 ```text
-Markdown articles ──▶ Astro content collections ──▶ Static article pages
+Markdown content ───▶ Astro content collections ──▶ Articles and class pages
 
 Site configuration ─▶ Astro layouts/components ───▶ Static website
 
-Job API/feed ────────▶ Importer ─▶ Supabase ──────▶ Jobs pages (planned)
+Remotive API ────────▶ Importer ─▶ Supabase ──────▶ Jobs pages
 ```
 
 Astro builds pages ahead of time, which keeps the current site fast and simple. Tailwind provides layout utilities, while shared brand rules live in the global stylesheet.
@@ -36,6 +36,8 @@ public/                 Public files such as the favicon and robots.txt
 src/components/        Reusable page sections and small UI components
 src/config/            Owner-editable site navigation and product configuration
 src/content/blog/      Markdown articles
+src/content/training/  Markdown class plans
+src/lib/content/       Editorial relationships and section configuration
 src/lib/supabase/      Typed public and trusted-server Supabase clients
 src/layouts/           Shared page and article layouts
 src/pages/             Website routes
@@ -78,7 +80,18 @@ Edit `src/pages/index.astro`. Reusable brand styles are in `src/styles/global.cs
 4. Write the article below the frontmatter using Markdown.
 5. Run `npm run build` to validate it.
 
-The allowed article categories are currently defined in `src/content.config.ts`. The content model will be expanded during the editorial checkpoint.
+Set `section` to `interview`, `career`, `side-hustles`, `money`, or `tools`. Use `relatedJobCategories` for exact job-category relationships and `relatedPosts` for explicit article IDs. Set `draft: true` to keep an article out of the site without deleting it.
+
+### Add or edit a training class
+
+1. Copy `src/content/training/photoshop-20-day-class.md` and rename it with a short hyphenated filename.
+2. Edit the title, duration, level, delivery mode, category, schedule, price, instructor, and enrolment link in frontmatter.
+3. Edit the Markdown syllabus, projects, and FAQ-style guidance below the frontmatter.
+4. Use `status: planned`, `upcoming`, `active`, or `closed`. Use `draft: true` to remove it from navigation and listing pages without deleting it.
+5. Set `featured: true` for classes that should receive priority in the catalogue.
+6. Run `npm run check` and `npm run build` before publishing.
+
+The Photoshop file is an editable planned-class example. Change its schedule, price, instructor, and enrolment status only when those details are confirmed.
 
 ### Add a homepage section
 
@@ -88,13 +101,13 @@ Add the new semantic `<section>` to `src/pages/index.astro`. Reuse the existing 
 
 Edit the `@theme` block near the top of `src/styles/global.css`. Changing a token there updates the shared design language across the site.
 
-### Add a job category or provider
+### Add a job provider
 
-The jobs database model is implemented, but no provider is connected. Do not add production listings directly to page files. Checkpoint 3 will add the provider interface, validation, normalisation, and import process.
+Do not add production listings directly to page files. Follow `docs/job-imports.md`; each provider must have verified terms, validation, normalisation, attribution, and failure-safe lifecycle handling.
 
 ## Environment variables
 
-No environment variables are required to build the current placeholder site. Copy `.env.example` to `.env` when connecting a Supabase project. Never commit a real `.env` file or put secret keys in variables beginning with `PUBLIC_`.
+Copy `.env.example` to `.env` when connecting Supabase. Without public values, the build shows an honest jobs empty state. Never commit a real `.env` file or put secret keys in variables beginning with `PUBLIC_`.
 
 Preferred Supabase configuration uses:
 

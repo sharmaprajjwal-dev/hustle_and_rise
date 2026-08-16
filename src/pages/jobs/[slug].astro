@@ -3,13 +3,18 @@ import JobCard from "../../components/JobCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatJobType, formatPostedDate, formatSalary, getJobsForStaticPages } from "../../lib/jobs/queries.server";
 import { site } from "../../config/site";
+import { getPostsForJobCategory, getPublishedPosts } from "../../lib/content/editorial";
 
 export async function getStaticPaths() {
   const jobs = await getJobsForStaticPages();
-  return jobs.filter((job) => job.slug).map((job) => ({ params: { slug: job.slug }, props: { job, jobs } }));
+  const posts = await getPublishedPosts();
+  return jobs.filter((job) => job.slug).map((job) => ({
+    params: { slug: job.slug },
+    props: { job, jobs, relatedGuides: getPostsForJobCategory(posts, job.category) },
+  }));
 }
 
-const { job, jobs } = Astro.props;
+const { job, jobs, relatedGuides } = Astro.props;
 const available = job.is_active && (!job.expires_at || new Date(job.expires_at) > new Date());
 const type = formatJobType(job.job_type);
 const posted = formatPostedDate(job.published_at);
@@ -88,6 +93,7 @@ const structuredData = {
         <a href="/career"><span>Career toolkit</span><small>Improve your CV and application</small><b aria-hidden="true">→</b></a>
         <a href="/interview"><span>Interview preparation</span><small>Practise clear, confident answers</small><b aria-hidden="true">→</b></a>
         <a href="/training"><span>Skills and training</span><small>Build skills for your next move</small><b aria-hidden="true">→</b></a>
+        {relatedGuides.length > 0 && <div class="related-guides"><strong>Related to this role</strong>{relatedGuides.map((guide) => <a href={`/blog/${guide.id}/`}>{guide.data.title} <span aria-hidden="true">→</span></a>)}</div>}
         <div class="job-source-box"><strong>Source</strong><p>{job.sourceAttribution ?? `Job sourced from ${job.sourceName}`}. Details may change; check the original listing before applying.</p></div>
       </aside>
     </div>
@@ -143,6 +149,10 @@ const structuredData = {
   .job-source-box { margin-top:1rem; padding:1rem; border-radius:1rem; background:var(--orange-soft); }
   .job-source-box strong { color:var(--orange-dark); font-size:.7rem; text-transform:uppercase; }
   .job-source-box p { margin:.4rem 0 0; color:#6c625c; font-size:.7rem; line-height:1.55; }
+  .related-guides { display:grid; gap:.65rem; margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid var(--line); }
+  .related-guides > strong { color:#7a8290; font-size:.66rem; letter-spacing:.07em; text-transform:uppercase; }
+  .related-guides > a { display:flex; justify-content:space-between; gap:.7rem; color:var(--ink); font-size:.76rem; font-weight:700; line-height:1.4; }
+  .related-guides > a span { color:var(--orange); }
   .similar-jobs { background:#f2f1ed; }
   .similar-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
   .similar-heading .section-eyebrow { margin-bottom:.35rem; }

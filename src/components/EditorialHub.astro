@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EditorialCard from "./EditorialCard.astro";
+import { editorialSections, getSectionPosts, type EditorialSection } from "../lib/content/editorial";
+
+interface Props {
+  section: EditorialSection;
+  eyebrow: string;
+  title: string;
+  description: string;
+  topics: Array<{ title: string; description: string }>;
+  ctaLabel: string;
+  ctaHref: string;
+}
+const { section, eyebrow, title, description, topics, ctaLabel, ctaHref } = Astro.props;
+const posts = await getSectionPosts(section);
+const meta = editorialSections[section];
+---
+
+<BaseLayout title={`${meta.label} | Hustle & Rise`} description={description}>
+  <section class="editorial-hero" style={`--hub-accent:${meta.accent}`}>
+    <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" data-reveal>
+      <p class="section-eyebrow">{eyebrow}</p><h1>{title}</h1><p>{description}</p>
+      <a class="btn-electric" href="#latest-guides">Explore guides <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+  <section class="topic-section">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="section-eyebrow">What you’ll find</p><h2 class="topic-heading">Practical help, organised around the next step.</h2>
+      <div class="topic-grid">{topics.map((topic,index) => <article data-reveal={index < 3 ? `delay-${index + 1}` : undefined}><span>0{index + 1}</span><h3>{topic.title}</h3><p>{topic.description}</p></article>)}</div>
+    </div>
+  </section>
+  <section class="guides-section" id="latest-guides">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <div class="guides-heading"><div><p class="section-eyebrow">Latest guidance</p><h2>Start with these guides.</h2></div><a href="/blog">View complete library →</a></div>
+      {posts.length ? <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{posts.map((post) => <EditorialCard post={post} />)}</div> : <div class="empty-guides"><p>New {meta.label.toLowerCase()} guides are being prepared carefully. We publish useful work, not filler.</p><a class="btn-outline-electric" href="/blog">Browse all published guides</a></div>}
+    </div>
+  </section>
+  <section class="hub-next"><div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-4 py-12 text-center sm:px-6 md:flex-row md:text-left"><div><p>Keep building momentum</p><h2>Connect this advice to your next move.</h2></div><a class="btn-electric" href={ctaHref}>{ctaLabel} →</a></div></section>
+</BaseLayout>
+
+<style>
+  .editorial-hero { position:relative; overflow:hidden; background:linear-gradient(135deg,#fff7f1,#fbfaf7 55%,color-mix(in srgb,var(--hub-accent) 10%,white)); }
+  .editorial-hero h1 { max-width:54rem; margin:0; font-size:clamp(2.8rem,7vw,5.7rem); font-weight:800; line-height:1; }
+  .editorial-hero h1::first-line { color:var(--ink); }
+  .editorial-hero > div > p:not(.section-eyebrow) { max-width:42rem; margin:1.5rem 0 2rem; color:var(--ink-soft); font-size:1.05rem; line-height:1.75; }
+  .topic-section { background:var(--paper); }
+  .topic-heading { max-width:42rem; margin:0; font-size:clamp(2rem,4vw,3.1rem); }
+  .topic-grid { display:grid; gap:1rem; margin-top:2.3rem; }
+  .topic-grid article { padding:1.5rem; border:1px solid rgba(23,32,51,.08); border-radius:1.4rem; background:#fff; box-shadow:var(--shadow-sm); }
+  .topic-grid span { color:var(--hub-accent); font-size:.7rem; font-weight:800; }
+  .topic-grid h3 { margin:1.2rem 0 .55rem; font-size:1.08rem; }
+  .topic-grid p { margin:0; color:#6a7384; font-size:.82rem; line-height:1.65; }
+  .guides-section { background:#f1f0ec; scroll-margin-top:5rem; }
+  .guides-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.7rem; }
+  .guides-heading .section-eyebrow { margin-bottom:.35rem; }
+  .guides-heading h2 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+  .guides-heading > a { color:var(--blue); font-size:.8rem; font-weight:800; }
+  .empty-guides { padding:3rem; border:1px dashed #c9c7bf; border-radius:1.5rem; background:rgba(255,255,255,.5); text-align:center; }
+  .empty-guides p { max-width:35rem; margin:0 auto 1.3rem; color:var(--ink-soft); }
+  .hub-next { background:#172033; }
+  .hub-next p { margin:0; color:#ff9a73; font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+  .hub-next h2 { margin:.4rem 0 0; color:#fff; font-size:1.5rem; }
+  @media(min-width:640px){.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media(min-width:1024px){.topic-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
+  @media(max-width:639px){.guides-heading{align-items:flex-start;flex-direction:column;}}
+</style>

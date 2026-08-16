@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const courses = await getCollection("training", ({ data }) => !data.draft);
+  return courses.map((course) => ({ params: { slug: course.id }, props: course }));
+}
+const course = Astro.props;
+const { Content } = await render(course);
+const statusLabel = course.data.status === "planned" ? "Planned class" : course.data.status.charAt(0).toUpperCase() + course.data.status.slice(1);
+const canEnrol = course.data.status === "active" || course.data.status === "upcoming";
+const ctaLabel = canEnrol ? "Enrol now" : course.data.status === "planned" ? "Register your interest" : "Contact us";
+---
+
+<BaseLayout title={`${course.data.title} | Hustle & Rise Training`} description={course.data.description} image={course.data.heroImage}>
+  <section class="course-hero"><div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><nav aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/training">Training</a><span>/</span><span>{course.data.title}</span></nav><div class="course-hero-grid"><div data-reveal><p class="section-eyebrow">{course.data.category}</p><h1>{course.data.title}</h1><p>{course.data.description}</p><div class="course-tags"><span>{statusLabel}</span><span>{course.data.duration}</span><span>{course.data.skillLevel}</span><span>{course.data.deliveryMode}</span></div></div><aside data-reveal="delay-1"><strong>{course.data.price ?? "Price to be confirmed"}</strong><p>{course.data.schedule ?? "Schedule to be announced"}</p><a class="btn-electric" href={course.data.enrolmentUrl ?? "/contact"}>{ctaLabel} →</a><small>We will confirm dates, delivery details, and any cost before enrolment.</small></aside></div></div></section>
+  <section class="course-body"><div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:px-8 lg:py-20"><article class="prose prose-lg max-w-none prose-headings:font-brand prose-headings:font-extrabold prose-headings:text-[#172033] prose-p:text-[#566071] prose-p:leading-8 prose-li:text-[#566071]"><Content /></article><aside class="course-facts"><h2>What you’ll work toward</h2><ul>{course.data.outcomes.map((outcome) => <li>{outcome}</li>)}</ul><h2>What you’ll need</h2><ul>{course.data.requirements.map((requirement) => <li>{requirement}</li>)}</ul><a class="btn-outline-electric" href="/career">Explore career guidance</a></aside></div></section>
+</BaseLayout>
+
+<style>
+  .course-hero{background:linear-gradient(135deg,#eef0ff,#fbfaf7 60%,#fff1e9)}nav{display:flex;gap:.5rem;overflow:hidden;color:#767e8e;font-size:.75rem;white-space:nowrap}nav span:last-child{overflow:hidden;text-overflow:ellipsis}.course-hero-grid{display:grid;gap:2.5rem;margin-top:3rem}.course-hero h1{margin:0;max-width:48rem;font-size:clamp(2.7rem,6vw,5rem);font-weight:800;line-height:1}.course-hero-grid>div>p:not(.section-eyebrow){max-width:43rem;color:var(--ink-soft);line-height:1.75}.course-tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}.course-tags span{padding:.5rem .75rem;border:1px solid rgba(23,32,51,.08);border-radius:999px;background:#fff;font-size:.73rem;font-weight:700;text-transform:capitalize}.course-hero aside{display:flex;flex-direction:column;gap:.9rem;align-self:start;padding:1.5rem;border-radius:1.5rem;background:#fff;box-shadow:var(--shadow-lg)}.course-hero aside strong{font-family:var(--font-brand);font-size:1.2rem}.course-hero aside p{margin:0;color:var(--ink-soft);font-size:.8rem}.course-hero aside small{color:#7c8391;font-size:.7rem;line-height:1.5}.course-body{background:var(--paper)}.course-facts{align-self:start;padding:1.5rem;border:1px solid var(--line);border-radius:1.5rem;background:#fff;box-shadow:var(--shadow-sm)}.course-facts h2{margin:0 0 .8rem;font-size:1rem}.course-facts h2:not(:first-child){margin-top:1.6rem}.course-facts ul{display:grid;gap:.7rem;margin:0;padding:0;list-style:none}.course-facts li{position:relative;padding-left:1.2rem;color:#626c7d;font-size:.78rem;line-height:1.55}.course-facts li::before{position:absolute;left:0;color:var(--aqua);content:"✓"}.course-facts a{width:100%;margin-top:1.7rem;text-align:center}@media(min-width:900px){.course-hero-grid{grid-template-columns:minmax(0,1fr) 20rem;align-items:end}}
+</style>
