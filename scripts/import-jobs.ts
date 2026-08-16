@@ -4,6 +4,8 @@ import { RemotiveProvider } from "../src/lib/jobs/providers/remotive";
 import { JobImportRepository } from "../src/lib/jobs/repository.server";
 import type { Database } from "../src/lib/supabase/database.types";
 
+process.loadEnvFile?.();
+
 const args = new Set(process.argv.slice(2));
 const provider = new RemotiveProvider();
 

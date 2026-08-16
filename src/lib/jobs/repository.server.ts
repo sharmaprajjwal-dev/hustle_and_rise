@@ -44,20 +44,21 @@ export class JobImportRepository {
     if (jobs.length === 0) return { inserted: 0, updated: 0 };
     const source = jobs[0].source;
     const ids = jobs.map((job) => job.externalJobId);
-    const existingIds = new Set<string>();
+    const existingFirstSeen = new Map<string, string>();
     for (const idBatch of batches(ids)) {
       const { data, error } = await this.client
         .from("jobs")
-        .select("external_job_id")
+        .select("external_job_id,first_seen_at")
         .eq("source", source)
         .in("external_job_id", idBatch);
       if (error) throw error;
-      for (const row of data) existingIds.add(row.external_job_id);
+      for (const row of data) existingFirstSeen.set(row.external_job_id, row.first_seen_at);
     }
 
     const rows: JobInsert[] = jobs.map((job) => ({
       source: job.source,
       external_job_id: job.externalJobId,
+      first_seen_at: existingFirstSeen.get(job.externalJobId) ?? seenAt,
       title: job.title,
       slug: createJobSlug(job),
       company: job.company ?? null,
@@ -86,7 +87,7 @@ export class JobImportRepository {
       const { error } = await this.client.from("jobs").upsert(rowBatch, { onConflict: "source,external_job_id" });
       if (error) throw error;
     }
-    const updated = ids.filter((id) => existingIds.has(id)).length;
+    const updated = ids.filter((id) => existingFirstSeen.has(id)).length;
     return { inserted: ids.length - updated, updated };
   }
 

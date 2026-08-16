@@ -1,0 +1,153 @@
+---
+import JobCard from "../../components/JobCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatJobType, formatPostedDate, formatSalary, getJobsForStaticPages } from "../../lib/jobs/queries.server";
+import { site } from "../../config/site";
+
+export async function getStaticPaths() {
+  const jobs = await getJobsForStaticPages();
+  return jobs.filter((job) => job.slug).map((job) => ({ params: { slug: job.slug }, props: { job, jobs } }));
+}
+
+const { job, jobs } = Astro.props;
+const available = job.is_active && (!job.expires_at || new Date(job.expires_at) > new Date());
+const type = formatJobType(job.job_type);
+const posted = formatPostedDate(job.published_at);
+const salary = formatSalary(job);
+const similar = jobs
+  .filter((candidate) => candidate.id !== job.id && candidate.is_active && candidate.category === job.category)
+  .slice(0, 3);
+const description = job.description?.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean) ?? [];
+const pageDescription = `${job.title}${job.company ? ` at ${job.company}` : ""}${job.location ? ` — ${job.location}` : ""}. View role details and apply through ${job.sourceName}.`;
+const employmentType: Record<string, string> = {
+  "full-time": "FULL_TIME",
+  "part-time": "PART_TIME",
+  contract: "CONTRACTOR",
+  freelance: "CONTRACTOR",
+  internship: "INTERN",
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  title: job.title,
+  description: job.description,
+  datePosted: job.published_at,
+  validThrough: job.expires_at,
+  employmentType: job.job_type ? employmentType[job.job_type] : undefined,
+  hiringOrganization: job.company ? { "@type": "Organization", name: job.company } : undefined,
+  jobLocationType: job.remote_type === "remote" ? "TELECOMMUTE" : undefined,
+  applicantLocationRequirements: job.location ? { "@type": "AdministrativeArea", name: job.location } : undefined,
+  url: new URL(`/jobs/${job.slug}/`, Astro.site ?? site.domain).toString(),
+};
+---
+
+<BaseLayout title={`${job.title}${job.company ? ` at ${job.company}` : ""} | Hustle & Rise`} description={pageDescription}>
+  {available && <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+
+  <section class="job-detail-hero">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <nav class="job-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/jobs">Jobs</a><span aria-hidden="true">/</span><span aria-current="page">{job.title}</span></nav>
+      <div class="job-hero-grid">
+        <div data-reveal>
+          <div class="job-kicker"><span>{job.category ?? "Opportunity"}</span><span class:list={["status-dot", !available && "is-closed"]}><i aria-hidden="true"></i> {available ? "Open" : "Closed"}</span></div>
+          <h1>{job.title}</h1>
+          {job.company && <p class="job-detail-company">{job.company}</p>}
+          <div class="job-detail-meta">
+            {job.location && <span>⌖ {job.location}</span>}
+            {type && <span>◷ {type}</span>}
+            {salary && <span>◇ {salary}</span>}
+            {posted && <span>Posted {posted}</span>}
+          </div>
+        </div>
+        <aside class:list={["apply-panel", !available && "is-unavailable"]} data-reveal="delay-1">
+          {available ? (
+            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored">Apply on {job.sourceName} <span aria-hidden="true">↗</span></a><button type="button" disabled title="Saved jobs are coming soon">♡ Save job <small>Coming soon</small></button><p class="source-note">You’ll apply on the original listing. Always verify role details before sharing personal information.</p></>
+          ) : (
+            <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/jobs">Browse current jobs</a></>
+          )}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="job-detail-body">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:px-8 lg:py-20">
+      <article class="job-description">
+        <p class="section-eyebrow">Role details</p>
+        <h2>About this opportunity</h2>
+        {description.length > 0 ? description.map((paragraph) => <p>{paragraph}</p>) : <p>The source has not supplied a full description. Open the original listing for complete details.</p>}
+        {available && <div class="job-apply-bottom">
+          <h2>Ready to take the next step?</h2>
+          <p>Review the original listing carefully, then apply directly through {job.sourceName}.</p>
+          <a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored">View and apply <span aria-hidden="true">↗</span></a>
+        </div>}
+      </article>
+      <aside class="job-help" aria-label="Application resources">
+        <p class="section-eyebrow">Before you apply</p>
+        <h2>Make your application stronger.</h2>
+        <a href="/career"><span>Career toolkit</span><small>Improve your CV and application</small><b aria-hidden="true">→</b></a>
+        <a href="/interview"><span>Interview preparation</span><small>Practise clear, confident answers</small><b aria-hidden="true">→</b></a>
+        <a href="/training"><span>Skills and training</span><small>Build skills for your next move</small><b aria-hidden="true">→</b></a>
+        <div class="job-source-box"><strong>Source</strong><p>{job.sourceAttribution ?? `Job sourced from ${job.sourceName}`}. Details may change; check the original listing before applying.</p></div>
+      </aside>
+    </div>
+  </section>
+
+  {similar.length > 0 && (
+    <section class="similar-jobs">
+      <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+        <div class="similar-heading"><div><p class="section-eyebrow">Keep exploring</p><h2>Similar opportunities</h2></div><a href="/jobs">View all jobs →</a></div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{similar.map((candidate) => <JobCard job={candidate} />)}</div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .job-detail-hero { position:relative; overflow:hidden; background:linear-gradient(135deg,#fff7f1,#fbfaf7 60%,#eeeeff); }
+  .job-detail-hero::after { position:absolute; right:-8rem; bottom:-10rem; width:30rem; height:30rem; border:6rem solid rgba(91,92,226,.06); border-radius:50%; content:""; }
+  .job-breadcrumb { position:relative; z-index:1; display:flex; overflow:hidden; align-items:center; gap:.55rem; color:#737b8a; font-size:.76rem; white-space:nowrap; }
+  .job-breadcrumb span:last-child { overflow:hidden; color:var(--ink-soft); text-overflow:ellipsis; }
+  .job-breadcrumb a:hover { color:var(--blue); }
+  .job-hero-grid { position:relative; z-index:1; display:grid; gap:2.5rem; margin-top:3rem; }
+  .job-kicker { display:flex; align-items:center; gap:.75rem; color:var(--orange-dark); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+  .status-dot { color:#16847f; }
+  .status-dot i { display:inline-block; width:.5rem; height:.5rem; margin-right:.25rem; border-radius:50%; background:var(--aqua); }
+  .status-dot.is-closed { color:#a34a2a; }
+  .status-dot.is-closed i { background:var(--orange); }
+  h1 { max-width:50rem; margin:.8rem 0 0; font-size:clamp(2.4rem,6vw,4.8rem); font-weight:800; line-height:1.02; }
+  .job-detail-company { margin:.9rem 0 0; color:var(--blue); font-family:var(--font-brand); font-size:1.2rem; font-weight:750; }
+  .job-detail-meta { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.6rem; }
+  .job-detail-meta span { padding:.55rem .8rem; border:1px solid rgba(23,32,51,.08); border-radius:999px; background:rgba(255,255,255,.75); color:#596274; font-size:.78rem; font-weight:650; }
+  .apply-panel { display:flex; flex-direction:column; align-self:start; gap:.9rem; padding:1.4rem; border:1px solid rgba(23,32,51,.09); border-radius:1.5rem; background:rgba(255,255,255,.9); box-shadow:var(--shadow-lg); }
+  .apply-panel > p:first-child { margin:0; color:var(--ink); font-family:var(--font-brand); font-weight:750; }
+  .apply-panel .btn-electric { width:100%; }
+  .apply-panel button { display:flex; min-height:3rem; align-items:center; justify-content:center; gap:.5rem; border:1px solid var(--line); border-radius:999px; background:#f7f6f2; color:#8a8f99; font:inherit; font-size:.78rem; font-weight:700; }
+  .apply-panel button small { font-size:.62rem; font-weight:600; }
+  .source-note { margin:0; color:#7b8290; font-size:.7rem; line-height:1.55; }
+  .apply-panel.is-unavailable h2 { margin:0; font-size:1.2rem; }
+  .unavailable-icon { display:grid; width:2.5rem; height:2.5rem; place-items:center; border-radius:50%; background:var(--orange-soft); color:var(--orange-dark); font-size:1.2rem; font-weight:800; }
+  .job-detail-body { background:var(--paper); }
+  .job-description { min-width:0; }
+  .job-description > h2 { margin:.25rem 0 1.5rem; font-size:clamp(1.8rem,4vw,2.7rem); }
+  .job-description > p { color:#515b6d; font-size:.96rem; line-height:1.82; white-space:pre-line; }
+  .job-apply-bottom { margin-top:3rem; padding:2rem; border-radius:1.5rem; background:#172033; }
+  .job-apply-bottom h2 { margin:0; color:#fff; }
+  .job-apply-bottom p { color:rgba(255,255,255,.62); }
+  .job-help { align-self:start; padding:1.5rem; border:1px solid var(--line); border-radius:1.5rem; background:#fff; box-shadow:var(--shadow-sm); }
+  .job-help > h2 { margin:.2rem 0 1.2rem; font-size:1.25rem; }
+  .job-help > a { display:grid; grid-template-columns:1fr auto; gap:.2rem .7rem; padding:1rem 0; border-top:1px solid var(--line); }
+  .job-help > a span { font-size:.82rem; font-weight:750; }
+  .job-help > a small { color:#7b8290; font-size:.7rem; }
+  .job-help > a b { grid-row:1/3; grid-column:2; align-self:center; color:var(--orange); }
+  .job-source-box { margin-top:1rem; padding:1rem; border-radius:1rem; background:var(--orange-soft); }
+  .job-source-box strong { color:var(--orange-dark); font-size:.7rem; text-transform:uppercase; }
+  .job-source-box p { margin:.4rem 0 0; color:#6c625c; font-size:.7rem; line-height:1.55; }
+  .similar-jobs { background:#f2f1ed; }
+  .similar-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
+  .similar-heading .section-eyebrow { margin-bottom:.35rem; }
+  .similar-heading h2 { margin:0; font-size:clamp(1.8rem,4vw,2.8rem); }
+  .similar-heading > a { color:var(--blue); font-size:.8rem; font-weight:750; }
+  @media (min-width:900px) { .job-hero-grid { grid-template-columns:minmax(0,1fr) 20rem; align-items:end; } }
+  @media (max-width:639px) { .similar-heading { align-items:flex-start; flex-direction:column; } }
+</style>

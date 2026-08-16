@@ -6,7 +6,7 @@ Hustle & Rise is a static Astro 7 website. Astro's Content Layer validates Markd
 
 The site deliberately has no client framework. JavaScript is limited to interactions that require it.
 
-The Supabase schema, typed clients, and Remotive importer are versioned, but the site is not linked to a remote Supabase project. The public Jobs route remains an honest placeholder until the jobs frontend and deployment schedule are configured.
+The Supabase schema, typed clients, Remotive importer, and jobs frontend are versioned, but the site is not linked to a remote Supabase project. Production environment values and the deployment schedule still need to be configured once hosting is chosen.
 
 ## Source of truth
 
@@ -17,6 +17,8 @@ The Supabase schema, typed clients, and Remotive importer are versioned, but the
 - `src/lib/supabase/public.ts`: optional browser-safe, RLS-limited client
 - `src/lib/supabase/admin.server.ts`: trusted import/admin client; never browser-safe
 - `src/lib/supabase/database.types.ts`: current checked-in database contract
+- `src/lib/jobs/queries.server.ts`: build-time active and historical job queries
+- `src/pages/jobs/`: searchable job index and generated job detail pages
 - `src/layouts/BaseLayout.astro`: shared document structure
 - `supabase/migrations/`: reproducible PostgreSQL schema and security policies
 

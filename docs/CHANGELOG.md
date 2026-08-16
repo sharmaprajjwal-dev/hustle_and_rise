@@ -43,3 +43,10 @@
 - Added the permitted Remotive public API with required source attribution and plain-text descriptions.
 - Added audited import runs, expired/stale deactivation safeguards, and same-source concurrency protection.
 - Added a read-only live dry run, automated failure-path tests, and owner documentation; scheduling remains deferred until hosting is chosen.
+
+## Checkpoint 4 — Jobs browsing experience
+
+- Added a responsive jobs index backed by active Supabase records, with keyword, location, type, category, remote, and date filters.
+- Added accessible result counts, URL-backed filters, a deliberate show-more pattern, and honest empty states.
+- Added static job detail pages with safe external applications, source attribution, structured job metadata, related resources, and similar roles.
+- Added graceful closed-job pages while keeping inactive records unavailable from the public database API.
