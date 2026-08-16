@@ -21,6 +21,8 @@ The Supabase schema, typed clients, Remotive importer, and jobs frontend are ver
 - `src/lib/supabase/database.types.ts`: current checked-in database contract
 - `src/lib/jobs/queries.server.ts`: build-time active and historical job queries
 - `src/pages/jobs/`: searchable job index and generated job detail pages
+- `src/pages/sitemap.xml.ts`: canonical sitemap built from static, editorial, training, and active-job routes
+- `scripts/audit-site.mjs`: post-build SEO and accessibility contract checks
 - `src/layouts/BaseLayout.astro`: shared document structure
 - `supabase/migrations/`: reproducible PostgreSQL schema and security policies
 

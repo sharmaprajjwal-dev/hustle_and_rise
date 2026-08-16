@@ -58,3 +58,12 @@
 - Added a filterable editorial library, breadcrumbs, related guides, and four focused launch articles.
 - Moved unsupported legacy income articles to draft status instead of publishing unverified claims.
 - Added an owner-editable training collection, catalogue, class template, and clearly labelled planned 20-Day Photoshop Class.
+
+## Checkpoint 6 — SEO, performance, and accessibility
+
+- Added consistent trailing-slash canonicals, default social metadata, Organization/WebSite/Article/Course schemas, and eligibility-gated JobPosting data.
+- Added an original social preview image and moved font loading out of blocking CSS imports with connection hints.
+- Rebuilt the sitemap from published articles, classes, and active jobs with accurate modification dates; simplified robots directives and refreshed RSS metadata.
+- Added noindex handling and a useful accessible 404 page, semantic filter states, safer external-link labels, improved copy feedback, and stronger text contrast.
+- Replaced inaccurate legacy privacy and terms copy and added dedicated disclaimer and affiliate-disclosure pages.
+- Added a generated-site audit for metadata, headings, landmarks, image alternatives, new-tab safety, and JSON-LD validity.

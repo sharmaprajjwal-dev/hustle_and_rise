@@ -14,7 +14,17 @@ const ctaLabel = canEnrol ? "Enrol now" : course.data.status === "planned" ? "Re
 ---
 
 <BaseLayout title={`${course.data.title} | Hustle & Rise Training`} description={course.data.description} image={course.data.heroImage}>
-  <section class="course-hero"><div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><nav aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/training">Training</a><span>/</span><span>{course.data.title}</span></nav><div class="course-hero-grid"><div data-reveal><p class="section-eyebrow">{course.data.category}</p><h1>{course.data.title}</h1><p>{course.data.description}</p><div class="course-tags"><span>{statusLabel}</span><span>{course.data.duration}</span><span>{course.data.skillLevel}</span><span>{course.data.deliveryMode}</span></div></div><aside data-reveal="delay-1"><strong>{course.data.price ?? "Price to be confirmed"}</strong><p>{course.data.schedule ?? "Schedule to be announced"}</p><a class="btn-electric" href={course.data.enrolmentUrl ?? "/contact"}>{ctaLabel} →</a><small>We will confirm dates, delivery details, and any cost before enrolment.</small></aside></div></div></section>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.data.title,
+    description: course.data.description,
+    provider: { "@id": "https://hustleandrise.com/#organization" },
+    educationalLevel: course.data.skillLevel,
+    inLanguage: "en-NZ",
+    url: Astro.url.href,
+  })} />
+  <section class="course-hero"><div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><nav aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/training">Training</a><span aria-hidden="true">/</span><span aria-current="page">{course.data.title}</span></nav><div class="course-hero-grid"><div data-reveal><p class="section-eyebrow">{course.data.category}</p><h1>{course.data.title}</h1><p>{course.data.description}</p><div class="course-tags"><span>{statusLabel}</span><span>{course.data.duration}</span><span>{course.data.skillLevel}</span><span>{course.data.deliveryMode}</span></div></div><aside data-reveal="delay-1"><strong>{course.data.price ?? "Price to be confirmed"}</strong><p>{course.data.schedule ?? "Schedule to be announced"}</p><a class="btn-electric" href={course.data.enrolmentUrl ?? "/contact"}>{ctaLabel} →</a><small>We will confirm dates, delivery details, and any cost before enrolment.</small></aside></div></div></section>
   <section class="course-body"><div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:px-8 lg:py-20"><article class="prose prose-lg max-w-none prose-headings:font-brand prose-headings:font-extrabold prose-headings:text-[#172033] prose-p:text-[#566071] prose-p:leading-8 prose-li:text-[#566071]"><Content /></article><aside class="course-facts"><h2>What you’ll work toward</h2><ul>{course.data.outcomes.map((outcome) => <li>{outcome}</li>)}</ul><h2>What you’ll need</h2><ul>{course.data.requirements.map((requirement) => <li>{requirement}</li>)}</ul><a class="btn-outline-electric" href="/career">Explore career guidance</a></aside></div></section>
 </BaseLayout>
 

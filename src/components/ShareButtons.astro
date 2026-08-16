@@ -42,10 +42,10 @@ const socialLinks = [
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Share on ${link.label}`}
+      aria-label={`Share on ${link.label} (opens in a new tab)`}
       class="share-btn group flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#4d5669] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#5b5ce2] hover:text-[#5b5ce2]"
     >
-      <svg width="16" height="16" set:html={link.svg} />
+      <svg width="16" height="16" aria-hidden="true" set:html={link.svg} />
     </a>
   ))}
 
@@ -57,7 +57,7 @@ const socialLinks = [
   aria-label="Copy link"
   class="share-btn group flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#4d5669] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#5b5ce2] hover:text-[#5b5ce2]"
 >
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="16" height="16" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
     </svg>
@@ -76,10 +76,10 @@ const socialLinks = [
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Share on ${link.label}`}
+          aria-label={`Share on ${link.label} (opens in a new tab)`}
           class="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-[#4d5669] transition-all hover:border-[#5b5ce2] hover:text-[#5b5ce2]"
         >
-          <svg width="14" height="14" set:html={link.svg} />
+          <svg width="14" height="14" aria-hidden="true" set:html={link.svg} />
         </a>
       ))}
       <!-- Copy Link Button -->
@@ -90,7 +90,7 @@ const socialLinks = [
   aria-label="Copy link"
   class="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-[#4d5669] transition-all hover:border-[#5b5ce2] hover:text-[#5b5ce2]"
 >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
         </svg>
@@ -98,25 +98,12 @@ const socialLinks = [
     </div>
   </div>
 </div>
+<p id="share-status" class="sr-only" role="status" aria-live="polite"></p>
 
 <script is:inline>
   async function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-      return;
-    }
-
-    // Fallback for browsers where clipboard API is unavailable
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.left = "-9999px";
-    textArea.style.top = "-9999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    document.execCommand("copy");
-    textArea.remove();
+    if (!navigator.clipboard) throw new Error("Clipboard API unavailable");
+    await navigator.clipboard.writeText(text);
   }
 
   function attachCopyHandler(buttonId, successIcon) {
@@ -131,13 +118,19 @@ const socialLinks = [
 
       try {
         await copyText(copyUrl);
+        button.setAttribute("aria-label", "Link copied");
+        const status = document.getElementById("share-status");
+        if (status) status.textContent = "Article link copied to clipboard.";
         button.innerHTML = successIcon;
 
         setTimeout(() => {
           button.innerHTML = original;
+          button.setAttribute("aria-label", "Copy link");
+          if (status) status.textContent = "";
         }, 2000);
-      } catch (err) {
-        console.error("Copy failed:", err);
+      } catch {
+        const status = document.getElementById("share-status");
+        if (status) status.textContent = "Copying is not supported in this browser.";
       }
     });
   }

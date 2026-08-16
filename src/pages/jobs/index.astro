@@ -33,7 +33,7 @@ const label = (value: string) => value.replaceAll("-", " ").replace(/\b\w/g, (le
     <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       {jobs.length > 0 ? (
         <>
-          <form class="jobs-filters" id="job-filters" role="search">
+          <form class="jobs-filters" id="job-filters" role="search" aria-controls="jobs-grid">
             <div class="filter-field filter-search">
               <label for="job-keyword">Search jobs</label>
               <input id="job-keyword" name="q" type="search" placeholder="Job title, company or keyword" autocomplete="off" />

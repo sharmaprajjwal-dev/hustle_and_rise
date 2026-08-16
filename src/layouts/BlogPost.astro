@@ -28,11 +28,24 @@ const formattedDate = new Date(pubDate).toLocaleDateString("en-NZ", { year: "num
 const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" }) : null;
 ---
 
-<BaseLayout title={seoTitle ?? `${title} | Hustle & Rise`} description={seoDescription ?? description} image={heroImage}>
+<BaseLayout title={seoTitle ?? `${title} | Hustle & Rise`} description={seoDescription ?? description} image={heroImage} imageAlt={heroImage ? title : undefined} pageType="article">
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: seoDescription ?? description,
+    datePublished: pubDate,
+    dateModified: updatedDate ?? pubDate,
+    author: { "@type": "Organization", name: author },
+    publisher: { "@id": "https://hustleandrise.com/#organization" },
+    mainEntityOfPage: Astro.url.href,
+    image: heroImage ? new URL(heroImage, Astro.site ?? "https://hustleandrise.com").toString() : new URL("/og.png", Astro.site ?? "https://hustleandrise.com").toString(),
+    inLanguage: "en-NZ",
+  })} />
   <section class="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
     <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-5xl text-center" data-reveal>
-      <nav class="mb-5 flex items-center justify-center gap-2 text-xs text-[#7a8292]" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href={sectionMeta.href}>{sectionMeta.label}</a><span>/</span><span aria-current="page">{category}</span></nav>
+      <nav class="mb-5 flex items-center justify-center gap-2 text-xs text-[#7a8292]" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={sectionMeta.href}>{sectionMeta.label}</a><span aria-hidden="true">/</span><span aria-current="page">{category}</span></nav>
       <span class="category-badge">{category}</span>
       <h1 class="mx-auto mt-6 max-w-5xl font-brand text-4xl font-extrabold leading-[1.06] tracking-[-0.06em] sm:text-5xl lg:text-6xl">{title}</h1>
       <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#687081]">{description}</p>

@@ -7,13 +7,24 @@ export interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
+  pageType?: "website" | "article";
 }
 
-const { title, description = site.description, image, noindex = false } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? site.domain);
-const socialImage = image ? new URL(image, Astro.site ?? site.domain) : null;
+const { title, description = site.description, image = "/og.png", imageAlt = "Hustle & Rise — Find Work. Build Skills. Earn More.", noindex = false, pageType = "website" } = Astro.props;
+const rawPath = Astro.url.pathname;
+const canonicalPath = rawPath === "/" || rawPath.endsWith("/") || rawPath.includes(".") ? rawPath : `${rawPath}/`;
+const canonicalURL = new URL(canonicalPath, Astro.site ?? site.domain);
+const socialImage = new URL(image, Astro.site ?? site.domain);
 const currentPath = Astro.url.pathname;
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": `${site.domain}/#organization`, name: site.name, url: site.domain, logo: new URL("/favicon.svg", site.domain).toString(), email: site.email },
+    { "@type": "WebSite", "@id": `${site.domain}/#website`, url: site.domain, name: site.name, description: site.description, publisher: { "@id": `${site.domain}/#organization` }, inLanguage: "en-NZ" },
+  ],
+};
 ---
 
 <!doctype html>
@@ -22,22 +33,33 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fbfaf7" />
+    <meta name="color-scheme" content="light" />
+    <meta name="author" content="Hustle & Rise" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    {socialImage && <meta property="og:image" content={socialImage} />}
-    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -112,7 +134,7 @@ const currentPath = Astro.url.pathname;
                 <Logo size="h-12 w-12" />
                 <span class="font-brand font-extrabold tracking-[-0.03em]">Hustle & Rise</span>
               </a>
-              <p class="max-w-md text-sm leading-relaxed text-white/58">{site.description}</p>
+              <p class="max-w-md text-sm leading-relaxed text-white/70">{site.description}</p>
               <p class="mt-5 text-sm font-semibold text-[#ff9a73]">{site.tagline}</p>
             </div>
 
@@ -136,12 +158,14 @@ const currentPath = Astro.url.pathname;
                   <li><a href="/contact">Contact</a></li>
                   <li><a href="/privacy">Privacy</a></li>
                   <li><a href="/terms">Terms</a></li>
+                  <li><a href="/disclaimer">Disclaimer</a></li>
+                  <li><a href="/affiliate-disclosure">Affiliate disclosure</a></li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 pt-7 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-col gap-3 pt-7 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between">
             <p>&copy; {new Date().getFullYear()} Hustle & Rise. All rights reserved.</p>
             <p>General career and earning guidance—not financial or legal advice.</p>
           </div>

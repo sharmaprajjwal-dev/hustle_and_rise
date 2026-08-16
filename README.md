@@ -60,7 +60,10 @@ Open the local address Astro prints in the terminal. Before committing a change,
 ```bash
 npm run check
 npm run build
+npm run audit:site
 ```
+
+The site audit checks generated pages for unique titles and canonicals, metadata, one primary heading, landmarks, image alternatives, safe external links, valid structured data, and 404 indexing protection.
 
 ## Common edits
 

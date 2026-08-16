@@ -1,59 +1,40 @@
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
+import { site } from "../config/site";
+import { getActiveJobs } from "../lib/jobs/queries.server";
+
+type SitemapEntry = { path: string; lastmod?: Date | string | null };
+
+const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, (character) => ({
+  "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;",
+})[character] ?? character);
 
 export async function GET() {
-  const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
-  
-  // Base URL - change this to your domain
-  const SITE_URL = 'https://hustleandrise.com';
-  
-  // Static pages
-  const staticPages = [
-    { url: '', lastmod: new Date().toISOString().split('T')[0], priority: '1.0' },
-    { url: 'blog', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
-    { url: 'jobs', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
-    { url: 'interview', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
-    { url: 'career', lastmod: new Date().toISOString().split('T')[0], priority: '0.9' },
-    { url: 'training', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
-    { url: 'side-hustles', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
-    { url: 'tools', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
-    { url: 'about', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
-    { url: 'contact', lastmod: new Date().toISOString().split('T')[0], priority: '0.8' },
-    { url: 'privacy', lastmod: new Date().toISOString().split('T')[0], priority: '0.5' },
-    { url: 'terms', lastmod: new Date().toISOString().split('T')[0], priority: '0.5' },
-  ];
-  
-  // Blog posts
-  const blogUrls = blogPosts
-    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
-    .map((post) => ({
-      url: `blog/${post.id}`,
-      lastmod: post.data.updatedDate 
-        ? new Date(post.data.updatedDate).toISOString().split('T')[0]
-        : new Date(post.data.pubDate).toISOString().split('T')[0],
-      priority: '0.8',
-    }));
-  
-  const allPages = [...staticPages, ...blogUrls];
-  
+  const [posts, courses, jobs] = await Promise.all([
+    getCollection("blog", ({ data }) => !data.draft),
+    getCollection("training", ({ data }) => !data.draft),
+    getActiveJobs(),
+  ]);
+
+  const entries: SitemapEntry[] = [
+    "", "about", "blog", "career", "contact", "disclaimer", "affiliate-disclosure", "interview", "jobs", "privacy", "side-hustles", "terms", "tools", "training",
+  ].map((path) => ({ path }));
+
+  entries.push(
+    ...posts.map((post) => ({ path: `blog/${post.id}`, lastmod: post.data.updatedDate ?? post.data.pubDate })),
+    ...courses.map((course) => ({ path: `training/${course.id}` })),
+    ...jobs.filter((job) => job.slug).map((job) => ({ path: `jobs/${job.slug}`, lastmod: job.updated_at })),
+  );
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allPages
-  .map(
-    (page) => `
-  <url>
-    <loc>${SITE_URL}/${page.url}</loc>
-    <lastmod>${page.lastmod}</lastmod>
-    <priority>${page.priority}</priority>
-  </url>
-`.trim()
-  )
-  .join('\n')}
+${entries.map(({ path, lastmod }) => {
+  const url = new URL(path ? `/${path}/` : "/", site.domain).toString();
+  const modified = lastmod ? `\n    <lastmod>${new Date(lastmod).toISOString()}</lastmod>` : "";
+  return `  <url>\n    <loc>${escapeXml(url)}</loc>${modified}\n  </url>`;
+}).join("\n")}
 </urlset>`;
 
   return new Response(sitemap, {
-    headers: {
-      'Content-Type': 'application/xml',
-      'Cache-Control': 'public, max-age=3600',
-    },
+    headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" },
   });
 }

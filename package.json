@@ -18,7 +18,8 @@
     "db:lint": "supabase db lint --local",
     "jobs:import": "tsx scripts/import-jobs.ts",
     "jobs:import:dry": "tsx scripts/import-jobs.ts --dry-run",
-    "test": "tsx --test tests/**/*.test.ts"
+    "test": "tsx --test tests/**/*.test.ts",
+    "audit:site": "node scripts/audit-site.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

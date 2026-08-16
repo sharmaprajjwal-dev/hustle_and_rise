@@ -1,12 +1,4 @@
-# Hustle & Rise - Robots.txt
-# Allow Google and all search engines to crawl the entire site
-
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /.netlify/
-Disallow: /.astro/
-Disallow: /node_modules/
 
-# Sitemap location
 Sitemap: https://hustleandrise.com/sitemap.xml
