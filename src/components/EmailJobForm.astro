@@ -1,0 +1,73 @@
+---
+interface Props {
+  jobSlug: string;
+  jobTitle: string;
+}
+
+const { jobSlug, jobTitle } = Astro.props;
+---
+
+<details class="email-job">
+  <summary data-analytics-event="email_job_open">Email me this job <span aria-hidden="true">＋</span></summary>
+  <form data-email-job-form data-job-slug={jobSlug} data-job-title={jobTitle}>
+    <label for={`email-job-${jobSlug}`}>Email address</label>
+    <div class="email-job-row"><input id={`email-job-${jobSlug}`} name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" maxlength="254" required /><button type="submit">Send job</button></div>
+    <label class="email-job-trap" aria-hidden="true">Website<input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+    <p class="email-job-note">One-time email only. This will not subscribe you to a newsletter.</p>
+    <p class="email-job-status" role="status" aria-live="polite"></p>
+  </form>
+</details>
+
+<script>
+  import { getPublicSupabaseClient } from "../lib/supabase/public";
+
+  document.querySelectorAll<HTMLFormElement>("[data-email-job-form]").forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>(".email-job-status");
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const values = new FormData(form);
+      const client = getPublicSupabaseClient();
+      if (!status || !button) return;
+      if (!client) {
+        status.classList.add("is-error");
+        status.textContent = "Email delivery is not configured yet.";
+        return;
+      }
+      status.className = "email-job-status";
+      status.textContent = "Sending…";
+      button.disabled = true;
+      const { data, error } = await client.functions.invoke("email-job", {
+        body: { email: values.get("email"), website: values.get("website"), jobSlug: form.dataset.jobSlug },
+      });
+      button.disabled = false;
+      if (error || !data?.ok) {
+        status.classList.add("is-error");
+        status.textContent = data?.error ?? "We could not send that email. Please try again.";
+        return;
+      }
+      status.classList.add("is-success");
+      status.textContent = "Sent. Check your inbox for the job link.";
+      form.reset();
+      window.dispatchEvent(new CustomEvent("hustle:analytics", { detail: { event: "email_job_sent" } }));
+    });
+  });
+</script>
+
+<style>
+  .email-job { border-top:1px solid var(--line); padding-top:.85rem; }
+  .email-job summary { display:flex; min-height:2.6rem; align-items:center; justify-content:space-between; color:var(--blue); font-size:.78rem; font-weight:800; cursor:pointer; list-style:none; }
+  .email-job summary::-webkit-details-marker { display:none; }
+  .email-job[open] summary span { transform:rotate(45deg); }
+  .email-job summary span { transition:transform .2s ease; }
+  .email-job form { display:grid; gap:.5rem; padding-top:.65rem; }
+  .email-job label { color:#687182; font-size:.66rem; font-weight:750; text-transform:uppercase; }
+  .email-job-row { display:grid; grid-template-columns:minmax(0,1fr) auto; }
+  .email-job-row input { min-width:0; min-height:2.7rem; padding:.65rem .75rem; border:1px solid var(--line); border-right:0; border-radius:.75rem 0 0 .75rem; background:#fbfaf7; font:inherit; font-size:.76rem; }
+  .email-job-row button { padding:0 .85rem; border:0; border-radius:0 .75rem .75rem 0; background:var(--blue); color:#fff; font:inherit; font-size:.7rem; font-weight:800; cursor:pointer; }
+  .email-job-row button:disabled { cursor:wait; opacity:.65; }
+  .email-job-note,.email-job-status { margin:0; color:#7b8290; font-size:.64rem; line-height:1.45; }
+  .email-job-status.is-error { color:#a43e25; }
+  .email-job-status.is-success { color:#14746f; font-weight:700; }
+  .email-job-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+</style>

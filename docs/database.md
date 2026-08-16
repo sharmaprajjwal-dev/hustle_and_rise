@@ -7,8 +7,11 @@ The project provides a reproducible database foundation and server-side importer
 - `job_sources`: approved providers, attribution, activation state, and last successful sync time
 - `jobs`: normalized listings with source identity, public fields, lifecycle timestamps, and `(source, external_job_id)` duplicate protection
 - `job_import_runs`: internal importer outcomes and counters; never readable through the public client
+- `email_job_requests`: private, short-lived one-time-email audit records containing keyed hashes rather than plain recipient addresses
 
 The public database roles can select only active sources and jobs where `is_active` is true and `expires_at` has not passed. They receive no insert, update, or delete grants. The trusted server key bypasses Row Level Security and must be restricted to import or administration environments.
+
+`email_job_requests` has no public policies or grants. Only the trusted `email-job` Edge Function can create and update its audit records. See `docs/email.md` for the Sender.net boundary and production checklist.
 
 ## Keys and environment variables
 

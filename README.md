@@ -15,8 +15,9 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
 - ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support
 - ✅ Phase 2: device-local saved jobs plus advanced job sorting, salary, remote, and saved-only discovery controls
+- ✅ Phase 2 ready: inactive-by-default Sender.net job-email form, private audit migration, and secure Supabase Edge Function
 - 📝 Planned: production hosting, scheduled imports, real ad/product account configuration, and an analytics provider
-- 📝 Planned for later: Sender.net transactional job emails and newsletter, accounts, alerts, and interactive calculators
+- 📝 Planned for later: Sender.net newsletter, accounts, alerts, and interactive calculators
 
 Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
 

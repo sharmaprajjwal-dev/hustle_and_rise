@@ -96,3 +96,10 @@
 - Added newest, oldest, job-title, and company sorting while preserving URL-backed filter state.
 - Added salary-disclosed and device-local saved-only filters alongside the existing keyword, location, category, type, date, and remote controls.
 - Documented Sender.net as the selected but unconfigured email provider, with a server-only integration boundary and domain-authentication checklist.
+
+## Phase 2 — Transactional job email foundation
+
+- Added an inactive-by-default “Email me this job” form for active job pages.
+- Added a Supabase Edge Function that validates requests, retrieves current jobs, applies email/network request limits, and sends one-time messages through Sender.net.
+- Added a private RLS-protected audit table using keyed hashes instead of stored plain email or network addresses, with 30-day opportunistic cleanup.
+- Kept newsletter consent separate and unimplemented; a one-time job request never creates a marketing subscription.

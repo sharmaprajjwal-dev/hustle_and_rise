@@ -36,6 +36,7 @@ export default defineConfig({
         optional: true,
         min: 20,
       }),
+      PUBLIC_EMAIL_JOB_ENABLED: envField.boolean({ context: "client", access: "public", default: false }),
       PUBLIC_GOOGLE_SITE_VERIFICATION: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_AD_PROVIDER: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_ADS_PREVIEW: envField.string({ context: "client", access: "public", optional: true }),

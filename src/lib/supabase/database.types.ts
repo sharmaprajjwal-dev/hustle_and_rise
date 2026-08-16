@@ -3,6 +3,50 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      email_job_requests: {
+        Row: {
+          email_hash: string;
+          error_code: string | null;
+          id: string;
+          ip_hash: string;
+          job_id: string;
+          provider_message_id: string | null;
+          requested_at: string;
+          sent_at: string | null;
+          status: string;
+        };
+        Insert: {
+          email_hash: string;
+          error_code?: string | null;
+          id?: string;
+          ip_hash: string;
+          job_id: string;
+          provider_message_id?: string | null;
+          requested_at?: string;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Update: {
+          email_hash?: string;
+          error_code?: string | null;
+          id?: string;
+          ip_hash?: string;
+          job_id?: string;
+          provider_message_id?: string | null;
+          requested_at?: string;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "email_job_requests_job_id_fkey";
+            columns: ["job_id"];
+            isOneToOne: false;
+            referencedRelation: "jobs";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       job_import_runs: {
         Row: {
           created_at: string;
@@ -206,3 +250,4 @@ export type JobInsert = Database["public"]["Tables"]["jobs"]["Insert"];
 export type JobUpdate = Database["public"]["Tables"]["jobs"]["Update"];
 export type JobSource = Database["public"]["Tables"]["job_sources"]["Row"];
 export type JobImportRun = Database["public"]["Tables"]["job_import_runs"]["Row"];
+export type EmailJobRequest = Database["public"]["Tables"]["email_job_requests"]["Row"];

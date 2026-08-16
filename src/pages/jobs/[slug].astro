@@ -5,6 +5,8 @@ import { formatJobType, formatPostedDate, formatSalary, getJobsForStaticPages } 
 import { site } from "../../config/site";
 import { getPostsForJobCategory, getPublishedPosts } from "../../lib/content/editorial";
 import SaveJobButton from "../../components/SaveJobButton.astro";
+import EmailJobForm from "../../components/EmailJobForm.astro";
+import { PUBLIC_EMAIL_JOB_ENABLED } from "astro:env/client";
 
 export async function getStaticPaths() {
   const jobs = await getJobsForStaticPages();
@@ -46,6 +48,8 @@ const structuredData = {
   url: new URL(`/jobs/${job.slug}/`, Astro.site ?? site.domain).toString(),
 };
 const eligibleForStructuredData = available && Boolean(job.description && job.published_at && job.company && job.location);
+const jobSlug = job.slug ?? "";
+const emailJobEnabled = available && PUBLIC_EMAIL_JOB_ENABLED && Boolean(jobSlug);
 ---
 
 <BaseLayout title={`${job.title}${job.company ? ` at ${job.company}` : ""} | Hustle & Rise`} description={pageDescription}>
@@ -68,7 +72,7 @@ const eligibleForStructuredData = available && Boolean(job.description && job.pu
         </div>
         <aside class:list={["apply-panel", !available && "is-unavailable"]} data-reveal="delay-1">
           {available ? (
-            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a>{job.slug && <SaveJobButton slug={job.slug} title={job.title} variant="panel" />}<p class="source-note">Save it on this device or apply on the original listing. Always verify details before sharing personal information.</p></>
+            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a>{job.slug && <SaveJobButton slug={job.slug} title={job.title} variant="panel" />}{emailJobEnabled && <EmailJobForm jobSlug={jobSlug} jobTitle={job.title} />}<p class="source-note">Save it on this device or apply on the original listing. Always verify details before sharing personal information.</p></>
           ) : (
             <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/jobs">Browse current jobs</a></>
           )}

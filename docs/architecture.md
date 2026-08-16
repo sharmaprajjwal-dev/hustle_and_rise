@@ -62,4 +62,4 @@ Phase 2 starts with an explicitly device-local shortlist. The browser stores onl
 
 ## Email boundary
 
-Sender.net is the selected email provider but remains unconfigured. Future newsletter subscription and transactional “email this job” requests must pass through trusted server endpoints; the Sender.net API token must never enter browser code or a `PUBLIC_` environment variable. Domain authentication, consent handling, rate limiting, and production secrets remain deployment tasks. See `docs/email.md`.
+Sender.net is the selected email provider but remains unconfigured. The transactional “email this job” path uses a Supabase Edge Function with input validation, keyed audit hashes, request limits, short retention, and generic public errors. The form remains absent unless `PUBLIC_EMAIL_JOB_ENABLED` is enabled at build time. The Sender.net API token must never enter browser code or a `PUBLIC_` environment variable. Domain authentication and production secrets remain deployment tasks. Newsletter consent stays separate and is not implemented. See `docs/email.md`.
