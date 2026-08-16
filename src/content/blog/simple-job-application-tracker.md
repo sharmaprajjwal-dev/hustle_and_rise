@@ -10,6 +10,7 @@ tags: ["job search", "organisation", "tools"]
 featured: false
 relatedJobCategories: []
 relatedPosts: ["first-job-cv-guide"]
+product: "job-tracker"
 ---
 
 A useful application tracker answers three questions quickly: What have I applied for? What needs action next? What am I learning from the results?

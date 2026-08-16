@@ -67,3 +67,10 @@
 - Added noindex handling and a useful accessible 404 page, semantic filter states, safer external-link labels, improved copy feedback, and stronger text contrast.
 - Replaced inaccurate legacy privacy and terms copy and added dedicated disclaimer and affiliate-disclosure pages.
 - Added a generated-site audit for metadata, headings, landmarks, image alternatives, new-tab safety, and JSON-LD validity.
+
+## Checkpoint 7 — Monetisation readiness
+
+- Added reusable, clearly labelled job-list and article ad slots with an AdSense adapter that stays inactive until valid environment configuration exists.
+- Added article-selected digital-product CTAs for the interview workbook and job tracker; no checkout URLs are fabricated or active by default.
+- Added provider-neutral analytics events for application clicks, filter usage, product clicks, and contact email clicks without loading an analytics service or collecting search text.
+- Added optional Search Console verification metadata, safe local preview modes, and an owner guide for enabling, disabling, moving, and testing placements.

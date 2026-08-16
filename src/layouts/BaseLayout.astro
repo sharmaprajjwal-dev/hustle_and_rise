@@ -1,7 +1,10 @@
 ---
 import "../styles/global.css";
 import Logo from "../components/Logo.astro";
+import AdNetworkLoader from "../components/AdNetworkLoader.astro";
+import AnalyticsHooks from "../components/AnalyticsHooks.astro";
 import { navigation, site } from "../config/site";
+import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 
 export interface Props {
   title: string;
@@ -35,6 +38,7 @@ const websiteSchema = {
     <meta name="theme-color" content="#fbfaf7" />
     <meta name="color-scheme" content="light" />
     <meta name="author" content="Hustle & Rise" />
+    {PUBLIC_GOOGLE_SITE_VERIFICATION && <meta name="google-site-verification" content={PUBLIC_GOOGLE_SITE_VERIFICATION} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,6 +64,7 @@ const websiteSchema = {
     <meta name="twitter:image" content={socialImage} />
     <meta name="twitter:image:alt" content={imageAlt} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <AdNetworkLoader />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -216,5 +221,6 @@ const websiteSchema = {
         revealItems.forEach((item) => item.classList.add("is-visible"));
       }
     </script>
+    <AnalyticsHooks />
   </body>
 </html>

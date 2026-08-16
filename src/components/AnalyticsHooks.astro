@@ -1,0 +1,26 @@
+<script>
+  type AnalyticsDetail = Record<string, string> & { event: string };
+
+  const emit = (detail: AnalyticsDetail) => {
+    window.dispatchEvent(new CustomEvent("hustle:analytics", { detail }));
+    const dataLayer = (window as Window & { dataLayer?: AnalyticsDetail[] }).dataLayer;
+    if (Array.isArray(dataLayer)) dataLayer.push(detail);
+  };
+
+  document.addEventListener("click", (event) => {
+    const element = (event.target as Element | null)?.closest<HTMLElement>("[data-analytics-event]");
+    if (!element?.dataset.analyticsEvent) return;
+    const detail: AnalyticsDetail = { event: element.dataset.analyticsEvent };
+    for (const [key, value] of Object.entries(element.dataset)) {
+      if (key.startsWith("analytics") && key !== "analyticsEvent" && value) detail[key] = value;
+    }
+    emit(detail);
+  });
+
+  document.addEventListener("change", (event) => {
+    const control = event.target as HTMLInputElement | HTMLSelectElement | null;
+    const form = control?.closest<HTMLFormElement>("[data-analytics-form]");
+    if (!form || !control?.name) return;
+    emit({ event: form.dataset.analyticsForm ?? "form_filter_used", field: control.name });
+  });
+</script>

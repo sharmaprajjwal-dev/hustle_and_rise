@@ -4,6 +4,9 @@ import ShareButtons from "../components/ShareButtons.astro";
 import HustlerTakeaway from "../components/HustlerTakeaway.astro";
 import FunnelCTA from "../components/FunnelCTA.astro";
 import EditorialCard from "../components/EditorialCard.astro";
+import ArticleAdSlot from "../components/ArticleAdSlot.astro";
+import ProductCTA from "../components/ProductCTA.astro";
+import type { ProductKey } from "../config/monetization";
 import { editorialSections, type EditorialPost, type EditorialSection } from "../lib/content/editorial";
 
 export interface Props {
@@ -20,9 +23,10 @@ export interface Props {
   seoTitle?: string;
   seoDescription?: string;
   relatedPosts?: EditorialPost[];
+  product?: ProductKey;
 }
 
-const { title, description, pubDate, updatedDate, heroImage, category = "Guide", author = "Hustle & Rise Team", readTime = "5 min read", tags = [], section, seoTitle, seoDescription, relatedPosts = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category = "Guide", author = "Hustle & Rise Team", readTime = "5 min read", tags = [], section, seoTitle, seoDescription, relatedPosts = [], product } = Astro.props;
 const sectionMeta = editorialSections[section];
 const formattedDate = new Date(pubDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" });
 const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString("en-NZ", { year: "numeric", month: "long", day: "numeric" }) : null;
@@ -75,6 +79,9 @@ const formattedUpdated = updatedDate ? new Date(updatedDate).toLocaleDateString(
           prose-hr:border-black/10">
           <slot />
         </div>
+
+        {product && <ProductCTA product={product} />}
+        <ArticleAdSlot />
 
         {tags.length > 0 && <div class="mt-12 flex flex-wrap items-center gap-2 border-t border-black/[0.07] pt-7"><span class="mr-1 text-xs font-bold uppercase tracking-[0.12em] text-[#8a91a0]">Tags</span>{tags.map((tag) => <span class="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-[#687081]">{tag}</span>)}</div>}
 

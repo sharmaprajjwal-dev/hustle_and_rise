@@ -12,7 +12,8 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: sectioned editorial publishing, related guides, training classes, RSS, sitemap, and legal pages
 - ✅ Live: validated Remotive imports, job filters, detail pages, structured data, and source attribution
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
-- 📝 Planned: production hosting, scheduled imports, SEO/accessibility review, and monetisation components
+- ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support
+- 📝 Planned: production hosting, scheduled imports, real ad/product account configuration, and an analytics provider
 - 📝 Planned for later: saved jobs, email newsletter, accounts, alerts, and interactive calculators
 
 Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
@@ -121,6 +122,8 @@ SUPABASE_SECRET_KEY                 Server/import-only secret
 ```
 
 Legacy anon and service-role aliases are supported during migration. See `docs/database.md` for setup and security rules.
+
+Optional monetisation values are documented in `docs/monetization.md`. Ads, products, analytics providers, and Search Console verification are not active in the repository by default. Never invent or commit account IDs.
 
 ## Local database
 

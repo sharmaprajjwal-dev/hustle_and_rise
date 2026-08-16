@@ -1,0 +1,33 @@
+---
+import { ads, type AdPlacement } from "../config/monetization";
+
+interface Props {
+  placement: AdPlacement;
+  class?: string;
+}
+
+const { placement, class: className } = Astro.props;
+const slotId = ads.slots[placement];
+const configured = ads.provider === "adsense" && Boolean(ads.clientId && slotId);
+const visible = ads.preview || configured;
+---
+
+{visible && (
+  <aside class:list={["ad-slot", className]} aria-label="Advertisement" data-ad-placement={placement}>
+    <p>Advertisement</p>
+    {configured ? (
+      <>
+        <ins class="adsbygoogle" style="display:block" data-ad-client={ads.clientId} data-ad-slot={slotId} data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </>
+    ) : (
+      <div>Ad layout preview — no advertisement is loaded.</div>
+    )}
+  </aside>
+)}
+
+<style>
+  .ad-slot { clear:both; width:100%; margin-block:2rem; padding:1rem; border:1px solid rgba(23,32,51,.1); border-radius:1.25rem; background:#f7f6f2; text-align:center; }
+  .ad-slot > p { margin:0 0 .65rem; color:#737b8a; font-size:.62rem; font-weight:750; letter-spacing:.12em; text-transform:uppercase; }
+  .ad-slot > div { display:grid; min-height:7rem; place-items:center; border:1px dashed rgba(23,32,51,.2); border-radius:.8rem; color:#737b8a; font-size:.8rem; }
+</style>

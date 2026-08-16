@@ -26,6 +26,7 @@ const blogCollection = defineCollection({
     relatedJobCategories: z.array(z.string()).default([]),
     relatedPosts: z.array(z.string()).default([]),
     authorName: z.string().optional(),
+    product: z.enum(["interview-workbook", "job-tracker"]).optional(),
   }),
 });
 

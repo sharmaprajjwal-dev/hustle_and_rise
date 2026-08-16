@@ -11,6 +11,7 @@ The Supabase schema, typed clients, Remotive importer, and jobs frontend are ver
 ## Source of truth
 
 - `src/config/site.ts`: brand details, primary navigation, and product modules
+- `src/config/monetization.ts`: optional ad placement and digital-product configuration
 - `src/styles/global.css`: colours, fonts, and reusable visual rules
 - `src/content.config.ts`: Markdown loader and article schema
 - `src/content/blog/`: sectioned editorial content
@@ -23,6 +24,8 @@ The Supabase schema, typed clients, Remotive importer, and jobs frontend are ver
 - `src/pages/jobs/`: searchable job index and generated job detail pages
 - `src/pages/sitemap.xml.ts`: canonical sitemap built from static, editorial, training, and active-job routes
 - `scripts/audit-site.mjs`: post-build SEO and accessibility contract checks
+- `src/components/AdSlot.astro`: inactive-by-default, provider-swappable ad boundary
+- `src/components/AnalyticsHooks.astro`: provider-neutral interaction event bridge
 - `src/layouts/BaseLayout.astro`: shared document structure
 - `supabase/migrations/`: reproducible PostgreSQL schema and security policies
 
@@ -46,3 +49,7 @@ The database enforces uniqueness on `(source, external_job_id)`, records import 
 ## Rendering decision
 
 Editorial pages and stable hubs remain static. The jobs rendering approach will be selected after the production hosting target and update-frequency requirements are confirmed.
+
+## Monetisation boundary
+
+AdSense, product checkout URLs, Search Console verification, and any future analytics provider are controlled through public environment configuration. With those values blank, no ad or product UI is rendered and no third-party measurement script is loaded. Preview flags render labelled layout placeholders without contacting external providers. See `docs/monetization.md` for the exact operational state and activation checklist.

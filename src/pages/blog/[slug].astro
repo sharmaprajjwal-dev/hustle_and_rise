@@ -31,6 +31,7 @@ const relatedPosts = getRelatedPosts(post, posts);
   seoTitle={post.data.seoTitle}
   seoDescription={post.data.seoDescription ?? post.data.metaDescription}
   relatedPosts={relatedPosts}
+  product={post.data.product}
 >
   <Content />
 </BlogPost>

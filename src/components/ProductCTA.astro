@@ -1,0 +1,36 @@
+---
+import type { ProductKey } from "../config/monetization";
+import { products } from "../config/monetization";
+
+interface Props { product: ProductKey }
+const { product } = Astro.props;
+const item = products.items[product];
+const visible = products.preview || Boolean(item.url);
+---
+
+{visible && (
+  <aside class="product-cta" aria-labelledby={`product-${product}`}>
+    <div>
+      <p>Hustle & Rise digital resource</p>
+      <h2 id={`product-${product}`}>{item.title}</h2>
+      <span>{item.description}</span>
+    </div>
+    {item.url ? (
+      <a href={item.url} target="_blank" rel="noopener noreferrer" data-analytics-event="product_click" data-analytics-product={product}>
+        {item.cta} <span aria-hidden="true">↗</span>
+      </a>
+    ) : (
+      <span class="product-preview">Product preview — no checkout link configured</span>
+    )}
+  </aside>
+)}
+
+<style>
+  .product-cta { display:flex; align-items:center; justify-content:space-between; gap:1.5rem; margin-top:2.5rem; padding:1.5rem; border:1px solid rgba(91,92,226,.15); border-radius:1.5rem; background:linear-gradient(135deg,#eeeeff,#fff7f1); }
+  .product-cta p { margin:0; color:#5b5ce2; font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+  .product-cta h2 { margin:.4rem 0; font-size:1.25rem; }
+  .product-cta div > span { color:#626b7c; font-size:.86rem; line-height:1.55; }
+  .product-cta a { flex:none; padding:.8rem 1rem; border-radius:999px; background:#172033; color:#fff; font-size:.78rem; font-weight:750; }
+  .product-preview { max-width:12rem; color:#747c8c; font-size:.72rem; text-align:right; }
+  @media (max-width:639px) { .product-cta { align-items:flex-start; flex-direction:column; } .product-preview { max-width:none; text-align:left; } }
+</style>

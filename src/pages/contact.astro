@@ -19,7 +19,7 @@ import { site } from "../config/site";
         <p class="text-xs font-bold uppercase tracking-[0.14em] text-white/65">Email</p>
         <h2 class="mt-4 font-brand text-3xl font-extrabold tracking-[-0.04em] text-white">Start a conversation</h2>
         <p class="mt-4 leading-7 text-white/72">Email is our reliable contact channel while a validated website form is being prepared.</p>
-        <a href={`mailto:${site.email}`} class="mt-8 inline-flex rounded-full bg-white px-5 py-3 text-sm font-bold text-[#4546c9]">{site.email}</a>
+        <a href={`mailto:${site.email}`} class="mt-8 inline-flex rounded-full bg-white px-5 py-3 text-sm font-bold text-[#4546c9]" data-analytics-event="contact_email_click">{site.email}</a>
       </div>
       <div class="p-8 sm:p-12">
         <p class="text-xs font-bold uppercase tracking-[0.14em] text-[#ff6b35]">Helpful details</p>

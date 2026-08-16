@@ -9,6 +9,7 @@ readTime: "6 min read"
 tags: ["interviews", "STAR method", "first job"]
 featured: true
 relatedJobCategories: ["Customer Service", "Sales", "All others"]
+product: "interview-workbook"
 ---
 
 The STAR method helps you turn a real experience into an answer an interviewer can follow. It stands for **Situation, Task, Action, and Result**. The structure matters, but your answer should still sound like you.

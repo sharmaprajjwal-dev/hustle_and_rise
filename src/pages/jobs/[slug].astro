@@ -67,7 +67,7 @@ const eligibleForStructuredData = available && Boolean(job.description && job.pu
         </div>
         <aside class:list={["apply-panel", !available && "is-unavailable"]} data-reveal="delay-1">
           {available ? (
-            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a><button type="button" disabled title="Saved jobs are coming soon">♡ Save job <small>Coming soon</small></button><p class="source-note">You’ll apply on the original listing. Always verify role details before sharing personal information.</p></>
+            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a><button type="button" disabled title="Saved jobs are coming soon">♡ Save job <small>Coming soon</small></button><p class="source-note">You’ll apply on the original listing. Always verify role details before sharing personal information.</p></>
           ) : (
             <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/jobs">Browse current jobs</a></>
           )}
@@ -85,7 +85,7 @@ const eligibleForStructuredData = available && Boolean(job.description && job.pu
         {available && <div class="job-apply-bottom">
           <h2>Ready to take the next step?</h2>
           <p>Review the original listing carefully, then apply directly through {job.sourceName}.</p>
-          <a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`View and apply for ${job.title} on ${job.sourceName} (opens in a new tab)`}>View and apply <span aria-hidden="true">↗</span></a>
+          <a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`View and apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>View and apply <span aria-hidden="true">↗</span></a>
         </div>}
       </article>
       <aside class="job-help" aria-label="Application resources">
