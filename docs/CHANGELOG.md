@@ -75,3 +75,9 @@
 - Added provider-neutral analytics events for application clicks, filter usage, product clicks, and contact email clicks without loading an analytics service or collecting search text.
 - Added optional Search Console verification metadata, safe local preview modes, and an owner guide for enabling, disabling, moving, and testing placements.
 - Promoted the blog to a first-class navigation destination with a featured guide, topic discovery, filtering, editorial-trust links, and a dedicated policy-safe feed ad slot.
+
+## Brand refresh — Hustle & Rise identity
+
+- Replaced the legacy outlined lettermark with an original rising-path brand symbol in the site's navy, cobalt, and tangerine palette.
+- Added optimized header, browser favicon, high-resolution browser icon, and Apple touch-icon assets generated from the same master mark.
+- Updated Organization structured data to reference the new brand icon.

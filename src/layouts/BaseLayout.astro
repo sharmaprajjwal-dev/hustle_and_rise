@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
 const websiteSchema = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": `${site.domain}/#organization`, name: site.name, url: site.domain, logo: new URL("/favicon.svg", site.domain).toString(), email: site.email },
+    { "@type": "Organization", "@id": `${site.domain}/#organization`, name: site.name, url: site.domain, logo: new URL("/icon-192.png", site.domain).toString(), email: site.email },
     { "@type": "WebSite", "@id": `${site.domain}/#website`, url: site.domain, name: site.name, description: site.description, publisher: { "@id": `${site.domain}/#organization` }, inLanguage: "en-NZ" },
   ],
 };
@@ -39,7 +39,9 @@ const websiteSchema = {
     <meta name="color-scheme" content="light" />
     <meta name="author" content="Hustle & Rise" />
     {PUBLIC_GOOGLE_SITE_VERIFICATION && <meta name="google-site-verification" content={PUBLIC_GOOGLE_SITE_VERIFICATION} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" />
