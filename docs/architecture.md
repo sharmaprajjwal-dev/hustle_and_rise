@@ -58,4 +58,8 @@ AdSense, product checkout URLs, Search Console verification, and any future anal
 
 ## Saved jobs
 
-Phase 2 starts with an explicitly device-local shortlist. The browser stores only selected job slugs under a versioned key; it does not send them to Supabase, create an account, or imply cross-device synchronisation. The saved-jobs route is a noindex utility view that filters the currently active build-time job catalogue. Transactional “email this job” delivery remains separate and unconfigured until a real server-side email provider is selected.
+Phase 2 starts with an explicitly device-local shortlist. The browser stores only selected job slugs under a versioned key; it does not send them to Supabase, create an account, or imply cross-device synchronisation. The saved-jobs route is a noindex utility view that filters the currently active build-time job catalogue.
+
+## Email boundary
+
+Sender.net is the selected email provider but remains unconfigured. Future newsletter subscription and transactional “email this job” requests must pass through trusted server endpoints; the Sender.net API token must never enter browser code or a `PUBLIC_` environment variable. Domain authentication, consent handling, rate limiting, and production secrets remain deployment tasks. See `docs/email.md`.

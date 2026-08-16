@@ -90,3 +90,9 @@
 - Added a dedicated saved-jobs shortlist with counts, clear-all behavior, honest empty states, and links back to current opportunities.
 - Added shared header and mobile saved-job counts plus cross-tab synchronisation.
 - Kept the shortlist explicitly device-local and documented its storage in the Privacy Statement; no account, server sync, or email delivery is implied.
+
+## Phase 2 — Advanced job discovery
+
+- Added newest, oldest, job-title, and company sorting while preserving URL-backed filter state.
+- Added salary-disclosed and device-local saved-only filters alongside the existing keyword, location, category, type, date, and remote controls.
+- Documented Sender.net as the selected but unconfigured email provider, with a server-only integration boundary and domain-authentication checklist.

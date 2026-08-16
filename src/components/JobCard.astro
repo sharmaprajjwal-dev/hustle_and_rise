@@ -18,11 +18,15 @@ const searchValue = [job.title, job.company, job.location, job.category, type].f
 <article
   class="job-card"
   data-job-card
+  data-slug={job.slug ?? ""}
   data-search={searchValue}
   data-location={(job.location ?? "").toLowerCase()}
   data-type={(job.job_type ?? "").toLowerCase()}
   data-category={(job.category ?? "").toLowerCase()}
   data-remote={job.remote_type === "remote" ? "true" : "false"}
+  data-salary={salary ? "true" : "false"}
+  data-title={job.title.toLowerCase()}
+  data-company={(job.company ?? "").toLowerCase()}
   data-published={job.published_at ?? ""}
 >
   <div class="job-card-topline">

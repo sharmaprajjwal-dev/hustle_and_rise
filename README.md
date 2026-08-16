@@ -14,9 +14,9 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: validated Remotive imports, job filters, detail pages, structured data, and source attribution
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
 - ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support
-- ✅ Phase 2: device-local saved jobs with card/detail controls, saved-job counts, and a dedicated shortlist page
+- ✅ Phase 2: device-local saved jobs plus advanced job sorting, salary, remote, and saved-only discovery controls
 - 📝 Planned: production hosting, scheduled imports, real ad/product account configuration, and an analytics provider
-- 📝 Planned for later: transactional job emails, email newsletter, accounts, alerts, and interactive calculators
+- 📝 Planned for later: Sender.net transactional job emails and newsletter, accounts, alerts, and interactive calculators
 
 Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
 
@@ -126,6 +126,8 @@ SUPABASE_SECRET_KEY                 Server/import-only secret
 Legacy anon and service-role aliases are supported during migration. See `docs/database.md` for setup and security rules.
 
 Optional monetisation values are documented in `docs/monetization.md`. Ads, products, analytics providers, and Search Console verification are not active in the repository by default. Never invent or commit account IDs.
+
+Sender.net is the selected but unconfigured email provider. See `docs/email.md` for the credential-safe integration plan and owner setup checklist.
 
 ## Local database
 
