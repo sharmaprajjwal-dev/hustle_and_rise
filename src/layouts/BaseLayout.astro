@@ -124,10 +124,11 @@ const websiteSchema = {
         <slot />
       </main>
 
-      <footer class="relative overflow-hidden bg-[#172033] pb-8 pt-16 text-white sm:pt-20">
-        <div class="absolute -right-24 -top-32 h-80 w-80 rounded-full border-[70px] border-white/[0.035]" aria-hidden="true"></div>
+      <footer class="site-footer relative overflow-hidden pb-8 pt-16 text-[#172033] sm:pt-20">
+        <div class="absolute -right-24 -top-28 h-80 w-80 rounded-full bg-[#5b5ce2]/[0.07]" aria-hidden="true"></div>
+        <div class="absolute -bottom-40 -left-32 h-80 w-80 rounded-full bg-[#ff6b35]/[0.06] blur-2xl" aria-hidden="true"></div>
         <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="mb-14 grid gap-8 rounded-[2rem] bg-[#ff6b35] p-7 sm:grid-cols-[1fr_auto] sm:items-center sm:p-10">
+          <div class="footer-cta mb-14 grid gap-8 rounded-[2rem] p-7 sm:grid-cols-[1fr_auto] sm:items-center sm:p-10">
             <div>
               <p class="font-brand text-xs font-bold uppercase tracking-[0.14em] text-white/75">Your next move starts here</p>
               <h2 class="mt-2 max-w-2xl font-brand text-2xl font-bold tracking-[-0.04em] text-white sm:text-3xl">Find clearer pathways to work, skills, and income.</h2>
@@ -135,14 +136,14 @@ const websiteSchema = {
             <a href="/career" class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 font-brand text-sm font-bold text-[#172033] transition-transform hover:-translate-y-1">Explore your pathway <span class="ml-2" aria-hidden="true">→</span></a>
           </div>
 
-          <div class="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.25fr_2fr]">
+          <div class="grid gap-10 border-b border-black/[0.09] pb-12 md:grid-cols-[1.25fr_2fr]">
             <div>
-              <a href="/" class="mb-5 inline-flex items-center gap-3 text-white">
+              <a href="/" class="mb-5 inline-flex items-center gap-3 text-[#172033]">
                 <Logo size="h-12 w-12" />
                 <span class="font-brand font-extrabold tracking-[-0.03em]">Hustle & Rise</span>
               </a>
-              <p class="max-w-md text-sm leading-relaxed text-white/70">{site.description}</p>
-              <p class="mt-5 text-sm font-semibold text-[#ff9a73]">{site.tagline}</p>
+              <p class="max-w-md text-sm leading-relaxed text-[#616a7b]">{site.description}</p>
+              <p class="mt-5 text-sm font-semibold text-[#e95420]">{site.tagline}</p>
             </div>
 
             <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
@@ -172,7 +173,7 @@ const websiteSchema = {
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 pt-7 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-col gap-3 pt-7 text-xs text-[#727a89] sm:flex-row sm:items-center sm:justify-between">
             <p>&copy; {new Date().getFullYear()} Hustle & Rise. All rights reserved.</p>
             <p>General career and earning guidance—not financial or legal advice.</p>
           </div>

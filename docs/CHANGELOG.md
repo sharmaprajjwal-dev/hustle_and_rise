@@ -81,3 +81,4 @@
 - Replaced the legacy outlined lettermark with an original rising-path brand symbol in the site's navy, cobalt, and tangerine palette.
 - Added optimized header, browser favicon, high-resolution browser icon, and Apple touch-icon assets generated from the same master mark.
 - Updated Organization structured data to reference the new brand icon.
+- Reworked the heavy navy footer into a lighter warm editorial surface with a coral-gradient pathway callout, improved link contrast, and subtle brand-colour details.
