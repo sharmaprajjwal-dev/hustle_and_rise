@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatJobType, formatPostedDate, formatSalary, getJobsForStaticPages } from "../../lib/jobs/queries.server";
 import { site } from "../../config/site";
 import { getPostsForJobCategory, getPublishedPosts } from "../../lib/content/editorial";
+import SaveJobButton from "../../components/SaveJobButton.astro";
 
 export async function getStaticPaths() {
   const jobs = await getJobsForStaticPages();
@@ -67,7 +68,7 @@ const eligibleForStructuredData = available && Boolean(job.description && job.pu
         </div>
         <aside class:list={["apply-panel", !available && "is-unavailable"]} data-reveal="delay-1">
           {available ? (
-            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a><button type="button" disabled title="Saved jobs are coming soon">♡ Save job <small>Coming soon</small></button><p class="source-note">You’ll apply on the original listing. Always verify role details before sharing personal information.</p></>
+            <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a>{job.slug && <SaveJobButton slug={job.slug} title={job.title} variant="panel" />}<p class="source-note">Save it on this device or apply on the original listing. Always verify details before sharing personal information.</p></>
           ) : (
             <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/jobs">Browse current jobs</a></>
           )}
@@ -129,8 +130,6 @@ const eligibleForStructuredData = available && Boolean(job.description && job.pu
   .apply-panel { display:flex; flex-direction:column; align-self:start; gap:.9rem; padding:1.4rem; border:1px solid rgba(23,32,51,.09); border-radius:1.5rem; background:rgba(255,255,255,.9); box-shadow:var(--shadow-lg); }
   .apply-panel > p:first-child { margin:0; color:var(--ink); font-family:var(--font-brand); font-weight:750; }
   .apply-panel .btn-electric { width:100%; }
-  .apply-panel button { display:flex; min-height:3rem; align-items:center; justify-content:center; gap:.5rem; border:1px solid var(--line); border-radius:999px; background:#f7f6f2; color:#8a8f99; font:inherit; font-size:.78rem; font-weight:700; }
-  .apply-panel button small { font-size:.62rem; font-weight:600; }
   .source-note { margin:0; color:#7b8290; font-size:.7rem; line-height:1.55; }
   .apply-panel.is-unavailable h2 { margin:0; font-size:1.2rem; }
   .unavailable-icon { display:grid; width:2.5rem; height:2.5rem; place-items:center; border-radius:50%; background:var(--orange-soft); color:var(--orange-dark); font-size:1.2rem; font-weight:800; }

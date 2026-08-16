@@ -3,8 +3,10 @@ import "../styles/global.css";
 import Logo from "../components/Logo.astro";
 import AdNetworkLoader from "../components/AdNetworkLoader.astro";
 import AnalyticsHooks from "../components/AnalyticsHooks.astro";
+import SavedJobsController from "../components/SavedJobsController.astro";
 import { navigation, site } from "../config/site";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
+import { Bookmark } from "@lucide/astro";
 
 export interface Props {
   title: string;
@@ -93,6 +95,9 @@ const websiteSchema = {
             </nav>
 
             <div class="flex items-center gap-2.5">
+              <a href="/saved-jobs" class="hidden min-h-10 items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 text-xs font-bold text-[#596274] transition-colors hover:border-[#5b5ce2]/30 hover:text-[#5b5ce2] xl:inline-flex" aria-label="View saved jobs">
+                <Bookmark size={16} stroke-width={2} /><span>Saved</span><b class="grid min-w-5 place-items-center rounded-full bg-[#eeeeff] px-1 text-[0.65rem] text-[#5b5ce2]" data-saved-jobs-count>0</b>
+              </a>
               <a href="/jobs" class="btn-electric compact hidden sm:inline-flex">Explore opportunities <span aria-hidden="true">↗</span></a>
               <button
                 id="mobile-menu-btn"
@@ -116,6 +121,7 @@ const websiteSchema = {
               </a>
             ))}
             <a href="/about" class="mobile-nav-link">About Hustle & Rise</a>
+            <a href="/saved-jobs" class="mobile-nav-link flex items-center justify-between"><span>Saved jobs</span><b class="grid min-w-6 place-items-center rounded-full bg-[#eeeeff] px-1.5 text-xs text-[#5b5ce2]" data-saved-jobs-count>0</b></a>
           </nav>
         </div>
       </header>
@@ -225,5 +231,6 @@ const websiteSchema = {
       }
     </script>
     <AnalyticsHooks />
+    <SavedJobsController />
   </body>
 </html>

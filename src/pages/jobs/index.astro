@@ -3,6 +3,7 @@ import JobCard from "../../components/JobCard.astro";
 import JobListAdSlot from "../../components/JobListAdSlot.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getActiveJobs } from "../../lib/jobs/queries.server";
+import { Bookmark } from "@lucide/astro";
 
 const jobs = await getActiveJobs();
 const unique = (values: Array<string | null>) => [...new Set(values.filter((value): value is string => Boolean(value)))].sort();
@@ -26,6 +27,7 @@ const label = (value: string) => value.replaceAll("-", " ").replace(/\b\w/g, (le
           <span><i aria-hidden="true"></i> Verified source links</span>
           <span>Updated regularly</span>
         </div>
+        <a class="saved-shortcut" href="/saved-jobs"><Bookmark size={17} stroke-width={2} /><span>View saved jobs</span><b data-saved-jobs-count>0</b></a>
       </div>
     </div>
   </section>
@@ -146,6 +148,9 @@ const label = (value: string) => value.replaceAll("-", " ").replace(/\b\w/g, (le
   .jobs-proof { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; margin-top:2rem; color:#616a7b; font-size:.82rem; font-weight:650; }
   .jobs-proof strong { color:var(--ink); }
   .jobs-proof i { display:inline-block; width:.55rem; height:.55rem; margin-right:.3rem; border-radius:50%; background:var(--aqua); box-shadow:0 0 0 6px rgba(35,185,179,.12); }
+  .saved-shortcut { position:relative; z-index:1; display:inline-flex; min-height:2.7rem; align-items:center; gap:.55rem; margin-top:1.3rem; padding:.6rem .8rem; border:1px solid rgba(91,92,226,.14); border-radius:999px; background:rgba(255,255,255,.78); color:#596274; font-size:.74rem; font-weight:750; transition:border-color .2s ease,transform .2s ease,color .2s ease; }
+  .saved-shortcut:hover { border-color:rgba(91,92,226,.35); color:var(--blue); transform:translateY(-2px); }
+  .saved-shortcut b { display:grid; min-width:1.35rem; min-height:1.35rem; place-items:center; border-radius:999px; background:var(--blue-soft); color:var(--blue); font-size:.65rem; }
   .jobs-orb { position:absolute; z-index:0; border-radius:50%; filter:blur(1px); }
   .jobs-orb-one { right:8%; bottom:-7rem; width:21rem; height:21rem; border:4rem solid rgba(255,107,53,.09); }
   .jobs-orb-two { top:-5rem; right:34%; width:10rem; height:10rem; background:rgba(35,185,179,.08); }

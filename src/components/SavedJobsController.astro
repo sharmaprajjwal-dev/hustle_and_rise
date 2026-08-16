@@ -1,0 +1,47 @@
+<script>
+  import { readSavedJobs, SAVED_JOBS_STORAGE_KEY, writeSavedJobs } from "../lib/saved-jobs";
+
+  const announce = (message: string) => {
+    const region = document.querySelector<HTMLElement>("#saved-jobs-announcer");
+    if (region) region.textContent = message;
+  };
+
+  const render = (slugs = readSavedJobs()) => {
+    const saved = new Set(slugs);
+    document.querySelectorAll<HTMLElement>("[data-saved-jobs-count]").forEach((element) => { element.textContent = String(saved.size); });
+    document.querySelectorAll<HTMLButtonElement>("[data-save-job]").forEach((button) => {
+      const slug = button.dataset.saveJob ?? "";
+      const title = button.dataset.jobTitle ?? "this job";
+      const isSaved = saved.has(slug);
+      button.classList.toggle("is-saved", isSaved);
+      button.setAttribute("aria-pressed", String(isSaved));
+      button.setAttribute("aria-label", isSaved ? `Remove ${title} from saved jobs` : `Save ${title}`);
+      const label = button.querySelector("span");
+      if (label) label.textContent = isSaved ? "Saved" : button.classList.contains("is-panel") ? "Save this job" : "Save";
+    });
+    window.dispatchEvent(new CustomEvent("saved-jobs:changed", { detail: { slugs } }));
+  };
+
+  document.addEventListener("click", (event) => {
+    const clearButton = (event.target as Element | null)?.closest<HTMLButtonElement>("[data-clear-saved-jobs]");
+    if (clearButton) {
+      render(writeSavedJobs([]));
+      announce("All saved jobs were removed from this device.");
+      return;
+    }
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>("[data-save-job]");
+    if (!button?.dataset.saveJob) return;
+    const current = readSavedJobs();
+    const slug = button.dataset.saveJob;
+    const title = button.dataset.jobTitle ?? "Job";
+    const isSaved = current.includes(slug);
+    const next = writeSavedJobs(isSaved ? current.filter((item) => item !== slug) : [...current, slug]);
+    render(next);
+    announce(isSaved ? `${title} removed from saved jobs.` : `${title} saved on this device.`);
+  });
+
+  window.addEventListener("storage", (event) => { if (event.key === SAVED_JOBS_STORAGE_KEY) render(); });
+  render();
+</script>
+
+<div id="saved-jobs-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>

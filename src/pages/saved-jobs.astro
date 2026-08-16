@@ -1,0 +1,86 @@
+---
+import { BookmarkCheck, ShieldCheck } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import JobCard from "../components/JobCard.astro";
+import { getActiveJobs } from "../lib/jobs/queries.server";
+
+const jobs = await getActiveJobs();
+---
+
+<BaseLayout title="Saved Jobs | Hustle & Rise" description="Review jobs you saved on this device and continue your application research." noindex>
+  <section class="saved-hero">
+    <div class="subtle-grid absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+      <div class="max-w-4xl" data-reveal>
+        <p class="section-eyebrow">Your shortlist</p>
+        <h1>Saved jobs, ready when you are.</h1>
+        <p>Keep promising roles together while you compare requirements and prepare stronger applications.</p>
+        <div class="local-note"><ShieldCheck size={19} stroke-width={2} /><span>Saved only in this browser on this device—no account or cloud sync.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="saved-body" aria-labelledby="saved-heading">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <div class="saved-heading">
+        <div><p class="section-eyebrow">Saved opportunities</p><h2 id="saved-heading">Your current shortlist</h2></div>
+        <div class="saved-actions"><p id="saved-page-count" role="status" aria-live="polite">Loading saved jobs…</p><button type="button" data-clear-saved-jobs hidden>Clear all</button></div>
+      </div>
+
+      {jobs.length > 0 && <div class="saved-grid" id="saved-jobs-grid">{jobs.map((job) => <div data-saved-job-card={job.slug} hidden><JobCard job={job} /></div>)}</div>}
+
+      <div class="saved-empty" id="saved-jobs-empty">
+        <span><BookmarkCheck size={30} stroke-width={1.8} /></span>
+        <h2>No saved jobs yet.</h2>
+        <p>Browse current opportunities and choose “Save” on any role you want to revisit.</p>
+        <a href="/jobs" class="btn-electric">Explore opportunities <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import { readSavedJobs } from "../lib/saved-jobs";
+
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-saved-job-card]")];
+    const count = document.querySelector<HTMLElement>("#saved-page-count");
+    const empty = document.querySelector<HTMLElement>("#saved-jobs-empty");
+    const clear = document.querySelector<HTMLButtonElement>("[data-clear-saved-jobs]");
+
+    const renderSavedPage = (slugs: string[]) => {
+      const saved = new Set(slugs);
+      let shown = 0;
+      cards.forEach((card) => { const visible = saved.has(card.dataset.savedJobCard ?? ""); card.hidden = !visible; if (visible) shown += 1; });
+      if (count) count.textContent = `${shown} ${shown === 1 ? "saved role" : "saved roles"}`;
+      empty?.toggleAttribute("hidden", shown > 0);
+      clear?.toggleAttribute("hidden", shown === 0);
+    };
+
+    window.addEventListener("saved-jobs:changed", (event) => renderSavedPage((event as CustomEvent<{ slugs: string[] }>).detail.slugs));
+    renderSavedPage(readSavedJobs());
+  </script>
+</BaseLayout>
+
+<style>
+  .saved-hero { position:relative; overflow:hidden; background:linear-gradient(135deg,#fff7f1,#fbfaf7 56%,#eeeeff); }
+  .saved-hero::after { position:absolute; right:-8rem; bottom:-10rem; width:28rem; height:28rem; border:5.5rem solid rgba(91,92,226,.06); border-radius:50%; content:""; }
+  .saved-hero h1 { max-width:52rem; margin:0; font-size:clamp(2.8rem,7vw,5.6rem); font-weight:800; line-height:.98; }
+  .saved-hero .max-w-4xl>p:not(.section-eyebrow) { max-width:43rem; margin:1.4rem 0 0; color:var(--ink-soft); font-size:1.05rem; line-height:1.75; }
+  .local-note { display:inline-flex; align-items:center; gap:.55rem; margin-top:1.7rem; padding:.65rem .85rem; border:1px solid rgba(35,185,179,.18); border-radius:999px; background:#eafaf8; color:#39706d; font-size:.72rem; font-weight:700; }
+  .saved-body { background:#f1f0ec; }
+  .saved-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.7rem; }
+  .saved-heading .section-eyebrow { margin-bottom:.35rem; }
+  .saved-heading h2 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+  .saved-actions { display:flex; align-items:center; gap:.8rem; }
+  .saved-actions p { margin:0; color:#747d8c; font-size:.78rem; }
+  .saved-actions button { padding:.55rem .8rem; border:1px solid rgba(23,32,51,.12); border-radius:999px; background:#fff; color:#687182; font:inherit; font-size:.7rem; font-weight:750; cursor:pointer; }
+  .saved-actions button:hover { border-color:rgba(255,107,53,.3); color:var(--orange-dark); }
+  .saved-grid { display:grid; gap:1.25rem; }
+  .saved-grid>[hidden],.saved-empty[hidden],[data-clear-saved-jobs][hidden] { display:none; }
+  .saved-empty { padding:4rem 1rem; text-align:center; }
+  .saved-empty>span { display:grid; width:4.8rem; height:4.8rem; margin:0 auto 1.3rem; place-items:center; border-radius:1.5rem; background:var(--blue-soft); color:var(--blue); }
+  .saved-empty h2 { margin:0; font-size:2rem; }
+  .saved-empty p { max-width:34rem; margin:1rem auto 1.5rem; color:var(--ink-soft); line-height:1.7; }
+  @media(min-width:640px){.saved-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media(min-width:1024px){.saved-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  @media(max-width:639px){.saved-heading{align-items:flex-start;flex-direction:column}.saved-actions{width:100%;justify-content:space-between}.local-note{align-items:flex-start;border-radius:1rem}.local-note svg{flex:none}}
+</style>

@@ -14,8 +14,9 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: validated Remotive imports, job filters, detail pages, structured data, and source attribution
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
 - ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support
+- ✅ Phase 2: device-local saved jobs with card/detail controls, saved-job counts, and a dedicated shortlist page
 - 📝 Planned: production hosting, scheduled imports, real ad/product account configuration, and an analytics provider
-- 📝 Planned for later: saved jobs, email newsletter, accounts, alerts, and interactive calculators
+- 📝 Planned for later: transactional job emails, email newsletter, accounts, alerts, and interactive calculators
 
 Local development can import approved Remotive listings into Supabase. A remote Supabase project and production schedule are not connected yet.
 

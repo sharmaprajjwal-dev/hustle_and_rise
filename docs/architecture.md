@@ -26,6 +26,8 @@ The Supabase schema, typed clients, Remotive importer, and jobs frontend are ver
 - `scripts/audit-site.mjs`: post-build SEO and accessibility contract checks
 - `src/components/AdSlot.astro`: inactive-by-default, provider-swappable ad boundary
 - `src/components/AnalyticsHooks.astro`: provider-neutral interaction event bridge
+- `src/lib/saved-jobs.ts`: versioned device-local shortlist storage contract
+- `src/components/SavedJobsController.astro`: shared save controls, counts, announcements, and cross-tab updates
 - `src/layouts/BaseLayout.astro`: shared document structure
 - `supabase/migrations/`: reproducible PostgreSQL schema and security policies
 
@@ -53,3 +55,7 @@ Editorial pages and stable hubs remain static. The jobs rendering approach will 
 ## Monetisation boundary
 
 AdSense, product checkout URLs, Search Console verification, and any future analytics provider are controlled through public environment configuration. With those values blank, no ad or product UI is rendered and no third-party measurement script is loaded. Preview flags render labelled layout placeholders without contacting external providers. See `docs/monetization.md` for the exact operational state and activation checklist.
+
+## Saved jobs
+
+Phase 2 starts with an explicitly device-local shortlist. The browser stores only selected job slugs under a versioned key; it does not send them to Supabase, create an account, or imply cross-device synchronisation. The saved-jobs route is a noindex utility view that filters the currently active build-time job catalogue. Transactional “email this job” delivery remains separate and unconfigured until a real server-side email provider is selected.

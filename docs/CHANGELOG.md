@@ -83,3 +83,10 @@
 - Updated Organization structured data to reference the new brand icon.
 - Reworked the heavy navy footer into a lighter warm editorial surface with a coral-gradient pathway callout, improved link contrast, and subtle brand-colour details.
 - Added a lightweight Lucide icon system across job categories, homepage pathways, product areas, and reusable hub cards, with branded colour tiles and restrained hover motion.
+
+## Phase 2 — Device-local saved jobs
+
+- Added accessible save/remove controls to job cards and active job-detail pages, with live labels and analytics hooks.
+- Added a dedicated saved-jobs shortlist with counts, clear-all behavior, honest empty states, and links back to current opportunities.
+- Added shared header and mobile saved-job counts plus cross-tab synchronisation.
+- Kept the shortlist explicitly device-local and documented its storage in the Privacy Statement; no account, server sync, or email delivery is implied.
