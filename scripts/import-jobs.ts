@@ -4,7 +4,11 @@ import { RemotiveProvider } from "../src/lib/jobs/providers/remotive";
 import { JobImportRepository } from "../src/lib/jobs/repository.server";
 import type { Database } from "../src/lib/supabase/database.types";
 
-process.loadEnvFile?.();
+try {
+  process.loadEnvFile?.();
+} catch (error) {
+  if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+}
 
 const args = new Set(process.argv.slice(2));
 const provider = new RemotiveProvider();
