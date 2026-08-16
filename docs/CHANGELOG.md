@@ -82,3 +82,4 @@
 - Added optimized header, browser favicon, high-resolution browser icon, and Apple touch-icon assets generated from the same master mark.
 - Updated Organization structured data to reference the new brand icon.
 - Reworked the heavy navy footer into a lighter warm editorial surface with a coral-gradient pathway callout, improved link contrast, and subtle brand-colour details.
+- Added a lightweight Lucide icon system across job categories, homepage pathways, product areas, and reusable hub cards, with branded colour tiles and restrained hover motion.

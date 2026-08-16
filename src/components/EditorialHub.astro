@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "./EditorialCard.astro";
 import { editorialSections, getSectionPosts, type EditorialSection } from "../lib/content/editorial";
+import { BookOpen, FileCheck, Lightbulb, MessageSquareText } from "@lucide/astro";
 
 interface Props {
   section: EditorialSection;
@@ -15,6 +16,7 @@ interface Props {
 const { section, eyebrow, title, description, topics, ctaLabel, ctaHref } = Astro.props;
 const posts = await getSectionPosts(section);
 const meta = editorialSections[section];
+const topicIcons = [BookOpen, MessageSquareText, FileCheck, Lightbulb];
 ---
 
 <BaseLayout title={`${meta.label} | Hustle & Rise`} description={description}>
@@ -28,7 +30,7 @@ const meta = editorialSections[section];
   <section class="topic-section">
     <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <p class="section-eyebrow">What you’ll find</p><h2 class="topic-heading">Practical help, organised around the next step.</h2>
-      <div class="topic-grid">{topics.map((topic,index) => <article data-reveal={index < 3 ? `delay-${index + 1}` : undefined}><span>0{index + 1}</span><h3>{topic.title}</h3><p>{topic.description}</p></article>)}</div>
+      <div class="topic-grid">{topics.map((topic,index) => { const Icon = topicIcons[index % topicIcons.length]; return <article data-reveal={index < 3 ? `delay-${index + 1}` : undefined}><div class="topic-icon"><Icon size={23} stroke-width={1.9} /></div><span>0{index + 1}</span><h3>{topic.title}</h3><p>{topic.description}</p></article>; })}</div>
     </div>
   </section>
   <section class="guides-section" id="latest-guides">
@@ -49,8 +51,10 @@ const meta = editorialSections[section];
   .topic-heading { max-width:42rem; margin:0; font-size:clamp(2rem,4vw,3.1rem); }
   .topic-grid { display:grid; gap:1rem; margin-top:2.3rem; }
   .topic-grid article { padding:1.5rem; border:1px solid rgba(23,32,51,.08); border-radius:1.4rem; background:#fff; box-shadow:var(--shadow-sm); }
+  .topic-icon { display:grid; width:3rem; height:3rem; margin-bottom:1.3rem; place-items:center; border-radius:1rem; background:color-mix(in srgb,var(--hub-accent) 11%,white); color:var(--hub-accent); transition:transform .25s ease; }
+  .topic-grid article:hover .topic-icon { transform:rotate(-4deg) scale(1.05); }
   .topic-grid span { color:var(--hub-accent); font-size:.7rem; font-weight:800; }
-  .topic-grid h3 { margin:1.2rem 0 .55rem; font-size:1.08rem; }
+  .topic-grid h3 { margin:.55rem 0; font-size:1.08rem; }
   .topic-grid p { margin:0; color:#6a7384; font-size:.82rem; line-height:1.65; }
   .guides-section { background:#f1f0ec; scroll-margin-top:5rem; }
   .guides-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.7rem; }
