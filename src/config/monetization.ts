@@ -1,5 +1,6 @@
 import {
   PUBLIC_AD_ARTICLE_SLOT_ID,
+  PUBLIC_AD_BLOG_FEED_SLOT_ID,
   PUBLIC_AD_CLIENT_ID,
   PUBLIC_AD_JOB_LIST_SLOT_ID,
   PUBLIC_AD_PROVIDER,
@@ -9,7 +10,7 @@ import {
   PUBLIC_PRODUCTS_PREVIEW,
 } from "astro:env/client";
 
-export type AdPlacement = "job-list" | "article";
+export type AdPlacement = "job-list" | "blog-feed" | "article";
 export type ProductKey = "interview-workbook" | "job-tracker";
 
 export const ads = {
@@ -18,6 +19,7 @@ export const ads = {
   clientId: PUBLIC_AD_CLIENT_ID?.trim(),
   slots: {
     "job-list": PUBLIC_AD_JOB_LIST_SLOT_ID?.trim(),
+    "blog-feed": PUBLIC_AD_BLOG_FEED_SLOT_ID?.trim(),
     article: PUBLIC_AD_ARTICLE_SLOT_ID?.trim(),
   },
 };

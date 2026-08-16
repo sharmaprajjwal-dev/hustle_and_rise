@@ -41,6 +41,7 @@ export default defineConfig({
       PUBLIC_ADS_PREVIEW: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_AD_CLIENT_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_AD_JOB_LIST_SLOT_ID: envField.string({ context: "client", access: "public", optional: true }),
+      PUBLIC_AD_BLOG_FEED_SLOT_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_AD_ARTICLE_SLOT_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_PRODUCTS_PREVIEW: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_INTERVIEW_WORKBOOK_URL: envField.string({ context: "client", access: "public", optional: true, url: true }),

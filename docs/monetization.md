@@ -17,6 +17,7 @@ Set `PUBLIC_ADS_PREVIEW=true` or `PUBLIC_PRODUCTS_PREVIEW=true` in the local `.e
 The current ad placements are:
 
 - `JobListAdSlot.astro`: between the jobs grid and its pagination control.
+- `BlogFeedAdSlot.astro`: between the blog topic filters and article library.
 - `ArticleAdSlot.astro`: after article content and any relevant product CTA.
 
 Ads are deliberately outside job cards and application controls. To move a slot, move its wrapper component as one unit. To add a placement, add its key to `AdPlacement`, configure a dedicated environment slot ID, then render `AdSlot` in a visually separate location.
@@ -29,6 +30,7 @@ After the domain, consent approach, privacy wording, and AdSense account are app
 PUBLIC_AD_PROVIDER=adsense
 PUBLIC_AD_CLIENT_ID=ca-pub-...
 PUBLIC_AD_JOB_LIST_SLOT_ID=...
+PUBLIC_AD_BLOG_FEED_SLOT_ID=...
 PUBLIC_AD_ARTICLE_SLOT_ID=...
 ```
 

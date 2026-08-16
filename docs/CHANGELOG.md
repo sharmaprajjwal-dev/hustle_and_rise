@@ -74,3 +74,4 @@
 - Added article-selected digital-product CTAs for the interview workbook and job tracker; no checkout URLs are fabricated or active by default.
 - Added provider-neutral analytics events for application clicks, filter usage, product clicks, and contact email clicks without loading an analytics service or collecting search text.
 - Added optional Search Console verification metadata, safe local preview modes, and an owner guide for enabling, disabling, moving, and testing placements.
+- Promoted the blog to a first-class navigation destination with a featured guide, topic discovery, filtering, editorial-trust links, and a dedicated policy-safe feed ad slot.

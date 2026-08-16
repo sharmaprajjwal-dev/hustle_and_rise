@@ -10,6 +10,7 @@ Core promise: **Find Work. Build Skills. Earn More.**
 - ✅ Live: modern warm-light UI, responsive motion, and original career-focused hero artwork
 - ✅ Live: Jobs, Interview Prep, Career, Training, Side Hustles, and Tools hub pages
 - ✅ Live: sectioned editorial publishing, related guides, training classes, RSS, sitemap, and legal pages
+- ✅ Live: dedicated Blog destination with featured guidance, topic discovery, filtering, and a separate feed ad boundary
 - ✅ Live: validated Remotive imports, job filters, detail pages, structured data, and source attribution
 - ✅ Ready: versioned Supabase jobs schema, Row Level Security, typed clients, and environment contract
 - ✅ Ready: SEO/accessibility audit, inactive-by-default ad slots, product CTAs, analytics hooks, and Search Console verification support

@@ -14,6 +14,7 @@ export const navigation = [
   { label: "Training", href: "/training" },
   { label: "Side Hustles", href: "/side-hustles" },
   { label: "Tools", href: "/tools" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 export const productSections = [
   {

@@ -1,7 +1,7 @@
 ---
 import { ads } from "../config/monetization";
 
-const hasConfiguredSlot = Boolean(ads.slots["job-list"] || ads.slots.article);
+const hasConfiguredSlot = Boolean(ads.slots["job-list"] || ads.slots["blog-feed"] || ads.slots.article);
 const enabled = ads.provider === "adsense" && Boolean(ads.clientId) && hasConfiguredSlot;
 const source = enabled ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ads.clientId!)}` : undefined;
 ---
