@@ -8,7 +8,7 @@ export const site = {
 } as const;
 
 export const navigation = [
-  { label: "Jobs", href: "/jobs" },
+  { label: "Jobs", href: "/" },
   { label: "Interview Prep", href: "/interview" },
   { label: "Career", href: "/career" },
   { label: "Training", href: "/training" },
@@ -21,7 +21,7 @@ export const productSections = [
     title: "Find legitimate opportunities",
     shortTitle: "Jobs",
     description: "Browse student, part-time, graduate, and remote opportunities, starting with New Zealand.",
-    href: "/jobs",
+    href: "/",
     eyebrow: "Find work",
   },
   {

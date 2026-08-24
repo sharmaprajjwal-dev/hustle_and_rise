@@ -57,7 +57,7 @@ const emailJobEnabled = available && PUBLIC_EMAIL_JOB_ENABLED && Boolean(jobSlug
 
   <section class="job-detail-hero">
     <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      <nav class="job-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/jobs">Jobs</a><span aria-hidden="true">/</span><span aria-current="page">{job.title}</span></nav>
+      <nav class="job-breadcrumb" aria-label="Breadcrumb"><a href="/">Jobs</a><span aria-hidden="true">/</span><span aria-current="page">{job.title}</span></nav>
       <div class="job-hero-grid">
         <div data-reveal>
           <div class="job-kicker"><span>{job.category ?? "Opportunity"}</span><span class:list={["status-dot", !available && "is-closed"]}><i aria-hidden="true"></i> {available ? "Open" : "Closed"}</span></div>
@@ -74,7 +74,7 @@ const emailJobEnabled = available && PUBLIC_EMAIL_JOB_ENABLED && Boolean(jobSlug
           {available ? (
             <><p>Interested in this role?</p><a class="btn-electric" href={job.apply_url} target="_blank" rel="noopener noreferrer sponsored" aria-label={`Apply for ${job.title} on ${job.sourceName} (opens in a new tab)`} data-analytics-event="job_apply_click" data-analytics-source={job.sourceName}>Apply on {job.sourceName} <span aria-hidden="true">↗</span></a>{job.slug && <SaveJobButton slug={job.slug} title={job.title} variant="panel" />}{emailJobEnabled && <EmailJobForm jobSlug={jobSlug} jobTitle={job.title} />}<p class="source-note">Save it on this device or apply on the original listing. Always verify details before sharing personal information.</p></>
           ) : (
-            <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/jobs">Browse current jobs</a></>
+            <><span class="unavailable-icon" aria-hidden="true">×</span><h2>This job is no longer available.</h2><p class="source-note">Explore similar active roles or use the job search to find another opportunity.</p><a class="btn-electric" href="/">Browse current jobs</a></>
           )}
         </aside>
       </div>
@@ -108,7 +108,7 @@ const emailJobEnabled = available && PUBLIC_EMAIL_JOB_ENABLED && Boolean(jobSlug
   {similar.length > 0 && (
     <section class="similar-jobs">
       <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-        <div class="similar-heading"><div><p class="section-eyebrow">Keep exploring</p><h2>Similar opportunities</h2></div><a href="/jobs">View all jobs →</a></div>
+        <div class="similar-heading"><div><p class="section-eyebrow">Keep exploring</p><h2>Similar opportunities</h2></div><a href="/">View all jobs →</a></div>
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{similar.map((candidate) => <JobCard job={candidate} />)}</div>
       </div>
     </section>

@@ -1,243 +1,217 @@
 ---
-import { getCollection } from "astro:content";
+import JobCard from "../components/JobCard.astro";
+import JobListAdSlot from "../components/JobListAdSlot.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { productSections, site } from "../config/site";
-import {
-  BriefcaseBusiness,
-  CalendarDays,
-  Clock3,
-  Compass,
-  Earth,
-  FileCheck,
-  GraduationCap,
-  Lightbulb,
-  MessageSquareText,
-  Rocket,
-  Search,
-  TrendingUp,
-  Wrench,
-} from "@lucide/astro";
+import { getActiveJobs } from "../lib/jobs/queries.server";
+import { Bookmark } from "@lucide/astro";
 
-const articles = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 3);
-
-const jobCategories = [
-  { icon: BriefcaseBusiness, title: "Student jobs", description: "Flexible work around study" },
-  { icon: Clock3, title: "Part-time", description: "Roles with fewer weekly hours" },
-  { icon: GraduationCap, title: "Internships", description: "Build practical experience" },
-  { icon: Rocket, title: "Graduate", description: "Start your professional path" },
-  { icon: Earth, title: "Remote", description: "Work beyond one location" },
-  { icon: CalendarDays, title: "Weekend work", description: "Earn around your week" },
-];
-
-const journey = [
-  { number: "01", icon: Compass, title: "Discover", description: "Find a suitable role or a realistic earning opportunity." },
-  { number: "02", icon: FileCheck, title: "Prepare", description: "Build a stronger application and practise for the interview." },
-  { number: "03", icon: TrendingUp, title: "Grow", description: "Learn practical skills that widen your options over time." },
-];
-
-const productIcons = [Search, MessageSquareText, Compass, GraduationCap, Lightbulb, Wrench];
-const productCards = productSections.map((section, index) => ({ ...section, icon: productIcons[index] }));
+const jobs = await getActiveJobs();
+const unique = (values: Array<string | null>) => [...new Set(values.filter((value): value is string => Boolean(value)))].sort();
+const locations = unique(jobs.map((job) => job.location));
+const jobTypes = unique(jobs.map((job) => job.job_type));
+const categories = unique(jobs.map((job) => job.category));
+const label = (value: string) => value.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 ---
 
-<BaseLayout title="Hustle & Rise | Find Work. Build Skills. Earn More." description={site.description} image="/hustle-rise-hero.png">
-  <section class="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-16 lg:pb-32 lg:pt-20">
-    <div class="noise-layer" aria-hidden="true"></div>
-    <div class="absolute -left-28 top-24 h-64 w-64 rounded-full bg-[#ff6b35]/10 blur-3xl" aria-hidden="true"></div>
-    <div class="absolute -right-24 bottom-16 h-80 w-80 rounded-full bg-[#5b5ce2]/10 blur-3xl" aria-hidden="true"></div>
-
-    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
-      <div data-reveal>
-        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#23b9b3]/20 bg-[#eafaf8] px-3.5 py-2 text-xs font-bold text-[#137d79]">
-          <span class="pulse-dot h-2 w-2 rounded-full bg-[#23b9b3]"></span>
-          Built for New Zealand + remote opportunities
+<BaseLayout title="Hustle & Rise | Remote jobs and flexible work" description="Search current remote and flexible roles from approved job sources, with clear locations, job types, dates, and direct application links.">
+  <section class="jobs-hero">
+    <div class="jobs-orb jobs-orb-one" aria-hidden="true"></div>
+    <div class="jobs-orb jobs-orb-two" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+      <div class="max-w-3xl" data-reveal>
+        <p class="section-eyebrow">Find work</p>
+        <h1>Find a role that fits <span>your real life.</span></h1>
+        <p class="jobs-intro">Search current opportunities from approved sources. Every listing links directly to the original job page—no invented details and no signup wall.</p>
+        <div class="jobs-proof" aria-label="Job board highlights">
+          <span><strong>{jobs.length}</strong> current roles</span>
+          <span><i aria-hidden="true"></i> Verified source links</span>
+          <span>Updated regularly</span>
         </div>
-
-        <h1 class="max-w-3xl font-brand text-[clamp(3.4rem,7vw,6.7rem)] font-extrabold leading-[0.96] tracking-[-0.075em] text-[#172033]">
-          Find work.<br />
-          <span class="relative inline-block text-[#5b5ce2]">Build skills.<span class="absolute -bottom-1 left-1 right-0 -z-10 h-3 rounded-full bg-[#ffb24a]/35" aria-hidden="true"></span></span><br />
-          Earn more.
-        </h1>
-
-        <p class="mt-7 max-w-xl text-lg leading-8 text-[#5d6575] sm:text-xl">
-          One practical place to discover opportunities, prepare with confidence, and build a career that keeps moving forward.
-        </p>
-
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href="/jobs" class="btn-electric">Explore opportunities <span aria-hidden="true">→</span></a>
-          <a href="/interview" class="btn-outline-electric">Prepare for interviews</a>
-        </div>
-
-        <div class="mt-9 flex flex-wrap gap-x-7 gap-y-3 border-t border-black/[0.07] pt-6 text-sm text-[#6d7585]">
-          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> Honest guidance</span>
-          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> Student-friendly</span>
-          <span class="flex items-center gap-2"><b class="text-[#ff6b35]">✓</b> No get-rich-quick hype</span>
-        </div>
+        <a class="saved-shortcut" href="/saved-jobs"><Bookmark size={17} stroke-width={2} /><span>View saved jobs</span><b data-saved-jobs-count>0</b></a>
       </div>
+    </div>
+  </section>
 
-      <div class="relative mx-auto w-full max-w-[680px]" data-reveal="delay-1">
-        <div class="relative overflow-hidden rounded-[2.5rem] border border-white bg-white p-2 shadow-[0_35px_90px_rgba(35,39,58,0.16)]">
-          <img
-            src="/hustle-rise-hero.png"
-            alt="Two young people working together on their career plans"
-            class="aspect-[4/3] w-full rounded-[2rem] object-cover"
-            width="1448"
-            height="1086"
-            fetchpriority="high"
-          />
-        </div>
+  <section class="jobs-browser" aria-labelledby="jobs-heading">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      {jobs.length > 0 ? (
+        <>
+          <form class="jobs-filters" id="job-filters" role="search" aria-controls="jobs-grid" data-analytics-form="job_filter_used">
+            <div class="filter-field filter-search">
+              <label for="job-keyword">Search jobs</label>
+              <input id="job-keyword" name="q" type="search" placeholder="Job title, company or keyword" autocomplete="off" />
+            </div>
+            <div class="filter-field">
+              <label for="job-location">Location</label>
+              <select id="job-location" name="location"><option value="">All locations</option>{locations.map((location) => <option value={location.toLowerCase()}>{location}</option>)}</select>
+            </div>
+            <div class="filter-field">
+              <label for="job-type">Job type</label>
+              <select id="job-type" name="type"><option value="">All job types</option>{jobTypes.map((type) => <option value={type.toLowerCase()}>{label(type)}</option>)}</select>
+            </div>
+            <div class="filter-field">
+              <label for="job-category">Category</label>
+              <select id="job-category" name="category"><option value="">All categories</option>{categories.map((category) => <option value={category.toLowerCase()}>{category}</option>)}</select>
+            </div>
+            <div class="filter-field">
+              <label for="job-date">Date posted</label>
+              <select id="job-date" name="days"><option value="">Any time</option><option value="1">Past 24 hours</option><option value="7">Past week</option><option value="30">Past month</option></select>
+            </div>
+            <div class="filter-field">
+              <label for="job-sort">Sort by</label>
+              <select id="job-sort" name="sort"><option value="">Newest first</option><option value="oldest">Oldest first</option><option value="title">Job title A–Z</option><option value="company">Company A–Z</option></select>
+            </div>
+            <div class="filter-toggles" aria-label="Additional filters">
+              <label class="filter-toggle"><input id="job-remote" name="remote" type="checkbox" value="1" /><span aria-hidden="true"></span> Remote only</label>
+              <label class="filter-toggle"><input id="job-salary" name="salary" type="checkbox" value="1" /><span aria-hidden="true"></span> Salary shown</label>
+              <label class="filter-toggle"><input id="job-saved" name="saved" type="checkbox" value="1" /><span aria-hidden="true"></span> Saved only</label>
+            </div>
+            <button class="filter-reset" id="job-reset" type="reset">Clear filters</button>
+          </form>
 
-        <div class="float-slow absolute -left-3 top-[14%] hidden w-44 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-xl backdrop-blur sm:block">
-          <div class="flex items-center gap-3">
-            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#eeeeff] text-sm font-extrabold text-[#5b5ce2]">CV</span>
-            <div><p class="text-xs font-bold text-[#172033]">Application ready</p><p class="mt-1 text-[0.68rem] text-[#828998]">Checklist in progress</p></div>
+          <div class="jobs-results-heading">
+            <div><p class="section-eyebrow">Live opportunities</p><h2 id="jobs-heading">Latest roles</h2></div>
+            <p id="jobs-count" role="status" aria-live="polite">Showing {Math.min(9, jobs.length)} of {jobs.length} roles</p>
           </div>
-          <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-[#ececf1]"><div class="h-full w-3/4 rounded-full bg-[#5b5ce2]"></div></div>
+          <div class="jobs-grid" id="jobs-grid">{jobs.map((job) => <JobCard job={job} />)}</div>
+          <JobListAdSlot />
+          <div class="jobs-empty" id="jobs-empty" hidden><span aria-hidden="true">⌕</span><h2>No matching roles yet</h2><p>Try broadening your filters or clearing the search.</p></div>
+          {jobs.length > 9 && <div class="load-more-wrap"><button class="btn-outline-electric" id="load-more" type="button">Show more roles <span aria-hidden="true">↓</span></button></div>}
+        </>
+      ) : (
+        <div class="jobs-empty jobs-empty-static">
+          <span aria-hidden="true">↻</span><h1>Fresh roles are on the way</h1>
+          <p>The job feed is not connected in this environment yet. Explore the career and interview guides while it is being prepared.</p>
+          <div class="flex flex-wrap justify-center gap-3"><a class="btn-electric" href="/career">Career toolkit</a><a class="btn-outline-electric" href="/interview">Interview prep</a></div>
         </div>
-
-        <div class="float-reverse absolute -right-3 bottom-[15%] hidden w-48 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-xl backdrop-blur sm:block">
-          <p class="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#ff6b35]">Next step</p>
-          <p class="mt-1.5 text-sm font-bold text-[#172033]">Interview preparation</p>
-          <p class="mt-1 text-xs text-[#7a8292]">Practise → improve → repeat</p>
-        </div>
-      </div>
+      )}
     </div>
   </section>
 
-  <section class="overflow-hidden border-y border-black/[0.06] bg-white py-4" aria-label="Platform focus">
-    <div class="marquee-track flex w-max items-center gap-10 whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em] text-[#737b8c]">
-      {[...Array(2)].flatMap(() => ["Student jobs", "Interview prep", "Career toolkit", "Practical training", "Real side hustles", "Useful tools"]).map((item) => (
-        <><span>{item}</span><span class="text-[#ff6b35]">✦</span></>
-      ))}
+  <section class="jobs-guidance">
+    <div class="mx-auto grid max-w-7xl gap-5 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8 lg:py-20">
+      <a class="guidance-card" href="/career"><span>01</span><h2>Strengthen your CV</h2><p>Practical guidance for presenting your experience clearly.</p></a>
+      <a class="guidance-card" href="/interview"><span>02</span><h2>Prepare to interview</h2><p>Build confident answers before the conversation starts.</p></a>
+      <a class="guidance-card" href="/training"><span>03</span><h2>Build useful skills</h2><p>Explore learning pathways that support your next move.</p></a>
     </div>
   </section>
 
-  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-      <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-        <div data-reveal>
-          <p class="section-eyebrow">A clearer path forward</p>
-          <h2 class="max-w-xl font-brand text-4xl font-extrabold leading-[1.05] tracking-[-0.055em] sm:text-5xl">Three practical moves. One connected journey.</h2>
-        </div>
-        <p class="max-w-2xl text-lg leading-8 text-[#687081] lg:justify-self-end" data-reveal="delay-1">Job searching becomes less overwhelming when discovery, preparation, and skill-building live in the same place.</p>
-      </div>
+  <script>
+    import { readSavedJobs } from "../lib/saved-jobs";
 
-      <ol class="mt-12 grid gap-5 md:grid-cols-3">
-        {journey.map(({ number, icon: Icon, title, description }, index) => (
-          <li class="group relative overflow-hidden rounded-[1.75rem] border border-black/[0.07] bg-white p-7 shadow-[0_12px_35px_rgba(31,37,54,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_26px_60px_rgba(31,37,54,0.12)]" data-reveal={`delay-${index + 1}`}>
-            <div class="flex items-center justify-between">
-              <span class:list={["grid h-14 w-14 place-items-center rounded-2xl", index === 0 ? "bg-[#fff0e8] text-[#ff6b35]" : index === 1 ? "bg-[#eeeeff] text-[#5b5ce2]" : "bg-[#eafaf8] text-[#168985]"]}><Icon size={25} stroke-width={1.9} /></span>
-              <span class="font-brand text-xs font-extrabold tracking-[0.12em] text-[#a0a6b2]">{number}</span>
-            </div>
-            <h3 class="mt-10 font-brand text-2xl font-extrabold">{title}</h3>
-            <p class="mt-3 leading-7 text-[#687081]">{description}</p>
-            <span class="absolute -bottom-10 -right-8 text-[8rem] font-extrabold leading-none text-[#172033]/[0.025] transition-transform group-hover:-translate-x-2">{number}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
+    const form = document.querySelector<HTMLFormElement>("#job-filters");
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-job-card]")];
+    const count = document.querySelector<HTMLElement>("#jobs-count");
+    const empty = document.querySelector<HTMLElement>("#jobs-empty");
+    const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
+    let visibleLimit = 9;
 
-  <section class="relative overflow-hidden bg-[#fff1e9] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-    <div class="absolute right-0 top-0 h-72 w-72 translate-x-1/3 -translate-y-1/3 rounded-full border-[60px] border-[#ff6b35]/[0.06]" aria-hidden="true"></div>
-    <div class="relative mx-auto max-w-7xl">
-      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
-        <div>
-          <p class="section-eyebrow">Start with work</p>
-          <h2 class="max-w-2xl font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] sm:text-5xl">Explore opportunities that fit real life.</h2>
-        </div>
-        <a href="/jobs" class="font-brand text-sm font-bold text-[#e95420]">Visit the jobs hub <span aria-hidden="true">↗</span></a>
-      </div>
+    const field = (name: string) => form?.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+    const applyFilters = () => {
+      if (!form) return;
+      const query = field("q")?.value.trim().toLowerCase() ?? "";
+      const selectedLocation = field("location")?.value ?? "";
+      const type = field("type")?.value ?? "";
+      const category = field("category")?.value ?? "";
+      const days = Number(field("days")?.value || 0);
+      const sort = field("sort")?.value ?? "newest";
+      const remote = (field("remote") as HTMLInputElement | null)?.checked ?? false;
+      const salary = (field("salary") as HTMLInputElement | null)?.checked ?? false;
+      const savedOnly = (field("saved") as HTMLInputElement | null)?.checked ?? false;
+      const savedJobs = new Set(readSavedJobs());
+      const cutoff = days ? Date.now() - days * 86_400_000 : 0;
+      const matched = cards.filter((card) =>
+        (!query || card.dataset.search?.includes(query)) &&
+        (!selectedLocation || card.dataset.location === selectedLocation) &&
+        (!type || card.dataset.type === type) &&
+        (!category || card.dataset.category === category) &&
+        (!remote || card.dataset.remote === "true") &&
+        (!salary || card.dataset.salary === "true") &&
+        (!savedOnly || savedJobs.has(card.dataset.slug ?? "")) &&
+        (!cutoff || (card.dataset.published && new Date(card.dataset.published).getTime() >= cutoff))
+      );
+      matched.sort((a, b) => {
+        if (sort === "oldest") return (Date.parse(a.dataset.published ?? "") || 0) - (Date.parse(b.dataset.published ?? "") || 0);
+        if (sort === "title") return (a.dataset.title ?? "").localeCompare(b.dataset.title ?? "");
+        if (sort === "company") return (a.dataset.company ?? "").localeCompare(b.dataset.company ?? "");
+        return (Date.parse(b.dataset.published ?? "") || 0) - (Date.parse(a.dataset.published ?? "") || 0);
+      });
+      matched.forEach((card) => card.parentElement?.append(card));
+      cards.forEach((card) => { card.hidden = !matched.includes(card) || matched.indexOf(card) >= visibleLimit; });
+      empty?.toggleAttribute("hidden", matched.length !== 0);
+      if (count) count.textContent = `Showing ${Math.min(visibleLimit, matched.length)} of ${matched.length} ${matched.length === 1 ? "role" : "roles"}`;
+      if (loadMore) loadMore.hidden = matched.length <= visibleLimit;
 
-      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {jobCategories.map(({ icon: Icon, title, description }, index) => (
-          <article class="group flex items-center gap-4 rounded-2xl border border-[#ff6b35]/10 bg-white p-5 shadow-[0_10px_30px_rgba(154,77,40,0.07)] transition-all hover:-translate-y-1 hover:border-[#ff6b35]/30" data-reveal={index < 3 ? `delay-${index + 1}` : undefined}>
-            <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#fff0e8] text-[#ff6b35] transition-all group-hover:rotate-[-4deg] group-hover:bg-[#ff6b35] group-hover:text-white"><Icon size={25} stroke-width={1.9} /></span>
-            <div><h3 class="font-brand text-base font-extrabold">{title}</h3><p class="mt-1 text-sm text-[#7a8292]">{description}</p></div>
-          </article>
-        ))}
-      </div>
+      const params = new URLSearchParams(new FormData(form) as never);
+      for (const [key, value] of [...params]) if (!value) params.delete(key);
+      history.replaceState(null, "", `${window.location.pathname}${params.size ? `?${params}` : ""}`);
+    };
 
-      <div class="mt-8 flex items-start gap-3 rounded-2xl border border-[#ff6b35]/10 bg-white/55 p-4 text-sm leading-6 text-[#6a7282]" data-reveal>
-        <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#23b9b3] text-xs font-bold text-white">i</span>
-        <p>Live listings will appear only after approved job feeds pass source, attribution, duplicate, and expiry checks. We do not publish fabricated vacancies.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-      <div class="mx-auto max-w-3xl text-center" data-reveal>
-        <p class="section-eyebrow">More than a job board</p>
-        <h2 class="font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] sm:text-5xl">Everything you need for the next move.</h2>
-        <p class="mt-5 text-lg leading-8 text-[#687081]">Explore focused resources without jumping between six unrelated websites.</p>
-      </div>
-
-      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {productCards.map((section, index) => {
-          const Icon = section.icon;
-          return (
-          <a href={section.href} class="card-hover group relative overflow-hidden p-7 sm:p-8" data-reveal={index < 3 ? `delay-${index + 1}` : undefined}>
-            <div class="flex items-center justify-between">
-              <span class:list={["grid h-13 w-13 place-items-center rounded-2xl transition-transform group-hover:rotate-[-4deg] group-hover:scale-105", index % 3 === 0 ? "bg-[#fff0e8] text-[#ff6b35]" : index % 3 === 1 ? "bg-[#eeeeff] text-[#5b5ce2]" : "bg-[#eafaf8] text-[#168985]"]}><Icon size={24} stroke-width={1.9} /></span>
-              <span class="text-lg text-[#a0a6b2] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[#ff6b35]" aria-hidden="true">↗</span>
-            </div>
-            <p class="mt-8 text-xs font-bold uppercase tracking-[0.12em] text-[#ff6b35]">{section.eyebrow}</p>
-            <h3 class="mt-2 font-brand text-2xl font-extrabold leading-tight">{section.title}</h3>
-            <p class="mt-3 leading-7 text-[#687081]">{section.description}</p>
-          </a>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-[#f1f3f8] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
-        <div>
-          <p class="section-eyebrow">The practical library</p>
-          <h2 class="font-brand text-4xl font-extrabold tracking-[-0.055em] sm:text-5xl">Guides worth acting on.</h2>
-        </div>
-        <a href="/blog" class="font-brand text-sm font-bold text-[#5b5ce2]">Read all guides <span aria-hidden="true">→</span></a>
-      </div>
-
-      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article, index) => (
-          <article class="group flex min-h-72 flex-col rounded-[1.5rem] border border-black/[0.06] bg-white p-7 shadow-[0_12px_35px_rgba(31,37,54,0.06)] transition-all hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(31,37,54,0.12)]" data-reveal={`delay-${index + 1}`}>
-            <div class="flex items-center justify-between">
-              <span class="category-badge">{article.data.category}</span>
-              <span class="text-xs text-[#8b91a0]">{article.data.readTime}</span>
-            </div>
-            <h3 class="mt-7 font-brand text-xl font-extrabold leading-snug"><a href={`/blog/${article.id}`} class="transition-colors group-hover:text-[#5b5ce2]">{article.data.title}</a></h3>
-            <p class="mt-3 line-clamp-3 text-sm leading-6 text-[#727a8a]">{article.data.description}</p>
-            <a href={`/blog/${article.id}`} class="mt-auto pt-7 text-sm font-bold text-[#5b5ce2]">Read guide <span aria-hidden="true">↗</span></a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-    <div class="mx-auto grid max-w-7xl overflow-hidden rounded-[2.25rem] bg-[#5b5ce2] text-white shadow-[0_30px_75px_rgba(91,92,226,0.24)] lg:grid-cols-[1.1fr_0.9fr]" data-reveal>
-      <div class="p-8 sm:p-12 lg:p-16">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-white/65">Build skills that travel with you</p>
-        <h2 class="mt-4 max-w-xl font-brand text-4xl font-extrabold leading-tight tracking-[-0.055em] text-white sm:text-5xl">Practical learning. Tangible outcomes.</h2>
-        <p class="mt-5 max-w-xl text-lg leading-8 text-white/72">Training will begin with hands-on classes such as the 20-Day Photoshop Class, followed by job-readiness and digital-skills workshops.</p>
-        <a href="/training" class="mt-8 inline-flex min-h-12 items-center rounded-full bg-white px-6 font-brand text-sm font-bold text-[#4445c4] transition-transform hover:-translate-y-1">Explore training <span class="ml-2" aria-hidden="true">→</span></a>
-      </div>
-      <div class="relative min-h-72 overflow-hidden bg-[#4d4ed1] p-8 sm:p-12">
-        <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full border-[55px] border-white/[0.07]" aria-hidden="true"></div>
-        <div class="relative grid h-full content-center gap-4">
-          {["Learn a practical workflow", "Create portfolio-ready work", "Connect skills to opportunities"].map((item, index) => (
-            <div class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
-              <span class="grid h-9 w-9 place-items-center rounded-full bg-[#ffb24a] text-sm font-extrabold text-[#172033]">{index + 1}</span>
-              <span class="font-semibold text-white">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+    if (form) {
+      const params = new URLSearchParams(location.search);
+      for (const [name, value] of params) {
+        const control = field(name);
+        if (control instanceof HTMLInputElement && control.type === "checkbox") control.checked = value === "1";
+        else if (control) control.value = value;
+      }
+      form.addEventListener("input", () => { visibleLimit = 9; applyFilters(); });
+      form.addEventListener("reset", () => setTimeout(() => { visibleLimit = 9; applyFilters(); }));
+      loadMore?.addEventListener("click", () => { visibleLimit += 9; applyFilters(); });
+      window.addEventListener("saved-jobs:changed", applyFilters);
+      applyFilters();
+    }
+  </script>
 </BaseLayout>
+
+<style>
+  .jobs-hero { position:relative; overflow:hidden; background:linear-gradient(135deg,#fff7f1 0%,#fbfaf7 55%,#eeeeff 100%); }
+  .jobs-hero::after { position:absolute; inset:0; opacity:.18; background-image:radial-gradient(rgba(91,92,226,.4) 1px,transparent 1px); background-size:25px 25px; mask-image:linear-gradient(90deg,transparent,black); content:""; }
+  .jobs-hero h1 { position:relative; z-index:1; margin:0; max-width:48rem; font-size:clamp(2.8rem,7vw,5.7rem); font-weight:800; line-height:.98; }
+  .jobs-hero h1 span { color:var(--orange); }
+  .jobs-intro { position:relative; z-index:1; max-width:42rem; margin:1.5rem 0 0; color:var(--ink-soft); font-size:1.05rem; line-height:1.75; }
+  .jobs-proof { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; margin-top:2rem; color:#616a7b; font-size:.82rem; font-weight:650; }
+  .jobs-proof strong { color:var(--ink); }
+  .jobs-proof i { display:inline-block; width:.55rem; height:.55rem; margin-right:.3rem; border-radius:50%; background:var(--aqua); box-shadow:0 0 0 6px rgba(35,185,179,.12); }
+  .saved-shortcut { position:relative; z-index:1; display:inline-flex; min-height:2.7rem; align-items:center; gap:.55rem; margin-top:1.3rem; padding:.6rem .8rem; border:1px solid rgba(91,92,226,.14); border-radius:999px; background:rgba(255,255,255,.78); color:#596274; font-size:.74rem; font-weight:750; transition:border-color .2s ease,transform .2s ease,color .2s ease; }
+  .saved-shortcut:hover { border-color:rgba(91,92,226,.35); color:var(--blue); transform:translateY(-2px); }
+  .saved-shortcut b { display:grid; min-width:1.35rem; min-height:1.35rem; place-items:center; border-radius:999px; background:var(--blue-soft); color:var(--blue); font-size:.65rem; }
+  .jobs-orb { position:absolute; z-index:0; border-radius:50%; filter:blur(1px); }
+  .jobs-orb-one { right:8%; bottom:-7rem; width:21rem; height:21rem; border:4rem solid rgba(255,107,53,.09); }
+  .jobs-orb-two { top:-5rem; right:34%; width:10rem; height:10rem; background:rgba(35,185,179,.08); }
+  .jobs-browser { background:var(--paper); }
+  .jobs-filters { position:relative; z-index:3; display:grid; gap:1rem; margin-top:-5.5rem; padding:1.25rem; border:1px solid rgba(23,32,51,.08); border-radius:1.7rem; background:rgba(255,255,255,.96); box-shadow:0 24px 65px rgba(30,38,57,.12); }
+  .filter-field { display:grid; gap:.4rem; }
+  .filter-field label { color:#6b7383; font-size:.68rem; font-weight:750; letter-spacing:.06em; text-transform:uppercase; }
+  .filter-field input,.filter-field select { width:100%; min-height:3rem; padding:.7rem .85rem; border:1px solid var(--line); border-radius:.8rem; background:#fbfaf7; color:var(--ink); font:inherit; font-size:.84rem; }
+  .filter-toggles { display:flex; flex-wrap:wrap; align-items:end; gap:.45rem 1rem; }
+  .filter-toggle { display:flex; min-height:2.1rem; align-items:center; gap:.5rem; color:var(--ink); font-size:.76rem; font-weight:700; cursor:pointer; }
+  .filter-toggle input { position:absolute; opacity:0; }
+  .filter-toggle span { position:relative; width:2.25rem; height:1.25rem; border-radius:99px; background:#d9d8d4; transition:background .2s ease; }
+  .filter-toggle span::after { position:absolute; top:.18rem; left:.18rem; width:.89rem; height:.89rem; border-radius:50%; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.2); content:""; transition:transform .2s ease; }
+  .filter-toggle input:checked + span { background:var(--blue); }
+  .filter-toggle input:checked + span::after { transform:translateX(1rem); }
+  .filter-toggle input:focus-visible + span { outline:3px solid var(--orange); outline-offset:3px; }
+  .filter-reset { align-self:end; min-height:3rem; border:0; background:transparent; color:var(--blue); font-size:.78rem; font-weight:750; cursor:pointer; }
+  .jobs-results-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin:4rem 0 1.5rem; }
+  .jobs-results-heading .section-eyebrow { margin-bottom:.4rem; }
+  .jobs-results-heading h2 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+  .jobs-results-heading > p { color:#737b8a; font-size:.8rem; }
+  .jobs-grid { display:grid; gap:1.25rem; }
+  .jobs-empty { padding:4rem 1rem; text-align:center; }
+  .jobs-empty[hidden] { display:none; }
+  .jobs-empty span { display:grid; width:4.5rem; height:4.5rem; margin:0 auto 1.25rem; place-items:center; border-radius:1.4rem; background:var(--blue-soft); color:var(--blue); font-size:2rem; }
+  .jobs-empty h1,.jobs-empty h2 { margin:0; font-size:2rem; }
+  .jobs-empty p { max-width:35rem; margin:1rem auto 1.5rem; color:var(--ink-soft); }
+  .load-more-wrap { display:flex; justify-content:center; margin-top:2.5rem; }
+  .load-more-wrap button[hidden] { display:none; }
+  .jobs-guidance { background:#172033; }
+  .guidance-card { position:relative; overflow:hidden; padding:2rem; border:1px solid rgba(255,255,255,.09); border-radius:1.4rem; background:rgba(255,255,255,.045); transition:background .2s ease, transform .2s ease; }
+  .guidance-card:hover { background:rgba(255,255,255,.08); transform:translateY(-4px); }
+  .guidance-card span { color:#ff9a73; font-size:.72rem; font-weight:800; }
+  .guidance-card h2 { margin:.9rem 0 .5rem; color:#fff; font-size:1.15rem; }
+  .guidance-card p { margin:0; color:rgba(255,255,255,.58); font-size:.86rem; line-height:1.65; }
+  @media (min-width:640px) { .jobs-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (min-width:768px) { .jobs-filters { grid-template-columns:2fr repeat(2,1fr); } .filter-toggles { grid-column:span 2; } }
+  @media (min-width:1024px) { .jobs-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .jobs-filters { grid-template-columns:2fr 1.2fr 1fr 1.2fr 1fr 1fr; align-items:end; } .filter-toggles { grid-column:1 / -2; } }
+  @media (max-width:639px) { .jobs-results-heading { align-items:flex-start; flex-direction:column; } }
+</style>

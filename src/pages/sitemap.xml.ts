@@ -16,7 +16,7 @@ export async function GET() {
   ]);
 
   const entries: SitemapEntry[] = [
-    "", "about", "blog", "career", "contact", "disclaimer", "affiliate-disclosure", "interview", "jobs", "privacy", "side-hustles", "terms", "tools", "training",
+    "", "about", "blog", "career", "contact", "disclaimer", "affiliate-disclosure", "interview", "privacy", "side-hustles", "terms", "tools", "training",
   ].map((path) => ({ path }));
 
   entries.push(
